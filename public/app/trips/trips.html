@@ -1,0 +1,21 @@
+<!-- Upcoming Trips -->
+<div id="upcoming">
+  <ul>
+    <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
+      <!-- List upcoming vacations -->{{ trips | > future || no date  :orderby }}
+    </li>
+  </ul>
+</div>
+<!-- Create a New Trip -->
+<div id="create">
+  <!-- Enticing Vacation Graphics -->
+  <!-- Button -->
+</div>
+<!-- Previous Trips -->
+<div id="previous">
+  <ul>
+    <li>
+      <!-- List previous vacations -->{{ trip | the past}}
+    </li>
+  </ul>
+</div>
