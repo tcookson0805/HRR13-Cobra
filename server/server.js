@@ -1,12 +1,23 @@
 var express = require('express');
 var bodyParser = require('body-parser'); 
-//require mongoose
 var mongoose = require('mongoose');
 var config = require('./config/middleware.js');
 //create connection to database
-//configure midleware and routing 
 
-// mongoose.connect('mongodb://127.0.0.1:3000/greenfield');
+
+// test on saving a user to database
+var User = require('./users/userModel.js');
+var firstUser = new User({
+  username: 'Bob',
+  password: 'Secret',
+});
+firstUser.save();
+
+/**
+* kill current process if port is already in use at 
+* http://stackoverflow.com/questions/6478113/unable-to-start-mongodb-local-server
+*/
+mongoose.connect('mongodb://127.0.0.1:27017');
 
 var app = express();
 
