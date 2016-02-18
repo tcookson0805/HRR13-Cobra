@@ -1,0 +1,21 @@
+<div>
+  <h3>The world is yours to explore...</h3>
+  <!-- Desination -->
+  <div class="input-field">
+    <form>
+      <input placeholder="Paris" id="destination" type="text" class="validate" ng-model="location">
+      <label for="destination">Where do you want to go?</label>
+
+      <!-- Dates of Trip -->
+      <input type="startDate" class="datepicker" ng-model="startDate">
+      <!-- Hidden until destination entered. -->
+      <label for="startDate">When does your trip start? (Optional)</label>
+      <!-- <input type="endDate" class="datepicker"> -->
+
+      <button class="btn" type="submit" name="action" ng-disabled="!location" ng-click="createTrip(location, startDate)">Submit
+        <i class="material-icons right">send</i>
+      </button>
+    </form>
+  </div>
+  <!-- V3-Interactive Maps -->
+</div>
