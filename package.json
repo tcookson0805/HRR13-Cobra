@@ -1,0 +1,29 @@
+{
+  "name": "trip_planner",
+  "version": "0.0.1",
+  "description": "Travel planning site.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HRR13-Cobra/HRR13-Cobra.git"
+  },
+  "author": "Cobra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HRR13-Cobra/HRR13-Cobra/issues"
+  },
+  "homepage": "https://github.com/HRR13-Cobra/HRR13-Cobra#readme",
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.18",
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mongoose": "^4.4.4",
+    "morgan": "^1.6.1",
+    "session": "^0.1.0"
+  }
+}
