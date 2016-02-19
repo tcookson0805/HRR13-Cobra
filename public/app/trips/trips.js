@@ -2,12 +2,11 @@ angular.module('app.trips', [])
 
 .controller('tripsController', function($scope, Trips) {
   // Your code here
-  angular.extend($scope, Trips);
-
   // $scope.nodate = {}
   $scope.trips = {};
-  $scope.showTrips = function() {
-    Trips.allTrips()
+
+  $scope.showTrips = function(user) {
+    Trips.allTrips(user)
       .then(function(data) {
         $scope.trips = data;
       });
@@ -16,11 +15,11 @@ angular.module('app.trips', [])
     //
     // })
   };
-  $scope.showTrips();
+  $scope.showTrips(Trips.user);
 
-  $scope.renderTrip = function(trip) {
-    Trips.getTrip(trip);
-  };
+  // $scope.renderTrip = function(trip) {
+  //   Trips.getTrip(trip);
+  // };
 });
 
 // {{ $scope.trips | trip.date > today || orderby: closest trip first }}
