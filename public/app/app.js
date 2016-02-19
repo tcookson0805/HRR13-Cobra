@@ -3,8 +3,7 @@ angular.module('tp', [
     'ui.router',
     'app.my-trip',
     'app.new-trip',
-    'app.trips',
-    'ngMaterial'
+    'app.trips'
   ])
   .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
     // For any unmatched url, redirect to /
