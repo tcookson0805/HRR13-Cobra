@@ -1,0 +1,20 @@
+<div>
+  <h2>The world is yours to explore...</h2>
+  <!-- Desination -->
+
+  <md-input-container>
+    <label>Where are you going?</label>
+    <input class="validate" ng-model="location">
+  </md-input-container>
+
+  <div>
+    <h4>When does your trip start? (Optional)</h4>
+    <md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+  </div>
+  <div>
+    <button class="md-raised" type="submit" name="action" ng-disabled="!location" ng-click="createTrip(location, startDate)">Submit
+    </button>
+  </div>
+
+  <!-- V3-Interactive Maps -->
+</div>
