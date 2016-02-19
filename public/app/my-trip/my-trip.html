@@ -1,5 +1,65 @@
 <div>
-  <h2>My Trip to {{ destination }}</h2>
+  <h2>My Trip to {{ thisTrip.destination }}</h2>
+
+  <form>
+    <h4>Date of Departure:</h4>
+    <input type = 'date'>
+    <input type= 'submit'>
+  </form>
+
   <!-- Pre Trip Checklist -->
+  <h4>Pre-Trip ToDo List</h4>
+  <form name = 'checklist' ng-submit =''>
+    <div>Are you flying?
+      <input type = 'radio' ng-model ='flying' value='y'>Yes
+      <input type = 'radio' ng-model ='flying' value='n'>No
+    </div>
+    <div>Are you leaving the country?
+      <input type = 'radio' ng-model ='leavingCountry' value='y'>Yes
+      <input type = 'radio' ng-model ='leavingCountry' value='n'>No
+    </div>
+    <div>Are you traveling with someone?
+      <input type = 'radio' ng-model ='travelingAlone' value='y'>Yes
+      <input type = 'radio' ng-model ='travelingAlone' value='n'>No
+    </div>
+    <div>Have you Reserved Accomodations?
+      <input type = 'radio' ng-model ='accomodations' value='y'>Yes
+      <input type = 'radio' ng-model ='accomodations' value='n'>No
+    </div>
+    <input type = 'submit' ng-click="editTrip()">
+  </form>
+
+  <!-- Places to Visit -->
+  <h4>See The Sights</h4>
+  <form class="pure-form">
+      <fieldset class="pure-group">
+          <input type="text" class="pure-input-1-2" placeholder="Something To See" ng-model ="sight.title">
+          <textarea class="pure-input-1-2" placeholder="Some details..." ng-model ="sight.details"></textarea>
+      </fieldset>
+      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary" ng-click="editTrip()">Add Event</button>
+  </form>
+
+  <div class="" ng-repeat="sight in thisTrip.sights">
+    <div class=''>{{sight.title}}</div>
+    <div class=''>{{sight.details}}</div>
+  </div>
 
 </div>
+
+
+
+
+
+
+<!--   <h4>Pre-Trip ToDo List</h4>
+    destination
+    dates of trip
+    are you flying?
+    are you leaving the country?
+    are you traveling with someone else?
+    have you reserved accomodations?
+
+  <!-- Places to Visit -->
+<!--   <h4>Seehts The Sights</h4>
+    what do ytou want to do?
+    what do you like to do? --> -->
