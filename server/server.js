@@ -4,20 +4,21 @@ var mongoose = require('mongoose');
 var config = require('./config/middleware.js');
 //create connection to database
 
+mongoose.connect('mongodb://127.0.0.1:27017/tripplanner');
 
 // test on saving a user to database
 var User = require('./users/userModel.js');
-var firstUser = new User({
-  username: 'Bob',
-  password: 'Secret',
-});
-firstUser.save();
 
+var Trip = require('./trips/tripModel.js');
+var firstTrip = new Trip({
+  destination: 'Cobraland',
+});
+
+firstTrip.save();
 /**
 * kill current process if port is already in use at 
 * http://stackoverflow.com/questions/6478113/unable-to-start-mongodb-local-server
 */
-mongoose.connect('mongodb://127.0.0.1:27017');
 
 var app = express();
 
