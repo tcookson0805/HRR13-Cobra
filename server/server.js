@@ -10,9 +10,6 @@ mongoose.connect('mongodb://127.0.0.1:27017/tripplanner');
 var User = require('./users/userModel.js');
 
 var Trip = require('./trips/tripModel.js');
-var firstTrip = new Trip({
-  destination: 'Cobraland',
-});
 
 firstTrip.save();
 /**
