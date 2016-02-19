@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 
 var TripSchema = new mongoose.Schema({
   destination: String,
-  tripStart: Date,
+  userId: String,
+  startDate: Date,
 });
 
 
