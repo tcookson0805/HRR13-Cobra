@@ -1,23 +1,20 @@
 var express = require('express');
-var bodyParser = require('body-parser'); 
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var config = require('./config/middleware.js');
 //create connection to database
 
+mongoose.connect('mongodb://127.0.0.1:27017/tripplanner');
 
 // test on saving a user to database
 var User = require('./users/userModel.js');
-var firstUser = new User({
-  username: 'Bob',
-  password: 'Secret',
-});
-firstUser.save();
+
+var Trip = require('./trips/tripModel.js');
 
 /**
 * kill current process if port is already in use at 
 * http://stackoverflow.com/questions/6478113/unable-to-start-mongodb-local-server
 */
-mongoose.connect('mongodb://127.0.0.1:27017');
 
 var app = express();
 
@@ -27,4 +24,4 @@ config(app, express);
 // FIXME: add dynamic port before deployment (process.env.NODE_ENV)
 app.listen(3000);
 
-console.log('listening on 3000')
+console.log('listening on 3000');
