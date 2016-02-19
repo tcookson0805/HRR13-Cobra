@@ -15,6 +15,7 @@ module.exports = {
     // TODO: did not save salt after hashing
     // TODO: did not work when hashing user password in instantiation
     newUser.password = newUser.generateHash(req.body.password);
+    // newUser.salt = newUser.generateSalt(req.body);
     newUser.save();
 
     // @output {String} 
@@ -45,12 +46,13 @@ module.exports = {
             .then(function(found){
               console.log('Sending results with '+user._id);
               var cookie = util.createSession(req, res, user, next);
-
+              console.log(cookie);
               // sends back cookie and a list of user trips
               res.send({
                 cookie,
                 found
               });
+              res.send('hello');
             })
         } else {
 

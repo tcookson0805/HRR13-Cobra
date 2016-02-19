@@ -20,10 +20,28 @@ module.exports = {
 
 
   },
-  remove: function(){
-
+  remove: function(req, res, body){
+    Trip.remove({ _id: req.body._id }, function(err){
+      if(!err) {
+        console.log('Message removed: ' + req.body._id);
+        res.send('ok');
+      } else {
+        console.log('Cannot remove message');
+      }
+    });
   },
-  modify: function(){
-
+  modify: function(req, res, body){
+    Trip.find({ _id: req.body._id }, function(err, trip) {
+      if (err) {
+        res.send('failed');
+      } else {
+        trip.destination = req.body.destination;
+        trip.startDate = req.body.startDate;
+        // trip.save(function(err) {
+        //   if(err) console.log('cannot save trip');
+        //   res.send('trip modified');
+        // });
+      }
+    });
   },
 };
