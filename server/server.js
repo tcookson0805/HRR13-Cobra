@@ -11,7 +11,6 @@ var User = require('./users/userModel.js');
 
 var Trip = require('./trips/tripModel.js');
 
-firstTrip.save();
 /**
 * kill current process if port is already in use at 
 * http://stackoverflow.com/questions/6478113/unable-to-start-mongodb-local-server
