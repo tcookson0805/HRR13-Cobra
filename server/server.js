@@ -1,5 +1,5 @@
 var express = require('express');
-var bodyParser = require('body-parser'); 
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var config = require('./config/middleware.js');
 //create connection to database
@@ -24,4 +24,4 @@ config(app, express);
 // FIXME: add dynamic port before deployment (process.env.NODE_ENV)
 app.listen(3000);
 
-console.log('listening on 3000')
+console.log('listening on 3000');
