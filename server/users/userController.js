@@ -16,10 +16,15 @@ module.exports = {
     // TODO: did not work when hashing user password in instantiation
     newUser.password = newUser.generateHash(req.body.password);
     // newUser.salt = newUser.generateSalt(req.body);
-    newUser.save();
+    newUser.save(function(err, data){
+      if (err){
+        console.log('err', err);
+      }
+      res.send(data);
+    });
 
     // @output {String} 
-    res.send(newUser._id);
+    
   },
   signin: function(req, res, next) {
     var userLogin = Users({
