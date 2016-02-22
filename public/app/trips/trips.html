@@ -3,7 +3,9 @@
   <h3>Upcoming Trips</h3>
   <ul>
     <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
-      <!-- List upcoming vacations --><!-- {{ trips | > future || no date  :orderby }} -->
+      {{ trip.name }}
+      <!-- List upcoming vacations -->
+      <!-- {{ trips | > future || no date  :orderby }} -->
     </li>
   </ul>
 </div>
@@ -12,13 +14,17 @@
   <h3>Create a Trip</h3>
   <!-- Enticing Vacation Graphics -->
   <!-- Button -->
+  <a href="/#/new-trip">Create A New Trip</a>
 </div>
 <!-- Previous Trips -->
 <div id="previous">
   <h3>Previous Trips</h3>
   <ul>
-    <li>
-      <!-- List previous vacations --> <!-- {{ trip | the past}} -->
+    <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
+      <!--TODO: Filter older than today -->
+      {{ trip.name }}
+      <!-- List previous vacations -->
+      <!-- {{ trip | the past}} -->
     </li>
   </ul>
 </div>

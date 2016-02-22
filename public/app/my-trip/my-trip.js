@@ -7,15 +7,15 @@ angular.module('app.my-trip', [])
 
   //reqests information about the current trip from the Trips factory
   $scope.getTrip = function() {
-    var path = $location.path()
+    var path = $location.path().substring(7);
     $scope.thisTrip = Trips.accessTrip(path);
   }
-  // $scope.getTrip();
+  $scope.getTrip();
 
   //sends user edits to the Trips factory
   $scope.editTrip = function() {
     Trips.addDetails($scope.thisTrip)
-    .then($scope.getTrip());
+      .then($scope.getTrip());
   }
 
 })
