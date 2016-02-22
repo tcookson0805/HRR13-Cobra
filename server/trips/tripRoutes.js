@@ -1,7 +1,8 @@
 var tripController = require('./tripController.js');
+var authController = require('./../config/authController.js');
 
 module.exports = function(app) {
-  app.post('/create', tripController.create);
-  app.post('/remove',tripController.remove);
-  app.post('/modify/', tripController.modify);
+  app.post('/create',authController.authorize, tripController.create);
+  app.post('/remove',authController.authorize, tripController.remove);
+  app.put('/modify/',authController.authorize, tripController.modify);
 };

@@ -2,10 +2,11 @@ var Users = require('./userModel.js');
 var Q = require('q');
 var Trips = require('../trips/tripModel.js');
 var util = require('../config/utils.js');
+var authController = require('./../config/authController.js');
 
 module.exports = {
   signup: function(req, res){
-    console.log(req.body);
+    var token = authController.createToken(req.body);
     var newUser = Users({
       username: req.body.username,
 
@@ -16,6 +17,7 @@ module.exports = {
     // TODO: did not work when hashing user password in instantiation
     newUser.password = newUser.generateHash(req.body.password);
     // newUser.salt = newUser.generateSalt(req.body);
+<<<<<<< b587fa8b32a96b00d4464c57d142d95a5a435295
     newUser.save(function(err, data){
       if (err){
         console.log('err', err);
@@ -25,6 +27,17 @@ module.exports = {
 
     // @output {String} 
     
+=======
+    newUser.save(function (err, user) {
+      if(err) console.error(err);
+      else {
+        res.send(token);
+      }
+    });
+
+    // @output {String} 
+    // res.send(newUser._id);
+>>>>>>> added JWT
   },
   signin: function(req, res, next) {
     var userLogin = Users({
@@ -45,19 +58,18 @@ module.exports = {
       } else {
         // compares current password with hashed password from found user
         if (userLogin.comparePasswords(userLogin.password, user.password)) {
-          console.log('userController: Successfully logged in: ');
-          console.log(user._id);
           Trips.find({userId: user._id})
             .then(function(found){
-              console.log('Sending results with '+user._id);
-              var cookie = util.createSession(req, res, user, next);
-              console.log(cookie);
+              var token = authController.createToken(req.body);
+              // console.log('Sending results with '+user._id);
+              // var cookie = util.createSession(req, res, user, next);
+              // console.log(cookie);
               // sends back cookie and a list of user trips
               res.send({
-                cookie,
+                token,
+                // cookie,
                 found
               });
-              res.send('hello');
             })
         } else {
 
