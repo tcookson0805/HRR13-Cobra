@@ -2,9 +2,12 @@ angular.module('app.services', [])
 
 .factory('Trips', function($http, $window) {
 
+  //persistent storage of all trips for given user
   var trips = {};
-  var user = $window.localStorage.getItem('com.tp')
-  var tripID;
+  //pulls the current user for the JWT
+  var user = $window.localStorage.getItem('com.tp', token)
+  //loads the current trip as separate storage object
+  var tripID = {};
 
   var allTrips = function(user) {
     return $http({
@@ -19,22 +22,29 @@ angular.module('app.services', [])
       });
   };
 
-  // allTrips(user);
+  //populates trips object on instantiation
+  allTrips(user);
 
   var accessTrip = function(tripID) {
+    //if accessing page through bookmark or reload, sets the current tripID
     tripID = tripID;
-    return // the specific trip with tripID from trips object;
+    return $http({
+        method: 'GET',
+        url: '/api/users/' + tripID
+      })
+      .then(function(resp) {
+        active = resp.data;
+      });
   };
 
-  var newTrip = function(user, location, startDate) {
+  var newTrip = function(destination, startDate) {
     var mydata = {
-      user: user,
-      location: location,
+      destination: destination,
       startDate: startDate
     };
     return $http({
         method: 'POST',
-        url: '/api/' + user + '/trips',
+        url: '/api/trips/create',
         data: mydata
       })
       .then(function(err, response) {
@@ -79,9 +89,7 @@ angular.module('app.services', [])
 
 })
 
-
 .factory('Auth', function($http, $location, $window) {
-  // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
   // by exchanging the user's username and password
   // for a JWT from the server
@@ -111,6 +119,7 @@ angular.module('app.services', [])
   };
 
   var isAuth = function() {
+    // check for user permissions on each page
     return !!$window.localStorage.getItem('com.tp');
   };
 

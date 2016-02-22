@@ -13,16 +13,19 @@ angular.module('tp', [
     $stateProvider
       .state('trips', {
         url: '/trips',
+        authenticate: true,
         templateUrl: 'app/trips/trips.html',
         controller: 'tripsController'
       })
       .state('new-trip', {
         url: '/new-trip',
+        authenticate: true,
         templateUrl: 'app/new-trip/new-trip.html',
         controller: 'new-tripController'
       })
       .state('my-trip', {
         url: '/my-trip',
+        authenticate: true,
         templateUrl: 'app/my-trip/my-trip.html',
         controller: 'my-tripController'
       })
