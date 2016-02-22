@@ -17,17 +17,7 @@ module.exports = {
     // TODO: did not work when hashing user password in instantiation
     newUser.password = newUser.generateHash(req.body.password);
     // newUser.salt = newUser.generateSalt(req.body);
-<<<<<<< b587fa8b32a96b00d4464c57d142d95a5a435295
-    newUser.save(function(err, data){
-      if (err){
-        console.log('err', err);
-      }
-      res.send(data);
-    });
 
-    // @output {String} 
-    
-=======
     newUser.save(function (err, user) {
       if(err) console.error(err);
       else {
@@ -37,7 +27,7 @@ module.exports = {
 
     // @output {String} 
     // res.send(newUser._id);
->>>>>>> added JWT
+
   },
   signin: function(req, res, next) {
     var userLogin = Users({
