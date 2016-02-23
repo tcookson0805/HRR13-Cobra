@@ -4,7 +4,7 @@ var UserModel = require('./../users/userModel.js');
 
 module.exports = {
   create: function(req, res, body){
-    // console.log(req.decoded);
+
     var newTrip = Trip({
       userId: req.decoded._id,
       destination: req.body.destination,

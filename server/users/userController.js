@@ -22,6 +22,7 @@ module.exports = {
       else {
         var token = authController.createToken(user);
         res.send({token});
+
       }
     });
 
@@ -51,6 +52,7 @@ module.exports = {
           var token = authController.createToken(user);
           Trips.find({userId: user._id})
             .then(function(found){
+
               res.send({
                 token,
                 // cookie,
