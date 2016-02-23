@@ -1,5 +1,6 @@
 angular.module('tp', [
     'app.services',
+    // 'ngRoute',
     'ui.router',
     'app.my-trip',
     'app.new-trip',
@@ -24,7 +25,7 @@ angular.module('tp', [
         controller: 'new-tripController'
       })
       .state('my-trip', {
-        url: '/my-trip',
+        url: '/my-trip/:itemID',
         authenticate: true,
         templateUrl: 'app/my-trip/my-trip.html',
         controller: 'my-tripController'
