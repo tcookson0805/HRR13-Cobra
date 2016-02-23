@@ -5,4 +5,5 @@ module.exports = function(app) {
   app.post('/create',authController.authorize, tripController.create);
   app.post('/remove',authController.authorize, tripController.remove);
   app.put('/modify/',authController.authorize, tripController.modify);
+  app.get('/:tripId', tripController.getTripView);
 };

@@ -21,6 +21,7 @@ module.exports = {
     newUser.save(function (err, user) {
       if(err) console.error(err);
       else {
+        console.log('sending token...'+token);
         res.send(token);
       }
     });
@@ -50,7 +51,7 @@ module.exports = {
         if (userLogin.comparePasswords(userLogin.password, user.password)) {
           Trips.find({userId: user._id})
             .then(function(found){
-              var token = authController.createToken(req.body);
+              var token = authController.createToken(found);
               // console.log('Sending results with '+user._id);
               // var cookie = util.createSession(req, res, user, next);
               // console.log(cookie);
@@ -107,13 +108,26 @@ module.exports = {
 
   // @req.body expects an user _id for reference to Trips schema
   alltrips: function(req, res){
+    var tripArr;
 
-    Trips.find({})
-      .then(function(trips) {
-        res.send(trips);
+    Users.find({'username':req.body.username})
+      .then(function(user) {
+        tripArr = user.trips;
       })
-      .catch(function(err){
-        console.log(err);
-      });
+      .catch(function(err) {
+        res.status(403).send('No trips found');
+      })
+
+    Trips.find({
+      '_id': { $in: tripArr }
+    })
+    .then(function(foundTrips) {
+      console.log(foundTrips)
+      res.send(foundTrips)
+    })
+    .catch(function(err){
+      res.status(403).send('No Trips');
+    })
+
   }
 };

@@ -1,4 +1,5 @@
 var Trip = require('./tripModel.js');
+var authController = require('./../config/authController.js');
 
 module.exports = {
   create: function(req, res, body){
@@ -8,6 +9,7 @@ module.exports = {
       destination: req.body.destination,
       startDate: req.body.startDate,
     });
+
 
     newTrip.save(function(err, savedTrip) {
       if(err) {
@@ -49,4 +51,16 @@ module.exports = {
       }
     });
   },
+  getTripView: function(req, res, body) {
+    console.log(req.params.tripId);
+    Trip.find({_id: req.params.tripId})
+      .then(function(trip){
+        res.send(trip)
+      })
+      .catch(function(err){
+        console.log('Trip not found');
+        res.status(403).send('Trip not found');
+      });
+
+  }
 };
