@@ -51,10 +51,6 @@ module.exports = {
           var token = authController.createToken(user);
           Trips.find({userId: user._id})
             .then(function(found){
-              // console.log('Sending results with '+user._id);
-              // var cookie = util.createSession(req, res, user, next);
-              // console.log(cookie);
-              // sends back cookie and a list of user trips
               res.send({
                 token,
                 // cookie,
@@ -107,12 +103,19 @@ module.exports = {
 
   // @req.body expects an user _id for reference to Trips schema
   alltrips: function(req, res){
-    Trips.find({})
-      .then(function(trips) {
-        res.send(trips);
+    var tripArr;
+    console.log(req.decoded.username);
+    Users.findOne({'username':req.decoded.username})
+    // TODO: pulling data straight from one schema instead of separating trips
+    // from Users
+      .then(function(user) {
+        tripArr = user.trips;
+        res.send(user.trips);
       })
-      .catch(function(err){
-        console.log(err);
-      });
+      .catch(function(err) {
+        res.status(403).send('No trips found');
+      })
+
+
   }
 };

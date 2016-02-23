@@ -1,10 +1,12 @@
 var Trip = require('./tripModel.js');
+var authController = require('./../config/authController.js');
+var UserModel = require('./../users/userModel.js');
 
 module.exports = {
   create: function(req, res, body){
-    console.log(req.body.token);
+    // console.log(req.decoded);
     var newTrip = Trip({
-      userId: req.body.userId,
+      userId: req.decoded._id,
       destination: req.body.destination,
       startDate: req.body.startDate,
     });
@@ -16,7 +18,16 @@ module.exports = {
       } else {
         // TODO: save trip objectID to user document in session
         console.log('Trip saved, ID: ' + savedTrip._id);
-        res.status(201).send(savedTrip);
+        UserModel.findOneAndUpdate(
+          {_id: req.decoded._id},
+          {$push:{"trips": savedTrip}}, 
+          function(err, saved) {
+            if(err) console.error(err);
+            else {
+              res.status(201).send(saved);
+            }
+          }
+          )
       }
     });
 
@@ -49,4 +60,16 @@ module.exports = {
       }
     });
   },
+  getTripView: function(req, res, body) {
+    console.log(req.params.tripId);
+    Trip.find({_id: req.params.tripId})
+      .then(function(trip){
+        res.send(trip)
+      })
+      .catch(function(err){
+        console.log('Trip not found');
+        res.status(403).send('Trip not found');
+      });
+
+  }
 };
