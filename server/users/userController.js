@@ -21,8 +21,7 @@ module.exports = {
       if(err) console.error(err);
       else {
         var token = authController.createToken(user);
-        res.send({token});
-
+        res.send({token})
       }
     });
 
