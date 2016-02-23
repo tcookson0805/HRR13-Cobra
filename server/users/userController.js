@@ -21,7 +21,7 @@ module.exports = {
       if(err) console.error(err);
       else {
         var token = authController.createToken(user);
-        res.send({token});
+        res.send({'token': token});
 
       }
     });
@@ -54,9 +54,7 @@ module.exports = {
             .then(function(found){
 
               res.send({
-                token,
-                // cookie,
-                found
+                'token': token, 'found': found
               });
             })
         } else {
