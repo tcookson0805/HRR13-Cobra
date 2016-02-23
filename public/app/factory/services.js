@@ -5,14 +5,14 @@ angular.module('app.services', [])
   //persistent storage of all trips for given user
   var trips = {};
   //pulls the current user for the JWT
-  var user = $window.localStorage.getItem('com.tp', token)
+  var user = $window.localStorage.getItem('com.tp');
   //loads the current trip as separate storage object
   var tripID = {};
 
   var allTrips = function(user) {
     return $http({
         method: 'GET',
-        url: '/api/' + user + '/alltrips'
+        url: '/api/users/allTrips'
       })
       .then(function(resp) {
         trips = resp.data;
@@ -47,11 +47,9 @@ angular.module('app.services', [])
         url: '/api/trips/create',
         data: mydata
       })
-      .then(function(err, response) {
-        if (err) {
-          console.log('Error:', err);
-        }
-        tripID = response.id
+      .then(function(data) {
+        console.log(data);
+        tripID = data._id
       })
   };
 

@@ -3,7 +3,7 @@
   <h3>Upcoming Trips</h3>
   <ul>
     <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
-      {{ trip.name }}
+      <a href='{{"/api/trips/" + trip._id}}'>{{ trip.destination }}</a>
       <!-- List upcoming vacations -->
       <!-- {{ trips | > future || no date  :orderby }} -->
     </li>
@@ -22,7 +22,7 @@
   <ul>
     <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
       <!--TODO: Filter older than today -->
-      {{ trip.name }}
+      {{ trip.destination }}
       <!-- List previous vacations -->
       <!-- {{ trip | the past}} -->
     </li>
