@@ -49,8 +49,8 @@ angular.module('app.services', [])
       })
       .then(function(data) {
         console.log(data);
-        tripID = data._id
-      })
+        tripID = data._id;
+      });
   };
 
   var addDetails = function(flying, leavingCountry, travelingAlone, accomodations, title, details) {
@@ -72,9 +72,9 @@ angular.module('app.services', [])
           console.log('Error:', err);
         }
         allTrips(user);
-      })
+      });
 
-  }
+  };
 
   return {
     allTrips: allTrips,
@@ -83,7 +83,7 @@ angular.module('app.services', [])
     trips: trips,
     tripID: tripID,
     addDetails: addDetails
-  }
+  };
 
 })
 
