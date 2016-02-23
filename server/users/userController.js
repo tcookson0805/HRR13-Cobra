@@ -6,7 +6,6 @@ var authController = require('./../config/authController.js');
 
 module.exports = {
   signup: function(req, res){
-    var token = authController.createToken(req.body);
     var newUser = Users({
       username: req.body.username,
 
@@ -22,6 +21,7 @@ module.exports = {
       if(err) console.error(err);
       else {
         console.log('sending token...'+token);
+        var token = authController.createToken(user);
         res.send(token);
       }
     });
@@ -49,9 +49,9 @@ module.exports = {
       } else {
         // compares current password with hashed password from found user
         if (userLogin.comparePasswords(userLogin.password, user.password)) {
+          var token = authController.createToken(user);
           Trips.find({userId: user._id})
             .then(function(found){
-              var token = authController.createToken(found);
               // console.log('Sending results with '+user._id);
               // var cookie = util.createSession(req, res, user, next);
               // console.log(cookie);
@@ -109,25 +109,28 @@ module.exports = {
   // @req.body expects an user _id for reference to Trips schema
   alltrips: function(req, res){
     var tripArr;
-
-    Users.find({'username':req.body.username})
+    console.log(req.decoded.username);
+    Users.findOne({'username':req.decoded.username})
+    // TODO: pulling data straight from one schema instead of separating trips
+    // from Users
       .then(function(user) {
         tripArr = user.trips;
+        res.send(user.trips);
       })
       .catch(function(err) {
         res.status(403).send('No trips found');
       })
 
-    Trips.find({
-      '_id': { $in: tripArr }
-    })
-    .then(function(foundTrips) {
-      console.log(foundTrips)
-      res.send(foundTrips)
-    })
-    .catch(function(err){
-      res.status(403).send('No Trips');
-    })
+    // Trips.find({
+    //   '_id': { $in: tripArr }
+    // })
+    // .then(function(foundTrips) {
+    //   console.log(foundTrips)
+    //   res.send(foundTrips)
+    // })
+    // .catch(function(err){
+    //   res.status(403).send('No Trips');
+    // })
 
   }
 };
