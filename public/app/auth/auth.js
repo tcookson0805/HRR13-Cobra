@@ -9,7 +9,9 @@ angular.module('app.auth', [])
   $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (token) {
+        console.log('HELLO FROM SIGNIN');
         $window.localStorage.setItem('com.tp', token);
+        console.log(token);
         $location.path('/trips');
       })
       .catch(function (error) {

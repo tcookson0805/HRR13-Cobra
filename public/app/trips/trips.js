@@ -8,6 +8,7 @@ angular.module('app.trips', [])
   $scope.showTrips = function(user) {
     Trips.allTrips(user)
       .then(function(data) {
+        console.log('I SHOULD APPEAR ON SIGNIN', data);
         $scope.trips = data;
       });
     // .then(function($scope.trips){
