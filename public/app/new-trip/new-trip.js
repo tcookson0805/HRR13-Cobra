@@ -26,6 +26,7 @@ angular.module('app.new-trip', [])
         console.log("DATE", startDate);
         $location.path('/my-trip/' + response.data);
       });
+
       // .then(function() {
       //   var id = $scope.trip.data._id
       //   console.log(id);
