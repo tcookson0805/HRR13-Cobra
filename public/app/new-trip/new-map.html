@@ -1,9 +1,9 @@
 
 <html>
 <head>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
   <script type ="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ45M31KyEIklPCbVKWuzwMLBvqtVSVM0"></script>
   <!-- full screen map -->
@@ -37,22 +37,21 @@
             position:data.results[0].geometry.location,
             animation: google.maps.Animation.DROP
           });
+
+
           var req = {
             // FIXME: server side is not receiving trip information
             // token: window.localStorage.getItem('com.tp'),
             destination: address,
           }
           console.log(address);
-          $.ajax({
-            method: 'POST',
-            url:'http://127.0.0.1:3000/api/trips/create',
-            dataType: 'json',
-            data: req,
-            success: function(res){
-              console.log(res);
-            }
-            // contentType: 'json'
-          })
+
+          $.post('http://localhost:3000/api/trips/create', req, function(data) {
+            console.log(data);
+          },"json");
+
+
+
             $('#userList').append($('<li>'+address+'</li>'))
           },'json');
         })
@@ -95,5 +94,3 @@
       <!-- <div id="regions_div" style="width: 900px; height: 500px;"></div> -->
   </body>
 </html>
-Status API Training Shop Blog About Pricing
-© 2016 GitHub, Inc. Terms Privacy Security Contact Help
