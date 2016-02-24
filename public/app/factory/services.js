@@ -43,15 +43,13 @@ angular.module('app.services', [])
       destination: destination,
       startDate: startDate
     };
-    console.log(mydata)
     return $http({
         method: 'POST',
         url: '/api/trips/create',
         data: mydata
       })
       .then(function(data) {
-        tripID = data.data._id
-
+        return data;
       });
   };
 

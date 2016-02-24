@@ -24,7 +24,7 @@ module.exports = {
         var token = authController.createToken(user);
         res.send({
           'token': token,
-          'id': user._id
+          'id': user._id //we minght not need this after all
         });
       }
     });
@@ -53,7 +53,7 @@ module.exports = {
             .then(function(found) {
               res.send({
                 'token': token,
-                'id': user._id
+                'id': user._id //we minght not need this after all
               });
             })
         } else {
@@ -77,14 +77,12 @@ module.exports = {
   alltrips: function(req, res) {
     var tripArr;
     console.log('requested by user', req.decoded.username);
-    Users.findOne({
-        'username': req.decoded.username
+    Trips.find({
+        'userId': req.decoded.username
       })
-      // TODO: pulling data straight from one schema instead of separating trips
-      // from Users
-      .then(function(user) {
-        tripArr = user.trips;
-        res.send(user.trips);
+      .then(function(results) {
+        console.log(results);
+        res.send(results);
       })
       .catch(function(err) {
         console.log('Error all trips catch', err);

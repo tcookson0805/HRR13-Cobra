@@ -4,8 +4,6 @@ var Q = require('q');
 
 var UserSchema = new mongoose.Schema({
   username: {
-
-    // TODO: username needs to be an email
     type: String,
     required: true,
     unique: true,
@@ -14,8 +12,8 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // an array of objectID reference to tripSchema
-  trips: [],
+  // // an array of objectID reference to tripSchema
+  // trips: [],
   salt: String
 });
 
