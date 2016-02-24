@@ -12,7 +12,7 @@ angular.module('app.services', [])
   var allTrips = function(user) {
     return $http({
         method: 'GET',
-        url: '/api/users/allTrips'
+        url: '/api/users/alltrips'
       })
       .then(function(resp) {
         trips = resp.data;
@@ -53,7 +53,7 @@ angular.module('app.services', [])
 
       });
   };
-  
+
 
   var addDetails = function(flying, leavingCountry, travelingAlone, accomodations, title, details) {
     var tripData = {
@@ -103,7 +103,16 @@ angular.module('app.services', [])
         data: user
       })
       .then(function(resp) {
-        return resp.data.token;
+        if (resp.data.token) {
+          console.log('resp.data.token',resp.data.token);
+          return resp.data.token;
+        } else if (resp.data.user === null) {
+          console.log('user not found');
+          $location.path('/signup');
+        } else {
+          console.log('password incorrect');
+          $location.path('/signin');
+        }
       });
   };
 

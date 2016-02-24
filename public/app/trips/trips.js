@@ -4,7 +4,7 @@ angular.module('app.trips', [])
   // Your code here
   // $scope.nodate = {}
   $scope.trips = {};
-  
+
   $scope.tripID = {
     id: $routeParams.id
   }
@@ -12,7 +12,7 @@ angular.module('app.trips', [])
   $scope.showTrips = function(user) {
     Trips.allTrips(user)
       .then(function(data) {
-        console.log('I SHOULD APPEAR ON SIGNIN', data);
+        console.log('Listing all trips for user', data);
         $scope.trips = data;
         console.log($scope.trips)
       });

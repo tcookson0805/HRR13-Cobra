@@ -3,32 +3,29 @@
 // in our signup/signin forms using the injected Auth service
 angular.module('app.auth', [])
 
-.controller('AuthController', function ($scope, $window, $location, Auth) {
+.controller('AuthController', function($scope, $window, $location, Auth) {
   $scope.user = {};
 
-  $scope.signin = function () {
+  $scope.signin = function() {
     Auth.signin($scope.user)
-      .then(function (token) {
-        console.log('signup', token);
-        $window.localStorage.setItem('com.tp', token);
-        console.log(token);
-        $location.path('/trips');
+      .then(function(token) {
+        console.log('token', token);
+        // $window.localStorage.setItem('com.tp', token);
+        // $location.path('/trips');
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
-        console.log('you aint signed up yet!!!!')
-
       });
   };
 
-  $scope.signup = function () {
+  $scope.signup = function() {
     Auth.signup($scope.user)
-      .then(function (token) {
-        console.log('signup', token);
+      .then(function(token) {
+        console.log('token', token);
         $window.localStorage.setItem('com.tp', token);
         $location.path('/trips');
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
       });
   };
@@ -37,8 +34,3 @@ angular.module('app.auth', [])
     Auth.signout();
   };
 });
-
-
-// they put in username and passsword
-///they hit submit
-//we check localStorage object

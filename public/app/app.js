@@ -1,15 +1,12 @@
 angular.module('tp', [
     'app.services',
     'ngRoute',
-    'ui.router',
     'app.my-trip',
     'app.new-trip',
     'app.trips',
     'app.auth'
   ])
-  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $routeProvider) {
-    // For any unmatched url, redirect to /
-    
+  .config(function($httpProvider, $routeProvider) {
     // Now set up the routes
     $routeProvider
       .when('/trips', {
@@ -35,13 +32,13 @@ angular.module('tp', [
         templateUrl: 'app/auth/signup.html',
         controller: 'AuthController'
       })
+      // For any unmatched url, redirect to /login
       .otherwise({
         redirectTo: '/login'
       })
-    // We add our $httpInterceptor into the array
-    // of interceptors. Think of it like middleware for your ajax calls
+      // We add our $httpInterceptor into the array
+      // of interceptors. Think of it like middleware for your ajax calls
     $httpProvider.interceptors.push('AttachTokens');
-
   })
   .factory('AttachTokens', function($window) {
     // this is an $httpInterceptor
@@ -51,7 +48,6 @@ angular.module('tp', [
     var attach = {
       request: function(object) {
         var jwt = $window.localStorage.getItem('com.tp');
-        // console.log('JWT', jwt);
         if (jwt) {
           object.headers['x-access-token'] = jwt;
         }

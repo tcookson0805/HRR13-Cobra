@@ -3,24 +3,26 @@ var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var session = require('express-session');
 
-module.exports = function(app, express){
-  
+module.exports = function(app, express) {
+
   app.use(bodyParser.json());
   app.use(cookieParser());
   app.use(session({
     secret: 'keyboard cat',
-    cookie: { maxAge: 300 },
+    cookie: {
+      maxAge: 300
+    },
     resave: true,
     saveUninitialized: true
   }));
   app.use(passport.initialize());
   app.use(passport.session());
   // enables access
-  app.use(function(req, res, next){
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header("Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept");
-  next();
+  app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header("Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept");
+    next();
   });
 
   // TODO: complete session function
@@ -36,13 +38,12 @@ module.exports = function(app, express){
   app.use('/api/trips', tripRouter);
 
   // for testing purpose only
-  app.post('/api/myuser', function(req,res){
-    console.log(req.body);
+  app.post('/api/myuser', function(req, res) {
+    console.log('request.body', req.body);
     res.send('test');
   });
 
   require('../users/userRoutes')(userRouter);
   require('../trips/tripRoutes')(tripRouter);
-  
-};
 
+};
