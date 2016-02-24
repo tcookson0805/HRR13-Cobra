@@ -18,14 +18,13 @@ angular.module('app.new-trip', [])
   	// console.log($window.localStorage.getItem('com.tp'));
     Trips.newTrip(destination, startDate)
       .then(function(response) {
-      // 	console.log(response);
-      // 	var tripID = response.data._id;
-      // 	$location.path('/trips/' + tripID)
-      // })
-      	console.log('response from node',response);
-        console.log("DATE", startDate);
-        $location.path('/my-trip/' + response.data);
-      });
+      	console.log(response);
+      	var tripID = response.data._id;
+      	$location.path('/trips/' + tripID)
+      })
+      // 	console.log('response from node',response);
+      //   $location.path('/my-trip/' + response.data);
+      // });
 
       // .then(function() {
       //   var id = $scope.trip.data._id
