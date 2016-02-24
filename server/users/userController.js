@@ -23,35 +23,26 @@ module.exports = {
       } else {
         var token = authController.createToken(user);
         res.send({
-          'token': token
+          'token': token,
+          'id': user._id
         });
-
       }
     });
 
-    // @output {String}
-    // res.send(newUser._id);
-
   },
 
-  signin: function(req, res, next) {
+  signin: function(req, res) {
     var userLogin = Users({
       username: req.body.username,
       password: req.body.password,
     });
-
     // TODO: will refactor into a promise
     Users.findOne({
       'username': userLogin.username
     }, function(err, user) {
       if (!user) {
         // no matching username
-        res.send({
-          "user": null,
-          "cookie": {
-            "originalMaxAge": null,
-          }
-        });
+        res.send('Not Found');
       } else {
         // compares current password with hashed password from found user
         if (userLogin.comparePasswords(userLogin.password, user.password)) {
@@ -60,26 +51,17 @@ module.exports = {
               userId: user._id
             })
             .then(function(found) {
-
               res.send({
                 'token': token,
-                // cookie,
-                'found': found
+                'id': user._id
               });
             })
         } else {
-
-          // TODO: improve solution besides providing no session
-          // correct username, wrong password
-          res.send({
-            "user": user,
-            "cookie": {
-              "originalMaxAge": null,
-            }
-          });
+          //if user is found, but password doesn't match
+          res.send('Incorrect Password');
         }
       }
-    });
+    })
   },
 
   logout: function(req, res) {

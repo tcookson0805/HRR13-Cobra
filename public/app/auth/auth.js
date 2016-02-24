@@ -8,10 +8,14 @@ angular.module('app.auth', [])
 
   $scope.signin = function() {
     Auth.signin($scope.user)
-      .then(function(token) {
-        console.log('token', token);
-        // $window.localStorage.setItem('com.tp', token);
-        // $location.path('/trips');
+      .then(function(data) {
+        if (data.token) {
+          $window.localStorage.setItem('com.tp', data.token);
+          $window.localStorage.setItem('com.tp.user', data.id);
+          $location.path('/trips');
+        } else {
+          alert('password incorrect')
+        }
       })
       .catch(function(error) {
         console.error(error);
@@ -20,13 +24,13 @@ angular.module('app.auth', [])
 
   $scope.signup = function() {
     Auth.signup($scope.user)
-      .then(function(token) {
-        console.log('token', token);
-        $window.localStorage.setItem('com.tp', token);
+      .then(function(data) {
+        $window.localStorage.setItem('com.tp', data.token);
+        $window.localStorage.setItem('com.tp.user', data.id);
         $location.path('/trips');
       })
       .catch(function(error) {
-        console.error(error);
+        console.error('catch error', error);
       });
   };
 
