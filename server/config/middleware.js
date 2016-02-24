@@ -30,10 +30,10 @@ module.exports = function(app, express){
 
   // TODO: how will user be redirected differently if not logged in
   // angular? should server send a JSON instead of redirecting?
+  app.use('/newmap', express.static(__dirname + '/../../public/app/new-trip/new-map.html'));
   app.use(express.static(__dirname + '/../../public'));
   app.use('/api/users', userRouter);
   app.use('/api/trips', tripRouter);
-  app.use('/newmap', express.static(__dirname + '/../../public/app/new-trip/new-map.html'));
 
   // for testing purpose only
   app.post('/api/myuser', function(req,res){
