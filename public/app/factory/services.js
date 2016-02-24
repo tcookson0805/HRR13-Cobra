@@ -5,7 +5,7 @@ angular.module('app.services', [])
   //persistent storage of all trips for given user
   var trips = {};
   //pulls the current user for the JWT
-  var user = $window.localStorage.getItem('com.tp');
+  var user = $window.localStorage.getItem('com.tp.user');
   //loads the current trip as separate storage object
   var tripID = {};
 
@@ -103,16 +103,8 @@ angular.module('app.services', [])
         data: user
       })
       .then(function(resp) {
-        if (resp.data.token) {
-          console.log('resp.data.token',resp.data.token);
-          return resp.data.token;
-        } else if (resp.data.user === null) {
-          console.log('user not found');
-          $location.path('/signup');
-        } else {
-          console.log('password incorrect');
-          $location.path('/signin');
-        }
+        console.log('resp from signin', resp);
+        return resp.data;
       });
   };
 
@@ -123,7 +115,8 @@ angular.module('app.services', [])
         data: user
       })
       .then(function(resp) {
-        return resp.data.token;
+        console.log('resp from signup', resp);
+        return resp.data;
       });
   };
 
