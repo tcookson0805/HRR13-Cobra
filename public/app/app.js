@@ -22,7 +22,7 @@ angular.module('tp', [
         templateUrl: 'app/new-trip/new-trip.html',
         controller: 'new-tripController'
       })
-      .when('/my-trip/', {
+      .when('/my-trip/:tripID', {
         authenticate: true,
         templateUrl: 'app/my-trip/my-trip.html',
         controller: 'my-tripController'
