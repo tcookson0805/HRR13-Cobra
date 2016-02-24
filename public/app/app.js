@@ -1,44 +1,43 @@
 angular.module('tp', [
     'app.services',
+    'ngRoute',
     'ui.router',
     'app.my-trip',
     'app.new-trip',
     'app.trips',
     'app.auth'
   ])
-  .config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $routeProvider) {
     // For any unmatched url, redirect to /
-    $urlRouterProvider.otherwise('/signup');
-    // Now set up the states
-    $stateProvider
-      .state('trips', {
-        url: '/trips',
+    
+    // Now set up the routes
+    $routeProvider
+      .when('/trips', {
         authenticate: true,
         templateUrl: 'app/trips/trips.html',
         controller: 'tripsController'
       })
-      .state('new-trip', {
-        url: '/new-trip',
+      .when('/new-trip', {
         authenticate: true,
         templateUrl: 'app/new-trip/new-trip.html',
         controller: 'new-tripController'
       })
-      .state('my-trip', {
-        url: '/my-trip',
+      .when('/my-trip/', {
         authenticate: true,
         templateUrl: 'app/my-trip/my-trip.html',
         controller: 'my-tripController'
       })
-      .state('login', {
-        url: '/login',
+      .when('/login', {
         templateUrl: 'app/auth/login.html',
         controller: 'AuthController'
       })
-      .state('signup', {
-        url: '/signup',
+      .when('/signup', {
         templateUrl: 'app/auth/signup.html',
         controller: 'AuthController'
-      });
+      })
+      .otherwise({
+        redirectTo: '/login'
+      })
     // We add our $httpInterceptor into the array
     // of interceptors. Think of it like middleware for your ajax calls
     $httpProvider.interceptors.push('AttachTokens');
@@ -52,7 +51,7 @@ angular.module('tp', [
     var attach = {
       request: function(object) {
         var jwt = $window.localStorage.getItem('com.tp');
-        console.log('JWT', jwt);
+        // console.log('JWT', jwt);
         if (jwt) {
           object.headers['x-access-token'] = jwt;
         }
