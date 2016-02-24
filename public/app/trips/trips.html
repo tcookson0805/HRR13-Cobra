@@ -11,6 +11,8 @@
     </li>
   </ul>
 </div>
+
+
 <!-- Create a New Trip -->
 <!-- <div id="create" class="card-panel hoverable">
   <h3>Create a Trip</h3> -->
@@ -24,8 +26,8 @@
 <!-- Previous Trips -->
 <div id="previous">
   <h3>Previous Trips</h3>
-  <ul>
-    <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
+  <ul class="collection ">
+    <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
       <!--TODO: Filter older than today -->
       {{ trip.destination }}
       <!-- List previous vacations -->
