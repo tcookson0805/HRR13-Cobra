@@ -50,7 +50,7 @@ angular.module('app.services', [])
       })
       .then(function(data) {
         tripID = data.data._id
-        return data;
+
       });
   };
   

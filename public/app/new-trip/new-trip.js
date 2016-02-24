@@ -17,13 +17,10 @@ angular.module('app.new-trip', [])
   $scope.createTrip = function(destination, startDate) {
   	// console.log($window.localStorage.getItem('com.tp'));
     Trips.newTrip(destination, startDate)
-      // .then(function(response){
-      //   $scope.trip = response
-      // })
-      .then(function(response){
-        $scope.trip = response
-        var id = $scope.trip.data._id
-        $location.path('/my-trip/').search(id)
+      .then(function(response) {
+      	var tripID = response.data.trips.pop()._id;
+		$location.path('/trips/' + tripID);
+
 
       })
       // .then(function() {
