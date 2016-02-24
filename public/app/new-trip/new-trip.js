@@ -24,6 +24,7 @@ angular.module('app.new-trip', [])
         $scope.trip = response
         var id = $scope.trip.data._id
         $location.path('/my-trip/').search(id)
+
       })
       // .then(function() {
       //   var id = $scope.trip.data._id
