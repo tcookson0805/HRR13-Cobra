@@ -3,7 +3,7 @@ angular.module('app.new-trip', [])
 .controller('new-tripController', function($scope, $location, $window, Trips) {
 
   $scope.trip = {};
-  
+
   // $scope.getTripData = function(destination, startDate){
   //   Trips.newTrip(destination, startDate)
   //     .then(function(response){
@@ -11,16 +11,16 @@ angular.module('app.new-trip', [])
   //       console.log($scope.trip)
   //     })
   // }
-  
-  
+
+
 
   $scope.createTrip = function(destination, startDate) {
   	// console.log($window.localStorage.getItem('com.tp'));
     Trips.newTrip(destination, startDate)
       .then(function(response) {
-      	var tripID = response.data.trips.pop()._id;
-
-      })
+      	console.log('response from node',response);
+        $location.path('/my-trip/' + response.data);
+      });
       // .then(function() {
       //   var id = $scope.trip.data._id
       //   console.log(id);

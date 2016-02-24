@@ -12,7 +12,8 @@ angular.module('app.services', [])
   var allTrips = function(user) {
     return $http({
         method: 'GET',
-        url: '/api/users/alltrips'
+        url: '/api/users/alltrips',
+        data: user
       })
       .then(function(resp) {
         trips = resp.data;
@@ -42,15 +43,13 @@ angular.module('app.services', [])
       destination: destination,
       startDate: startDate
     };
-    console.log(mydata)
     return $http({
         method: 'POST',
         url: '/api/trips/create',
         data: mydata
       })
       .then(function(data) {
-        tripID = data.data._id
-
+        return data;
       });
   };
 

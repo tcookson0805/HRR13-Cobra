@@ -1,16 +1,13 @@
 var Trip = require('./tripModel.js');
-var authController = require('./../config/authController.js');
-var UserModel = require('./../users/userModel.js');
 
 module.exports = {
-  create: function(req, res, body) {
-
-    console.log('create trip',req.body);
-    var newTrip = Trip({
+  create: function(req, res) {
+    var newTrip = new Trip({
       destination: req.body.destination,
       startDate: req.body.startDate,
+      userId: req.decoded.username
     });
-
+    console.log('newTrip',newTrip);
     newTrip.save(function(err, savedTrip) {
       if (err) {
         res.status(404).send(err);
@@ -18,21 +15,22 @@ module.exports = {
       } else {
         // TODO: save trip objectID to user document in session
         console.log('Trip saved, ID: ' + savedTrip._id);
-        UserModel.findOneAndUpdate({
-            _id: savedTrip._id
-          }, {
-            $push: {
-              "trips": savedTrip
-            }
-          },
-          function(err, saved) {
-            if (err) console.error(err);
-            else {
-              res.status(201).send(saved);
-              console.log(saved);
-            }
-          }
-        )
+        res.status(201).send(savedTrip._id);
+        // UserModel.findOneAndUpdate({
+        //     _id: savedTrip._id
+        //   }, {
+        //     $push: {
+        //       "trips": savedTrip
+        //     }
+        //   },
+        //   function(err, saved) {
+        //     if (err) console.error(err);
+        //     else {
+        //       res.status(201).send(saved);
+        //       console.log(saved);
+        //     }
+        //   }
+        // )
       }
     });
   },
@@ -41,12 +39,12 @@ module.exports = {
       _id: req.body._id
     }, function(err) {
       if (!err) {
-        console.log('Message removed: ' + req.body._id);
+        console.log('Trip removed: ' + req.body._id);
         res.status(200).send('ok');
       } else {
-        res.status(404).send('Cannot remove message');
+        res.status(404).send('Cannot remove trip');
 
-        console.log('Cannot remove message');
+        console.log('Cannot remove trip');
       }
     });
   },
@@ -61,7 +59,7 @@ module.exports = {
         console.log(req.body);
         trip.destination = req.body.destination;
         trip.startDate = req.body.startDate;
-        res.status(201).send('modified');
+        res.status(201).send('Trip modified');
 
       }
     });
