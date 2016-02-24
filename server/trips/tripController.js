@@ -5,9 +5,10 @@ module.exports = {
     var newTrip = new Trip({
       destination: req.body.destination,
       startDate: req.body.startDate,
-      userId: req.decoded.username
+      userId: req.decoded.username,
+      POI: []
     });
-    console.log('newTrip',newTrip);
+    console.log('newTrip', newTrip);
     newTrip.save(function(err, savedTrip) {
       if (err) {
         res.status(404).send(err);
@@ -48,29 +49,30 @@ module.exports = {
       }
     });
   },
-  modify: function(req, res, body) {
-    Trip.find({
+  modify: function(req, res) {
+    Trip.findOne({
       _id: req.body._id
     }, function(err, trip) {
       if (err) {
         res.send('failed');
       } else {
-
-        console.log(req.body);
-        trip.destination = req.body.destination;
-        trip.startDate = req.body.startDate;
+        trip.POI.push({
+          title: req.body.title,
+          details: req.body.details
+        });
         res.status(201).send('Trip modified');
-
+        trip.save(function(err, data) {
+        });
       }
     });
   },
   getTripView: function(req, res, body) {
-    console.log(req.params.tripId);
-    Trip.find({
+    Trip.findOne({
         _id: req.params.tripId
       })
       .then(function(trip) {
-        res.send(trip)
+        console.log('trip being returned', trip)
+        res.send(trip);
       })
       .catch(function(err) {
         console.log('Trip not found');

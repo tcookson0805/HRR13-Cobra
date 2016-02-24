@@ -6,7 +6,7 @@ module.exports = function(app) {
   // FIXME: restore auth for create
   app.post('/create', authController.authorize, tripController.create);
   app.post('/remove', authController.authorize, tripController.remove);
-  app.put('/modify/', authController.authorize, tripController.modify);
+  app.put('/modify', authController.authorize, tripController.modify);
   app.get('/:tripId', authController.authorize, tripController.getTripView);
 
 };

@@ -31,10 +31,10 @@ angular.module('app.services', [])
     tripID = tripID;
     return $http({
         method: 'GET',
-        url: '/api/users/' + tripID
+        url: '/api/trips/' + tripID
       })
       .then(function(resp) {
-        active = resp.data;
+        return resp.data;
       });
   };
 
@@ -53,27 +53,17 @@ angular.module('app.services', [])
       });
   };
 
-
-  var addDetails = function(flying, leavingCountry, travelingAlone, accomodations, title, details) {
+  var addDetails = function(tripID, title, details) {
     var tripData = {
-      flying: flying,
-      leavingCountry: leavingCountry,
-      travelingAlone: travelingAlone,
-      accomodations: accomodations,
+      _id: tripID,
       title: title,
       details: details,
     };
     return $http({
-        method: 'POST',
-        url: '/api/trip/' + tripID,
-        data: tripData
-      })
-      .then(function(err, response) {
-        if (err) {
-          console.log('Error:', err);
-        }
-        allTrips(user);
-      });
+      method: 'PUT',
+      url: '/api/trips/modify',
+      data: tripData
+    })
 
   };
 

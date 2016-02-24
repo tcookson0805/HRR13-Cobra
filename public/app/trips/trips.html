@@ -3,9 +3,7 @@
   <h3>Upcoming Trips</h3>
   <ul>
     <li ng-repeat="trip in trips" ng-click="console.log(trip._id)">
-      <a href="/#/my-trip/{{trip.destination}}">{{ trip.destination }}</a>
-    <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
-      <a href='{{"/api/trips" + trip._id}}'>{{ trip.destination }}</a>
+      <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
       <!-- List upcoming vacations -->
       <!-- {{ trips | > future || no date  :orderby }} -->
     </li>
