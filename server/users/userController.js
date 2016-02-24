@@ -2,10 +2,10 @@ var Users = require('./userModel.js');
 var Q = require('q');
 var Trips = require('../trips/tripModel.js');
 var util = require('../config/utils.js');
+var authController = require('./../config/authController.js');
 
 module.exports = {
   signup: function(req, res){
-    console.log(req.body);
     var newUser = Users({
       username: req.body.username,
 
@@ -16,10 +16,19 @@ module.exports = {
     // TODO: did not work when hashing user password in instantiation
     newUser.password = newUser.generateHash(req.body.password);
     // newUser.salt = newUser.generateSalt(req.body);
-    newUser.save();
+
+    newUser.save(function (err, user) {
+      if(err) console.error(err);
+      else {
+        var token = authController.createToken(user);
+        res.send({'token': token});
+
+      }
+    });
 
     // @output {String} 
-    res.send(newUser._id);
+    // res.send(newUser._id);
+
   },
   signin: function(req, res, next) {
     var userLogin = Users({
@@ -40,19 +49,15 @@ module.exports = {
       } else {
         // compares current password with hashed password from found user
         if (userLogin.comparePasswords(userLogin.password, user.password)) {
-          console.log('userController: Successfully logged in: ');
-          console.log(user._id);
+          var token = authController.createToken(user);
           Trips.find({userId: user._id})
             .then(function(found){
-              console.log('Sending results with '+user._id);
-              var cookie = util.createSession(req, res, user, next);
-              console.log(cookie);
-              // sends back cookie and a list of user trips
+
               res.send({
-                cookie,
-                found
+                'token': token,
+                // cookie,
+                'found': found
               });
-              res.send('hello');
             })
         } else {
 
@@ -100,13 +105,19 @@ module.exports = {
 
   // @req.body expects an user _id for reference to Trips schema
   alltrips: function(req, res){
-
-    Trips.find({})
-      .then(function(trips) {
-        res.send(trips);
+    var tripArr;
+    console.log(req.decoded.username);
+    Users.findOne({'username':req.decoded.username})
+    // TODO: pulling data straight from one schema instead of separating trips
+    // from Users
+      .then(function(user) {
+        tripArr = user.trips;
+        res.send(user.trips);
       })
-      .catch(function(err){
-        console.log(err);
-      });
+      .catch(function(err) {
+        res.status(403).send('No trips found');
+      })
+
+
   }
 };
