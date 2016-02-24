@@ -1,9 +1,12 @@
 <!-- Upcoming Trips -->
 <div id="upcoming">
   <h3>Upcoming Trips</h3>
-  <ul>
+  <!-- <ul>
     <li class="collection-item" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
-      <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
+      <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a> -->
+  <ul class="collection">
+    <li class="collection-item" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
+      <a href="/#/my-trip/{{trip.destination}}">{{ trip.destination }}</a>
       <!-- List upcoming vacations -->
       <!-- {{ trips | > future || no date  :orderby }} -->
     </li>
@@ -23,7 +26,7 @@
 <!-- Previous Trips -->
 <div id="previous">
   <h3>Previous Trips</h3>
-  <ul class="collection ">
+  <ul class="collection">
     <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
       <!--TODO: Filter older than today -->
       <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
