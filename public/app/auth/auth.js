@@ -14,7 +14,8 @@ angular.module('app.auth', [])
           $window.localStorage.setItem('com.tp.user', data.id);
           $location.path('/trips');
         } else {
-          alert('password incorrect')
+          //we'll want to handle this better
+          alert('username or password incorrect.')
         }
       })
       .catch(function(error) {

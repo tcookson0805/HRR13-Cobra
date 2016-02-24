@@ -12,7 +12,8 @@ angular.module('app.services', [])
   var allTrips = function(user) {
     return $http({
         method: 'GET',
-        url: '/api/users/alltrips'
+        url: '/api/users/alltrips',
+        data: user
       })
       .then(function(resp) {
         trips = resp.data;
