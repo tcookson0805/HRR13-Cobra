@@ -10,8 +10,10 @@
 <div id='signup'>
   <h1 class="center-align">Signup</h1>
   <form class="center-align" name="signupForm" ng-submit='signup()'>
-    <input class="placeholderColor" placeholder="username" type='email' ng-model='user.username' required>
-    <input class="placeholderColor" placeholder="password" type="password" ng-model='user.password' required>
+    <div class="error" ng-if='signupForm.email.$invalid'>Please enter a valid email address</div>
+    <input placeholder="email" name='email' type='email' ng-model='user.username' required>
+    <div class="error" ng-if="signupForm.password.$invalid">Password must be at least 8 characters long</div>
+    <input placeholder="password" name='password' type="password" ng-model='user.password' ng-minlength='8' required>
     <button class="waves-effect waves-light btn amber darken-3" ng-disabled='signupForm.$invalid'>signup</button>
   </form>
   <!-- if invalid is true, show a div that says, your login is invalid. -->
