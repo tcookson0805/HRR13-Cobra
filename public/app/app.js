@@ -81,10 +81,10 @@ angular.module('tp', [
     $rootScope.$on('$routeChangeStart', function(evt, next, current) {
       if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
         $location.path('/login');
-      }else if (next.$$route.originalPath === '/logout'){
-        console.log('hello?');
-        $window.localStorage.removeItem('com.tp');
-        $location.path('/signin');
+      // }else if (next.$$route.originalPath === '/logout'){
+      //   console.log('hello?');
+      //   $window.localStorage.removeItem('com.tp');
+      //   $location.path('/signin');
       }
     });
   });
