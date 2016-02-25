@@ -22,7 +22,6 @@ angular.module('app.new-trip', [])
     return string;
   }
 
-
   var createMarker = function (info) {
     console.log($scope.locationForm);
     console.log($scope.destination);
@@ -78,11 +77,10 @@ angular.module('app.new-trip', [])
 
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
 
-<<<<<<< 628aa3c1651f7d6efc69d5f76cd4f06ac82528ad
-      $scope.destination = data.results[1].formatted_address;
-=======
+
       //$scope.destination =  data.results[1].formatted_address;
->>>>>>> live updating with materialize on create trip - broken. added ng-materialize.
+      $scope.destination = data.results[1].formatted_address;
+
       coordinates.lat = data.results[0].geometry.location.lat;
       coordinates.lng = data.results[0].geometry.location.lng;
       info.coordinates = data.results[0].geometry.location;
@@ -95,6 +93,7 @@ angular.module('app.new-trip', [])
       // @Date.now as a placeholder since server requires dates
     });
   });
+
 
   $scope.geocodeAddress = function() {
     console.log('what upppp');
