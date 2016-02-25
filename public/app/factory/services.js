@@ -51,7 +51,7 @@ angular.module('app.services', [])
       })
       .then(function(data) {
         console.log('Trip ID...',data.data);
-        cb(data.data);
+        return data.data;
         tripID = data.data;
 
       });
