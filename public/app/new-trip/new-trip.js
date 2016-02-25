@@ -19,6 +19,7 @@ angular.module('app.new-trip', [])
     Trips.newTrip(destination, startDate)
       .then(function(response) {
       	console.log('response from node',response);
+        console.log("DATE", startDate);
         $location.path('/my-trip/' + response.data);
       });
       // .then(function() {

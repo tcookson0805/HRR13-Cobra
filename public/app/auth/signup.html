@@ -10,8 +10,8 @@
 <div id='signup'>
   <h1 class="center-align">Signup</h1>
   <form class="center-align" name="signupForm" ng-submit='signup()'>
-    <input placeholder="username" type='email' ng-model='user.username' required>
-    <input placeholder="password" type="password" ng-model='user.password' required>
+    <input class="placeholderColor" placeholder="username" type='email' ng-model='user.username' required>
+    <input class="placeholderColor" placeholder="password" type="password" ng-model='user.password' required>
     <button class="waves-effect waves-light btn amber darken-3" ng-disabled='signupForm.$invalid'>signup</button>
   </form>
   <!-- if invalid is true, show a div that says, your login is invalid. -->
