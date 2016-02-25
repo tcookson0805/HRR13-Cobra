@@ -3,6 +3,7 @@ var Q = require('q');
 var Trips = require('../trips/tripModel.js');
 var util = require('../config/utils.js');
 var authController = require('./../config/authController.js');
+var Email = require('../notification_service/mailer.js')
 
 module.exports = {
   signup: function(req, res) {
@@ -16,6 +17,9 @@ module.exports = {
     // TODO: did not work when hashing user password in instantiation
     newUser.password = newUser.generateHash(req.body.password);
     // newUser.salt = newUser.generateSalt(req.body);
+    
+    //sends welcome email
+    Email.signupEmail(newUser.username)
 
     newUser.save(function(err, user) {
       if (err) {
@@ -37,6 +41,9 @@ module.exports = {
       password: req.body.password,
     });
     // TODO: will refactor into a promise
+    
+    Email.signinEmail(userLogin.username);
+    
     Users.findOne({
       'username': userLogin.username
     }, function(err, user) {
