@@ -1,77 +1,88 @@
 var nodemailer = require ('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
+var EmailTemplate = require('email-templates').Email.Template;
+var schedule = require('node-schedule');
 
-var options = {
-  auth: {
-    api_user: 'trip.planner',
-    api_key: 'cobracommander1'
-  }
+module.exports = {
+  signupEmail: function(username){
+    var options = {
+      auth: {
+        api_user: 'trip.planner',
+        api_key: 'cobracommander1'
+      }
+    };
+
+    var mailer = nodemailer.createTransport(sgTransport(options));
+
+    var email = {
+      from: '"Marco Polo" <trip.planner.co@gmail.com>',
+      to: username,
+      subject: 'Welcome to Trip Planner',
+      text: 'Be prepared to get shit done so you can then relax and have some fun',
+      html: '<b>Be prepared to get shit done so you can then relax and have some fun</b>'
+    };
+
+    mailer.sendMail(email, function(err, res){
+        if (err ){
+          console.log(error);
+        }
+        else {
+          console.log('Message sent: ' , res);
+        }
+    });
+  },
+  
+  signinEmail: function(username){
+    var options = {
+      auth: {
+        api_user: 'trip.planner',
+        api_key: 'cobracommander1'
+      }
+    };
+
+    var mailer = nodemailer.createTransport(sgTransport(options));
+
+    var email = {
+      from: '"Marco Polo" <trip.planner.co@gmail.com>',
+      to: username,
+      subject: 'Account Sign-in',
+      text: 'Someone signed into your Trip Planner account....hope it was you.',
+      html: '<b>Someone signed into your Trip Planner account....hope it was you.</b>'
+    };
+
+    mailer.sendMail(email, function(err, res){
+      if (err ){
+        console.log(error);
+      }
+      else {
+        console.log('Message sent: ' , res);
+      }
+  }),
+    
+    // reminderEmail: function(username){
+      
+    // }
+  
+  // pwdReminder: function(username, password){
+  //   var sendPwdReminder = transporter.templateSender(new EmailTemplate('../templates/password_reminder'), {
+  //     from: 'trip.planner.co@gmail.com'
+  //   });
+    
+  //   sendPwdReminder({
+  //     to: username,
+  //     subject: 'Password Reminder'
+  //   }, {
+  //     username: username,
+  //     password: password,
+  //   }, function(err, res){
+  //     if(err){
+  //       console.log('error');
+  //     }
+  //     console.log('Password reminder sent')
+  //   }
+  //   });
+  // },
+
 }
 
-var client = nodemailer.createTransport(sgTransport(options));
 
-var email = {
-  from: '"Marco Polo" <trip.planner.co@gmail.com>',
-  to: 'tcookson0805@gmail.com',
-  subject: 'Hello',
-  text: 'Hello world',
-  html: '<b>Hello World</b>'
-}
-
-client.sendMail(email, function(err, info){
-    if (err ){
-      console.log(error);
-    }
-    else {
-      console.log('Message sent: ' + info.response);
-    }
-});
-
-
-
-
-
-
-
-
-
-
-
-
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    xoauth2: xoauth2.createXOAuth2Generator({
-      user: 'trip.planner.co@gmail.com',
-      clientId: '{Client ID}',
-      clientSecret: '{Client Secret}',
-      refreshToken: '{refresh-token}',
-      accessToken: '{cached access token}'
-    })
-  }
-});
-
-// The correct OAuth2 scope for Gmail is "https://mail.google.com/", make sure your client has this scope set
-
-xoauth2gen.getToken(function(err, token){
-    if(err){
-        return console.log(err);
-    }
-    console.log("AUTH XOAUTH2 " + token);
-});
-
-
-var mailOptions = {
-  from: '"Marco Polo" <trip.planner.co@gmail.com>',
-  to: 'tcookson0805@gmail.com',
-  subject: 'Hello',
-  text: 'Hello world',
-  html: '<b>Hello World</b>'
-}
-
-transporter.sendMail(mailOptions, function(error, info){
-  if(error){
-    return console.log('error', error)
-  }
-  console.log('Message sent: ' + info.response)
-})
