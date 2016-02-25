@@ -11,6 +11,7 @@ angular.module('app.new-trip', [])
     var string = '';
     if (info.POI.length > 0) {
       info.POI.forEach(function(point) {
+
         string += '<strong>' + (point.title? point.title: '') + ':</strong> ' + (point.details? point.details: '') + '<br>';
       });
     }
@@ -19,6 +20,7 @@ angular.module('app.new-trip', [])
 
 
   var createMarker = function (info) {
+    // console.log(info);
     // console.log(info);
     var marker = new google.maps.Marker({
       map: $scope.map,
@@ -46,6 +48,7 @@ angular.module('app.new-trip', [])
     Trips.allTrips(user)
       .then(function(data) {
         $scope.trips = data;
+
         $scope.trips.forEach(function(trip) {
           // console.log(trip);
           if(trip.coordinates) createMarker(trip);
@@ -56,7 +59,6 @@ angular.module('app.new-trip', [])
   $scope.showTrips(Trips.user);
 
   $scope.createTrip = function(destination, startDate, coordinates) {
-
     Trips.newTrip(destination, startDate, coordinates);
   };
 
@@ -85,11 +87,6 @@ angular.module('app.new-trip', [])
       coordinates.lng = data.results[0].geometry.location.lng;
       info.coordinates = data.results[0].geometry.location;
       info.destination = $scope.destination;
-      // var req = {
-      //   // FIXME: server side is not receiving trip information
-      //   token: window.localStorage.getItem('com.tp'),
-      //   destination: $scope.destination,
-      // }
 
       // @Date.now as a placeholder since server requires dates
       Trips.newTrip(info.destination, Date.now(), info.coordinates, function(id) {
@@ -97,14 +94,6 @@ angular.module('app.new-trip', [])
         createMarker(info);
 
       });
-      // place marker
-      // var marker = new google.maps.Marker({
-      //   map: $scope.map,
-      //   // FIXME: address does not update after dropping marker
-      //   // draggable: true,
-      //   position:data.results[0].geometry.location,
-      //   animation: google.maps.Animation.DROP
-      // });
     });
    })
   $scope.geocodeAddress = function () {
@@ -140,4 +129,5 @@ angular.module('app.new-trip', [])
   $scope.submitForm = function(){
     $scope.geocodeAddress();
   }
+
 });
