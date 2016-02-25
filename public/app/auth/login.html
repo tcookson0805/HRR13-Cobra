@@ -12,8 +12,8 @@
 <div class="input-field" id='signin'>
   <h1 class="center-align">Signin</h1>
   <form class="center-align" name="signinForm" ng-submit='signin()'>
-    <input class="placeholderColor" class="validate" placeholder="username" type='email' ng-model='user.username' required>
-    <input class="placeholderColor" class="validate" placeholder="password" type="password" ng-model='user.password' required>
+    <input class="placeholderColor" placeholder="email" type='email' ng-model='user.username' required>
+    <input class="placeholderColor" placeholder="password" type="password" ng-model='user.password' required>
     <button class="waves-effect waves-light btn amber darken-3" ng-disabled='signinForm.$invalid'>signin</button>
   </form>
   <!-- if invalid is true, show a div that says, your login is invalid. -->

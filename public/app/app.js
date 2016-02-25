@@ -24,13 +24,23 @@ angular.module('tp', [
       //   templateUrl: 'app/my-trip/my-trip.html',
       //   controller: 'my-tripController'
       // })
-      .when('/login', {
+      .when('/signin', {
         templateUrl: 'app/auth/login.html',
         controller: 'AuthController'
+      })
+      .when('/login', {
+        redirectTo: '/signin'
       })
       .when('/signup', {
         templateUrl: 'app/auth/signup.html',
         controller: 'AuthController'
+      })
+      .when('/signout', {
+        templateUrl: 'app/auth/signin.html',
+        controller: 'AuthController'
+      })
+      .when('/logout', {
+        redirectTo: '/signout'
       })
       // For any unmatched url, redirect to /login
       .otherwise({
@@ -71,6 +81,10 @@ angular.module('tp', [
     $rootScope.$on('$routeChangeStart', function(evt, next, current) {
       if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
         $location.path('/login');
+      }else if (next.$$route.originalPath === '/logout'){
+        console.log('hello?');
+        $window.localStorage.removeItem('com.tp');
+        $location.path('/signin');
       }
     });
   });
