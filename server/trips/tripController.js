@@ -6,7 +6,8 @@ module.exports = {
       destination: req.body.destination,
       startDate: req.body.startDate,
       userId: req.decoded.username,
-      POI: []
+      POI: [],
+      coordinates: req.body.coordinates,
     });
     console.log('newTrip', newTrip);
     newTrip.save(function(err, savedTrip) {
@@ -21,17 +22,17 @@ module.exports = {
     });
   },
   remove: function(req, res, body) {
+
+    console.log(req.decoded.username, 'wants to remove', req.body.destination);
     Trip.remove({
-      _id: req.body._id
+      userId: req.decoded.username,
+      destination: req.body.destination
     }, function(err) {
-      if (!err) {
-        console.log('Trip removed: ' + req.body._id);
-        res.status(200).send('ok');
-      } else {
-        res.status(404).send('Cannot remove trip');
-        console.log('Cannot remove trip');
-      }
+
+      if(err) console.error(err);
+      console.log('successfully removed..')
     });
+
   },
   modify: function(req, res) {
     Trip.findOne({

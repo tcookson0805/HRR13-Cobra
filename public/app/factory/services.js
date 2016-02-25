@@ -38,10 +38,11 @@ angular.module('app.services', [])
       });
   };
 
-  var newTrip = function(destination, startDate) {
+  var newTrip = function(destination, startDate, coordinates, cb) {
     var mydata = {
       destination: destination,
-      startDate: startDate
+      startDate: startDate,
+      coordinates: coordinates
     };
     return $http({
         method: 'POST',
@@ -49,8 +50,22 @@ angular.module('app.services', [])
         data: mydata
       })
       .then(function(data) {
-        return data;
+        console.log('Trip ID...',data.data);
+        cb(data.data);
+        tripID = data.data;
+
       });
+  };
+
+  var removeTrip = function(target) {
+    return $http({
+      method: 'POST',
+      url: 'api/trips/remove',
+      data: {'destination': target}
+    })
+    .then(function(results) {
+      console.log(results);
+    })
   };
 
   var addDetails = function(tripID, title, details) {
@@ -73,7 +88,8 @@ angular.module('app.services', [])
     newTrip: newTrip,
     trips: trips,
     tripID: tripID,
-    addDetails: addDetails
+    addDetails: addDetails,
+    removeTrip: removeTrip
   };
 
 })
