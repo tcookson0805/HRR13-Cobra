@@ -3,15 +3,19 @@
   <div class="nav-wrapper">
     <div class="brand-logo"><img src="app/styles/79500-200.png" height=48px width=48px>Trip Planner</div>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><a href="#/signup">Signup</a></li>
-      <li><a href="#/login">Signin</a></li>
+      <li>
+        <a href="#/signup">Signup</a>
+      </li>
+      <li>
+        <a href="#/login">Signin</a>
+      </li>
     </ul>
   </div>
 </nav>
 
-<div class="input-field" id='signin'>
-  <h1 class="center-align">Sign In</h1>
-  <form class="center-align" name="signinForm" ng-submit='signin()'>
+<div class="input-field center-align" id='signin'>
+  <h4>You have been logged out. If this was a mistake, please log back in</h4>
+  <form name="signinForm" ng-submit='signin()'>
     <input class="placeholderColor" placeholder="email" type='email' ng-model='user.username' required>
     <input class="placeholderColor" placeholder="password" type="password" ng-model='user.password' required>
     <button class="waves-effect waves-light btn amber darken-3" ng-disabled='signinForm.$invalid'>Sign In</button>
