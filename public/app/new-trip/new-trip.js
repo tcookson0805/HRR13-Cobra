@@ -2,23 +2,6 @@ angular.module('app.new-trip', [])
 
 .controller('new-tripController', function($scope, $location, $window, Trips, Auth) {
 
-  $scope.showTrips = function(user) {
-    Trips.allTrips(user)
-      .then(function(data) {
-        $scope.trips = data;
-
-        $scope.trips.forEach(function(trip) {
-          if(trip.coordinates) createMarker(trip);
-      });
-    });
-  };
-
-  $scope.showTrips(Trips.user);
-
-  $scope.createTrip = function(destination, startDate, coordinates) {
-    Trips.newTrip(destination, startDate, coordinates);
-  };
-
   $scope.signout = function() {
     Auth.signout();
   };
