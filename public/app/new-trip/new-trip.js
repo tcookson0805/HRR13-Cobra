@@ -16,14 +16,14 @@ angular.module('app.new-trip', [])
     if (info.POI.length > 0) {
       info.POI.forEach(function(point) {
 
-        string += '<strong>' + (point.title? point.title: '') + ':</strong> ' + (point.details? point.details: '') + '<br>';
+        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details ? point.details : '') + '<br>';
       });
     }
     return string;
   }
 
 
-  var createMarker = function (info) {
+  var createMarker = function(info) {
     console.log($scope.destination);
     $scope.destination = info.destination;
     var marker = new google.maps.Marker({
@@ -41,22 +41,22 @@ angular.module('app.new-trip', [])
     //   }
     // });
     var infowindow = new google.maps.InfoWindow({
-      content: '<a href="http://localhost:3000/#/my-trip/'+info._id+'">'+info.destination+'</a><br>' +
-      createContent(info),
+      content: '<a href="http://localhost:3000/#/my-trip/' + info._id + '">' + info.destination + '</a><br>' +
+        createContent(info),
     });
-    marker.addListener('click', function(){
+    marker.addListener('click', function() {
       console.log('adding');
       infowindow.open(marker.get('map'), marker);
     })
     console.log(info.destination);
     console.log($scope.destination);
-    
+
   };
 
   $scope.createTrip = function(destination, startDate, coordinates) {
     console.log('someone called me');
     Trips.newTrip(destination, startDate, coordinates)
-      .then(function(response){
+      .then(function(response) {
         console.log('new trip response', response);
       });
   };
@@ -71,7 +71,7 @@ angular.module('app.new-trip', [])
   // create map
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
-// listens for a click and renders a marker and returns corresponding address
+  // listens for a click and renders a marker and returns corresponding address
   $scope.map.addListener('click', function(e) {
     var info = {
       _id: null,
@@ -80,9 +80,9 @@ angular.module('app.new-trip', [])
       POI: [],
     };
 
-    $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+e.latLng.lat()+","+e.latLng.lng()+"&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
+    $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
 
-      $scope.destination =  data.results[1].formatted_address;
+      $scope.destination = data.results[1].formatted_address;
       coordinates.lat = data.results[0].geometry.location.lat;
       coordinates.lng = data.results[0].geometry.location.lng;
       info.coordinates = data.results[0].geometry.location;
@@ -93,17 +93,19 @@ angular.module('app.new-trip', [])
       $scope.destinaiton = info.destination;
       // @Date.now as a placeholder since server requires dates
     });
-   });
+  });
 
 
-  $scope.geocodeAddress = function () {
+  $scope.geocodeAddress = function() {
     console.log('what upppp');
-    $scope.geocoder.geocode({'address':$scope.destination},
+    $scope.geocoder.geocode({
+        'address': $scope.destination
+      },
       function(results, status) {
         var tempInfo;
 
         // TODO: remove redundant code with add event listener
-        if(status === google.maps.GeocoderStatus.OK) {
+        if (status === google.maps.GeocoderStatus.OK) {
           $scope.map.setCenter(results[0].geometry.location);
           console.log(results[0]);
           tempInfo = {
@@ -127,12 +129,12 @@ angular.module('app.new-trip', [])
       });
   }
 
-  $scope.submitForm = function(){
+  $scope.submitForm = function() {
     console.log('im in here');
     Trips.newTrip($scope.info.destination, Date.now(), $scope.info.coordinates, function(id) {
-    $scope.info._id = id;
+      $scope.info._id = id;
 
-      });
+    });
     $scope.geocodeAddress();
   }
 
