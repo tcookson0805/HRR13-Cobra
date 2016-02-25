@@ -3,7 +3,7 @@ var expect = require('chai').expect;
 
 var server = require(path.join(__dirname, '..', './server.js'));
 
-describe('server()', function () {
+describe('the meaning of life', function () {
   'use strict';
 
     it('knows right from wrong', function () {
