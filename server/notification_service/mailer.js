@@ -1,6 +1,6 @@
 var nodemailer = require ('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
-var EmailTemplate = require('email-templates').Email.Template;
+//var EmailTemplate = require('email-templates').Email.Template;
 var schedule = require('node-schedule');
 
 module.exports = {
@@ -53,12 +53,11 @@ module.exports = {
     mailer.sendMail(email, function(err, res){
       if (err ){
         console.log(error);
-      }
-      else {
+      } else {
         console.log('Message sent: ' , res);
       }
-  }),
-    
+    });
+  }
     // reminderEmail: function(username){
       
     // }
