@@ -1,6 +1,27 @@
 angular.module('app.new-trip', [])
 
-.controller('new-tripController', function($scope, $location, $window, Trips) {
+.controller('new-tripController', function($scope, $location, $window, Trips, Auth) {
+
+  $scope.showTrips = function(user) {
+    Trips.allTrips(user)
+      .then(function(data) {
+        $scope.trips = data;
+
+        $scope.trips.forEach(function(trip) {
+          if(trip.coordinates) createMarker(trip);
+      });
+    });
+  };
+
+  $scope.showTrips(Trips.user);
+
+  $scope.createTrip = function(destination, startDate, coordinates) {
+    Trips.newTrip(destination, startDate, coordinates);
+  };
+
+  $scope.signout = function() {
+    Auth.signout();
+  };
 
   $scope.map;
   $scope.geocoder = new google.maps.Geocoder();
@@ -32,7 +53,7 @@ angular.module('app.new-trip', [])
       marker.setMap(null);
     });
     var infowindow = new google.maps.InfoWindow({
-      content: '<a href="http://localhost:3000/#/my-trip/'+info._id+'">'+info.destination+'</a><br>' + 
+      content: '<a href="http://localhost:3000/#/my-trip/'+info._id+'">'+info.destination+'</a><br>' +
       createContent(info),
     });
     marker.addListener('click', function(){
@@ -42,25 +63,6 @@ angular.module('app.new-trip', [])
     })
   }
 
-  $scope.showTrips = function(user) {
-    Trips.allTrips(user)
-      .then(function(data) {
-        $scope.trips = data;
-
-        $scope.trips.forEach(function(trip) {
-          if(trip.coordinates) createMarker(trip);
-      });
-    });
-  };
-  
-  $scope.showTrips(Trips.user);
-
-  $scope.createTrip = function(destination, startDate, coordinates) {
-    Trips.newTrip(destination, startDate, coordinates);
-  };
-
-
-
   var mapOptions = {
 
     // start in USA
@@ -68,7 +70,7 @@ angular.module('app.new-trip', [])
     zoom: 5
   };
 
-  // create map 
+  // create map
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
   $scope.map.addListener('click', function(e) {
@@ -80,7 +82,7 @@ angular.module('app.new-trip', [])
     };
 
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+e.latLng.lat()+","+e.latLng.lng()+"&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
-      
+
       $scope.destination =  data.results[1].formatted_address;
       coordinates.lat = data.results[0].geometry.location.lat;
       coordinates.lng = data.results[0].geometry.location.lng;
@@ -105,7 +107,7 @@ angular.module('app.new-trip', [])
           $scope.map.setCenter(results[0].geometry.location);
           console.log(results[0]);
           tempInfo = {
-            destination: results[0].formatted_address, 
+            destination: results[0].formatted_address,
             coordinates: {
               lat: results[0].geometry.location.lat(),
               lng: results[0].geometry.location.lng()

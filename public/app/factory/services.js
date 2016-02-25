@@ -132,7 +132,7 @@ angular.module('app.services', [])
 
   var signout = function() {
     $window.localStorage.removeItem('com.tp');
-    $location.path('/signin');
+    $location.path('/logout');
   };
 
   return {

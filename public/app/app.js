@@ -19,11 +19,11 @@ angular.module('tp', [
         templateUrl: 'app/new-trip/new-trip.html',
         controller: 'new-tripController'
       })
-      // .when('/my-trip/:tripID', {
-      //   authenticate: true,
-      //   templateUrl: 'app/my-trip/my-trip.html',
-      //   controller: 'my-tripController'
-      // })
+      .when('/my-trip/:tripID', {
+        authenticate: true,
+        templateUrl: 'app/my-trip/my-trip.html',
+        controller: 'my-tripController'
+      })
       .when('/signin', {
         templateUrl: 'app/auth/login.html',
         controller: 'AuthController'
@@ -40,16 +40,15 @@ angular.module('tp', [
         controller: 'AuthController'
       })
       .when('/logout', {
-        redirectTo: '/signout'
+        templateUrl: 'app/auth/logout.html',
+        controller: 'AuthController'
       })
-      // For any unmatched url, redirect to /login
+      // For any unmatched url, redirect to users general trip list
       .otherwise({
-         authenticate: true,
-         templateUrl: 'app/my-trip/my-trip.html',
-         controller: 'my-tripController'
-      })
-      // We add our $httpInterceptor into the array
-      // of interceptors. Think of it like middleware for your ajax calls
+        redirectTo: '/trips'
+      });
+    // We add our $httpInterceptor into the array
+    // of interceptors. Think of it like middleware for your ajax calls
     $httpProvider.interceptors.push('AttachTokens');
   })
   .factory('AttachTokens', function($window) {
@@ -81,10 +80,10 @@ angular.module('tp', [
     $rootScope.$on('$routeChangeStart', function(evt, next, current) {
       if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
         $location.path('/login');
-      // }else if (next.$$route.originalPath === '/logout'){
-      //   console.log('hello?');
-      //   $window.localStorage.removeItem('com.tp');
-      //   $location.path('/signin');
+        // }else if (next.$$route.originalPath === '/logout'){
+        //   console.log('hello?');
+        //   $window.localStorage.removeItem('com.tp');
+        //   $location.path('/signin');
       }
     });
   });

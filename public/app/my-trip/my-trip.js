@@ -1,6 +1,6 @@
 angular.module('app.my-trip', [])
 
-.controller('my-tripController', function($scope, $location, Trips, $route) {
+.controller('my-tripController', function($scope, $location, Trips, $route, Auth) {
 
   //stores information about the current trip
   $scope.thisTrip = {};
@@ -23,6 +23,10 @@ angular.module('app.my-trip', [])
         //this should be changed to something more elegant
         $route.reload();
       });
+  };
+
+  $scope.signout = function() {
+    Auth.signout();
   };
 
 })

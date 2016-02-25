@@ -1,6 +1,6 @@
 angular.module('app.trips', [])
 
-.controller('tripsController', function($scope, Trips, $routeParams) {
+.controller('tripsController', function($scope, Trips, $routeParams, Auth) {
   $scope.trips = {};
 
   $scope.tripID = {
@@ -15,5 +15,9 @@ angular.module('app.trips', [])
   };
 
   $scope.showTrips(Trips.user);
+
+  $scope.signout = function() {
+    Auth.signout();
+  };
 
 });
