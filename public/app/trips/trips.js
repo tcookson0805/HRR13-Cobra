@@ -1,7 +1,6 @@
 angular.module('app.trips', [])
 
 .controller('tripsController', function($scope, Trips, $routeParams) {
-
   $scope.trips = {};
 
   $scope.tripID = {

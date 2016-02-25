@@ -3,8 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "dependencies": {
-      "chai": "~1.8.0",
-      "mocha":"2.0.1"
+    "chai": "~1.8.0",
+    "mocha": "2.0.1",
+    "node-schedule": "^1.0.0",
+    "nodemailer": "^2.2.1",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   },
   "scripts": {
     "test": "mocha ./spec/server.js"
