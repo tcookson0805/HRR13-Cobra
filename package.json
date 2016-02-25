@@ -4,7 +4,7 @@
   "description": "Travel planning site.",
   "main": "server/server.js",
   "scripts": {
-    "test": "npm test"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
