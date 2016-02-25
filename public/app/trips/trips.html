@@ -23,25 +23,25 @@
     </ul>
   </div>
 
-  <!-- Create a New Trip -->
-  <!-- <div id="create" class="card-panel hoverable"> -->
-  <!-- <div>
-    <h3>Create a Trip</h3> -->
-    <!-- Enticing Vacation Graphics -->
-    <!-- Button -->
-    <!-- <a href="/newmap">Create A Map</a>
-  </div> -->
 
-  <!-- Previous Trips -->
-  <div id="previous">
-    <h3>Previous Trips</h3>
-    <ul class="collection">
-      <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
-        <!--TODO: Filter older than today -->
-        {{ trip.destination }}
-        <!-- List previous vacations -->
-        <!-- {{ trip | the past}} -->
-      </li>
-    </ul>
-  </div>
+<!-- Create a New Trip -->
+<!-- <div id="create" class="card-panel hoverable">
+  <h3>Create a Trip</h3> -->
+  <!-- Enticing Vacation Graphics -->
+  <!-- Button -->
+  <a href="/#/new-trip">Create A New Trip</a><br>
+</div>
+  <!-- <a href="/#/new-trip">Create A New Trip</a>
+</div> -->
+<!-- Previous Trips -->
+<div id="previous">
+  <h3>Previous Trips</h3>
+  <ul class="collection ">
+    <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
+      <!--TODO: Filter older than today -->
+      {{ trip.destination }}
+      <!-- List previous vacations -->
+      <!-- {{ trip | the past}} -->
+    </li>
+  </ul>
 </div>
