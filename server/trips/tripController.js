@@ -17,21 +17,6 @@ module.exports = {
         // TODO: save trip objectID to user document in session
         console.log('Trip saved, ID: ' + savedTrip._id);
         res.status(201).send(savedTrip._id);
-        // UserModel.findOneAndUpdate({
-        //     _id: savedTrip._id
-        //   }, {
-        //     $push: {
-        //       "trips": savedTrip
-        //     }
-        //   },
-        //   function(err, saved) {
-        //     if (err) console.error(err);
-        //     else {
-        //       res.status(201).send(saved);
-        //       console.log(saved);
-        //     }
-        //   }
-        // )
       }
     });
   },
@@ -44,7 +29,6 @@ module.exports = {
         res.status(200).send('ok');
       } else {
         res.status(404).send('Cannot remove trip');
-
         console.log('Cannot remove trip');
       }
     });
@@ -61,8 +45,7 @@ module.exports = {
           details: req.body.details
         });
         res.status(201).send('Trip modified');
-        trip.save(function(err, data) {
-        });
+        trip.save(function(err, data) {});
       }
     });
   },
