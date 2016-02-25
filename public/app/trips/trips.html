@@ -12,7 +12,7 @@
 
 <div class="container">
   <!-- Upcoming Trips -->
-  <div id="upcoming">
+  <span id="upcoming">
     <h3>Upcoming Trips</h3>
     <ul class="collection">
       <li class="collection-item" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
@@ -21,10 +21,10 @@
         <!-- {{ trips | > future || no date  :orderby }} -->
       </li>
     </ul>
-  </div>
+  </span>
 
 <!-- Previous Trips -->
-<div id="previous">
+<span id="previous">
   <h3>Previous Trips</h3>
   <ul class="collection ">
     <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
@@ -34,4 +34,10 @@
       <!-- {{ trip | the past}} -->
     </li>
   </ul>
+</span>
+
+</div>
+
+<div class="mapContainer">
+   <div id="mapDiv"></div>
 </div>

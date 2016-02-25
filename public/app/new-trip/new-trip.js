@@ -41,30 +41,45 @@ angular.module('app.new-trip', [])
 
 
   var createMarker = function (info) {
+    console.log($scope.destination);
+    $scope.destination = info.destination;
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
       destination: info.destination,
       animation: google.maps.Animation.DROP,
     });
-    marker.addListener('dblclick', function() {
-      console.log('double clicking...');
-      Trips.removeTrip(marker.destination);
-      marker.setMap(null);
-    });
+    // marker.addListener('dblclick', function() {
+    //   console.log('double clicking...');
+    //   var deleteCheck = confirm('are you sure you want to delete?');
+    //   if (deleteCheck){
+    //     Trips.removeTrip(marker.destination);
+    //     marker.setMap(null);
+    //   }
+    // });
     var infowindow = new google.maps.InfoWindow({
       content: '<a href="http://localhost:3000/#/my-trip/'+info._id+'">'+info.destination+'</a><br>' +
       createContent(info),
     });
     marker.addListener('click', function(){
       console.log('adding');
-
       infowindow.open(marker.get('map'), marker);
     })
-  }
+    console.log(info.destination);
+    console.log($scope.destination);
+    
+  };
+
+  $scope.createTrip = function(destination, startDate, coordinates) {
+    console.log('someone called me');
+    Trips.newTrip(destination, startDate, coordinates)
+      .then(function(response){
+        console.log('new trip response', response);
+      });
+  };
+
 
   var mapOptions = {
-
     // start in USA
     center: new google.maps.LatLng(37.09024, -95.712891),
     zoom: 5
@@ -73,6 +88,7 @@ angular.module('app.new-trip', [])
   // create map
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
+// listens for a click and renders a marker and returns corresponding address
   $scope.map.addListener('click', function(e) {
     var info = {
       _id: null,
@@ -89,15 +105,16 @@ angular.module('app.new-trip', [])
       info.coordinates = data.results[0].geometry.location;
       info.destination = $scope.destination;
 
+      $scope.info = info;
+      createMarker(info);
+      $scope.destinaiton = info.destination;
       // @Date.now as a placeholder since server requires dates
-      Trips.newTrip(info.destination, Date.now(), info.coordinates, function(id) {
-        info._id = id;
-        createMarker(info);
-
-      });
     });
-   })
+   });
+
+
   $scope.geocodeAddress = function () {
+    console.log('what upppp');
     $scope.geocoder.geocode({'address':$scope.destination},
       function(results, status) {
         var tempInfo;
@@ -128,6 +145,11 @@ angular.module('app.new-trip', [])
   }
 
   $scope.submitForm = function(){
+    console.log('im in here');
+    Trips.newTrip($scope.info.destination, Date.now(), $scope.info.coordinates, function(id) {
+    $scope.info._id = id;
+
+      });
     $scope.geocodeAddress();
   }
 
