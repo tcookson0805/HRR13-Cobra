@@ -15,7 +15,7 @@ angular.module('app.auth', [])
           $location.path('/trips');
         } else {
           //we'll want to handle this better
-          alert('username or password incorrect.')
+          alert('username or password incorrect.');
         }
       })
       .catch(function(error) {
