@@ -5,8 +5,14 @@ angular.module('app.new-trip', [])
   $scope.trip = {};
   $scope.map;
   $scope.geocoder = new google.maps.Geocoder();
+<<<<<<< d6d0343cddf093d5d7ad874f84133020bb783a31
   $scope.markers = [];
   $scope.destination;
+=======
+  $scope.markers = {};
+  $scope.address;
+
+>>>>>>> Merging new-map with new-trip
   // $scope.getTripData = function(destination, startDate){
   //   Trips.newTrip(destination, startDate)
   //     .then(function(response){
@@ -36,6 +42,7 @@ angular.module('app.new-trip', [])
   };
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
   $scope.map.addListener('click', function(e) {
+<<<<<<< d6d0343cddf093d5d7ad874f84133020bb783a31
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+e.latLng.lat()+","+e.latLng.lng()+"&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
       console.log(data);
       $scope.destination = data.results[1].formatted_address;
@@ -85,4 +92,35 @@ angular.module('app.new-trip', [])
     $scope.geocodeAddress();
     $scope.createTrip($scope.destination, Date.now());
   }
+=======
+        $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+e.latLng.lat()+","+e.latLng.lng()+"&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
+          console.log(data);
+          address = data.results[1].formatted_address;
+
+          var req = {
+            // FIXME: server side is not receiving trip information
+            token: window.localStorage.getItem('com.tp'),
+            destination: address,
+          }
+          console.log(address);
+          $.ajax('http://localhost:3000/api/trips/create', {
+            'data': JSON.stringify(req),
+            'type': 'POST',
+            'processData': false,
+            'contentType': 'application/json'
+          })
+          // place marker
+          var marker = new google.maps.Marker({
+            map: $scope.map,
+            // FIXME: address does not update after dropping marker
+            draggable: true,
+            position:data.results[0].geometry.location,
+            animation: google.maps.Animation.DROP
+          });
+            $('#userList').append($('<li>'+address+'</li>'))
+        });
+
+
+   })
+>>>>>>> Merging new-map with new-trip
 });
