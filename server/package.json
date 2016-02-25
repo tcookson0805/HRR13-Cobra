@@ -5,9 +5,13 @@
   "dependencies": {
     "chai": "~1.8.0",
     "mocha": "2.0.1",
+<<<<<<< b3662f8dab7ae3135f0c4753729d0e5a07cf5f87
     "node-schedule": "^1.0.0",
     "nodemailer": "^2.2.1",
     "nodemailer-sendgrid-transport": "^0.2.0"
+=======
+    "nodemailer": "^2.2.1"
+>>>>>>> Update json
   },
   "scripts": {
     "test": "mocha ./spec/server.js"
