@@ -2,7 +2,7 @@
 <div id="upcoming">
   <h3>Upcoming Trips</h3>
   <ul>
-    <li ng-repeat="trip in trips" ng-click="console.log(trip._id)">
+    <li class="collection-item" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
       <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
       <!-- List upcoming vacations -->
       <!-- {{ trips | > future || no date  :orderby }} -->
@@ -10,26 +10,23 @@
   </ul>
 </div>
 
-
 <!-- Create a New Trip -->
-<!-- <div id="create" class="card-panel hoverable">
-  <h3>Create a Trip</h3> -->
+<!-- <div id="create" class="card-panel hoverable"> -->
+<div>
+  <h3>Create a Trip</h3>
   <!-- Enticing Vacation Graphics -->
   <!-- Button -->
   <a href="/#/new-trip">Create A New Trip</a><br>
   <a href="/newmap">Create A Map</a>
 </div>
-  <!-- <a href="/#/new-trip">Create A New Trip</a>
-</div> -->
+
 <!-- Previous Trips -->
 <div id="previous">
   <h3>Previous Trips</h3>
   <ul class="collection ">
     <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
       <!--TODO: Filter older than today -->
-      {{ trip.destination }}
-      <!-- List previous vacations -->
-      <!-- {{ trip | the past}} -->
+      <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
     </li>
   </ul>
 </div>
