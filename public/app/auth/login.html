@@ -1,14 +1,21 @@
+<!-- Navbar -->
+<nav id="navbar" class="orange lighten-2">
+  <div class="nav-wrapper">
+    <div class="brand-logo">Trip Planner</div>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="#/signup">Signup</a></li>
+      <li><a href="#/login">Signin</a></li>
+    </ul>
+  </div>
+</nav>
+
 <div class="input-field" id='signin'>
   <h1 class="center-align">Signin</h1>
   <form class="center-align" name="signinForm" ng-submit='signin()'>
-    <input class="validate" placeholder="username" type='email' ng-model='user.username' required>
-    <input class="validate" placeholder="password" type="password" ng-model='user.password' required>
+    <input class="placeholderColor" class="validate" placeholder="username" type='email' ng-model='user.username' required>
+    <input class="placeholderColor" class="validate" placeholder="password" type="password" ng-model='user.password' required>
     <button class="waves-effect waves-light btn amber darken-3" ng-disabled='signinForm.$invalid'>signin</button>
   </form>
   <!-- if invalid is true, show a div that says, your login is invalid. -->
   <!-- <h3 ng-if="$scope.user.invalid">You aint signed up yet fool!</h3> -->
-
- <!--  <a href="#/signup">Don't have an account?
-    <strong>Signup</strong>
-    ...</a> -->
 </div>

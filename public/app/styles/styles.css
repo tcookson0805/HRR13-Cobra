@@ -1,17 +1,12 @@
-/*body{
-  background-image: url('background.jpg');
-}*/
-
 h1{
   color: white;
 }
 form {
-    width: 340px;
-    margin: 60px auto;
-    padding: 24px;
-    background: #fff;
-    box-shadow: 2px 2px 22px rgba(0,0,0,0.1);
-    background: transparent;
+  width: 340px;
+  margin: 60px auto;
+  padding: 24px;
+  box-shadow: 2px 2px 22px rgba(0,0,0,0.1);
+  background: transparent;
 }
 #signin, #signup form{
   color: white;
@@ -21,7 +16,7 @@ form {
   position: fixed; 
   top: 49; 
   left: 0; 
-  
+
   min-width: 100%;
   min-height: 100%;
 }
@@ -35,20 +30,27 @@ form {
   min-height: 100%;
 }
 #upcoming, #previous {
-    width:400px;
+  width:400px;
 }
 #previous {
   margin-left:500px;
 }
 #previous ul li:hover, #upcoming ul li:hover {
- background-color: #fff3e0;
-}
-a:hover {
-    color: #ff6d00;
+  background-color: #fff3e0;
 }
 a:link {
-    color: black;
+  color: black;
 }
-input::-webkit-input-placeholder {
-color:  white;
+#upcoming ul li a:visited {
+  color: #ff6d00;
 }
+a:hover {
+  color: #ff6d00;
+}
+.placeholderColor::-webkit-input-placeholder {
+  color: white;
+}
+
+
+
+

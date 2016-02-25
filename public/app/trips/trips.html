@@ -1,32 +1,47 @@
-<!-- Upcoming Trips -->
-<div id="upcoming">
-  <h3>Upcoming Trips</h3>
-  <ul>
-    <li class="collection-item" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
-      <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
-      <!-- List upcoming vacations -->
-      <!-- {{ trips | > future || no date  :orderby }} -->
-    </li>
-  </ul>
-</div>
+<!-- Navbar -->
+<nav class="orange lighten-2">
+  <div class="nav-wrapper">
+    <div class="brand-logo">Trip Planner</div>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="/#/new-trip">Create Trip</a></li>
+      <li><a href="#/trips"> My Trips</a></li>
+      <li><a href="#/logout">Signout</a></li>
+    </ul>
+  </div>
+</nav>
 
-<!-- Create a New Trip -->
-<!-- <div id="create" class="card-panel hoverable"> -->
-<div>
-  <h3>Create a Trip</h3>
-  <!-- Enticing Vacation Graphics -->
-  <!-- Button -->
-  <a href="/#/new-trip">Create A New Trip</a><br>
-  <a href="/newmap">Create A Map</a>
-</div>
+<div class="container">
+  <!-- Upcoming Trips -->
+  <div id="upcoming">
+    <h3>Upcoming Trips</h3>
+    <ul class="collection">
+      <li class="collection-item" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
+        <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
+        <!-- List upcoming vacations -->
+        <!-- {{ trips | > future || no date  :orderby }} -->
+      </li>
+    </ul>
+  </div>
 
-<!-- Previous Trips -->
-<div id="previous">
-  <h3>Previous Trips</h3>
-  <ul class="collection ">
-    <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
-      <!--TODO: Filter older than today -->
-      <a href="/#/my-trip/{{trip._id}}">{{ trip.destination }}</a>
-    </li>
-  </ul>
+  <!-- Create a New Trip -->
+  <!-- <div id="create" class="card-panel hoverable"> -->
+  <!-- <div>
+    <h3>Create a Trip</h3> -->
+    <!-- Enticing Vacation Graphics -->
+    <!-- Button -->
+    <!-- <a href="/newmap">Create A Map</a>
+  </div> -->
+
+  <!-- Previous Trips -->
+  <div id="previous">
+    <h3>Previous Trips</h3>
+    <ul class="collection">
+      <li class="collection-item" ng-repeat="trip in trips" ng-click="renderTrip(trip)">
+        <!--TODO: Filter older than today -->
+        {{ trip.destination }}
+        <!-- List previous vacations -->
+        <!-- {{ trip | the past}} -->
+      </li>
+    </ul>
+  </div>
 </div>
