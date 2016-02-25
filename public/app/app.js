@@ -19,22 +19,34 @@ angular.module('tp', [
         templateUrl: 'app/new-trip/new-trip.html',
         controller: 'new-tripController'
       })
-      .when('/my-trip/:tripID', {
-        authenticate: true,
-        templateUrl: 'app/my-trip/my-trip.html',
-        controller: 'my-tripController'
-      })
-      .when('/login', {
+      // .when('/my-trip/:tripID', {
+      //   authenticate: true,
+      //   templateUrl: 'app/my-trip/my-trip.html',
+      //   controller: 'my-tripController'
+      // })
+      .when('/signin', {
         templateUrl: 'app/auth/login.html',
         controller: 'AuthController'
+      })
+      .when('/login', {
+        redirectTo: '/signin'
       })
       .when('/signup', {
         templateUrl: 'app/auth/signup.html',
         controller: 'AuthController'
       })
+      .when('/signout', {
+        templateUrl: 'app/auth/signin.html',
+        controller: 'AuthController'
+      })
+      .when('/logout', {
+        redirectTo: '/signout'
+      })
       // For any unmatched url, redirect to /login
       .otherwise({
-        redirectTo: '/login'
+         authenticate: true,
+         templateUrl: 'app/my-trip/my-trip.html',
+         controller: 'my-tripController'
       })
       // We add our $httpInterceptor into the array
       // of interceptors. Think of it like middleware for your ajax calls
@@ -48,6 +60,7 @@ angular.module('tp', [
     var attach = {
       request: function(object) {
         var jwt = $window.localStorage.getItem('com.tp');
+        console.log('jwt', jwt);
         if (jwt) {
           object.headers['x-access-token'] = jwt;
         }
@@ -68,6 +81,10 @@ angular.module('tp', [
     $rootScope.$on('$routeChangeStart', function(evt, next, current) {
       if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
         $location.path('/login');
+      }else if (next.$$route.originalPath === '/logout'){
+        console.log('hello?');
+        $window.localStorage.removeItem('com.tp');
+        $location.path('/signin');
       }
     });
   });

@@ -1,6 +1,6 @@
 angular.module('app.new-trip', [])
 
-.controller('new-tripController', function($scope, $location, $window, Trips) {
+.controller('new-tripController', function($scope, $location, $window, $route, Trips) {
 
   $scope.trip = {};
 
@@ -18,10 +18,14 @@ angular.module('app.new-trip', [])
   	// console.log($window.localStorage.getItem('com.tp'));
     Trips.newTrip(destination, startDate)
       .then(function(response) {
-      	console.log('response from node',response);
-        console.log("DATE", startDate);
-        $location.path('/my-trip/' + response.data);
+      	var tripID = response.data;
+      	$location.path('/my-trip/' + tripID);
+        $route.reload();
       });
+      // 	console.log('response from node',response);
+      //   $location.path('/my-trip/' + response.data);
+      // });
+
       // .then(function() {
       //   var id = $scope.trip.data._id
       //   console.log(id);
