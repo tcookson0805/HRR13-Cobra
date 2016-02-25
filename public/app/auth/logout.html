@@ -12,12 +12,37 @@
     </ul>
   </div>
 </nav>
-
-<div class="input-field center-align" id='signin'>
-  <h4>You have been logged out. If this was a mistake, please log back in</h4>
-  <form name="signinForm" ng-submit='signin()'>
-    <input class="placeholderColor" placeholder="email" type='email' ng-model='user.username' required>
-    <input class="placeholderColor" placeholder="password" type="password" ng-model='user.password' required>
-    <button class="waves-effect waves-light btn amber darken-3" ng-disabled='signinForm.$invalid'>Sign In</button>
-  </form>
+<div id="signin">
+  <div class="row">
+    <div class="col s4 offset-s4">
+      <div class="card-panel center-align">
+        <p>You have been logged out.</p>
+        <p>If this was a mistake, please log back in</p>
+        <form name="signinForm" ng-submit="signin()">
+          <div class="error" ng-if="signinForm.email.$invalid && signinForm.email.$dirty">Please enter a valid email address as a username</div>
+          <input
+            class="placeholderColor"
+            placeholder="email"
+            name="email"
+            type="email"
+            ng-model="user.username"
+            required>
+          <div
+            class="error"
+            ng-if="signinForm.password.$invalid && signinForm.password.$dirty">Password must be at least 8 characters long</div>
+          <input
+            class="placeholderColor"
+            placeholder="password"
+            name="password"
+            type="password"
+            ng-model="user.password"
+            ng-minlength="8"
+            required>
+          <button
+            class="waves-effect waves-light btn amber darken-3"
+            ng-disabled="signinForm.$invalid">Sign In</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

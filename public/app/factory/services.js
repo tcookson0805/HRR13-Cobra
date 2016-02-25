@@ -50,8 +50,8 @@ angular.module('app.services', [])
         data: mydata
       })
       .then(function(data) {
-        console.log('Trip ID...',data.data);
-        return data.data;
+        console.log('Trip ID...', data.data);
+        cb(data.data);
         tripID = data.data;
 
       });
@@ -59,13 +59,15 @@ angular.module('app.services', [])
 
   var removeTrip = function(target) {
     return $http({
-      method: 'POST',
-      url: 'api/trips/remove',
-      data: {'destination': target}
-    })
-    .then(function(results) {
-      console.log(results);
-    })
+        method: 'POST',
+        url: 'api/trips/remove',
+        data: {
+          'destination': target
+        }
+      })
+      .then(function(results) {
+        console.log(results);
+      })
   };
 
   var addDetails = function(tripID, title, details) {
@@ -132,6 +134,7 @@ angular.module('app.services', [])
 
   var signout = function() {
     $window.localStorage.removeItem('com.tp');
+    $window.localStorage.removeItem('com.tp.user');
     $location.path('/logout');
   };
 
