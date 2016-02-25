@@ -20,8 +20,6 @@ angular.module('app.new-trip', [])
 
 
   var createMarker = function (info) {
-    // console.log(info);
-    // console.log(info);
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
@@ -50,7 +48,6 @@ angular.module('app.new-trip', [])
         $scope.trips = data;
 
         $scope.trips.forEach(function(trip) {
-          // console.log(trip);
           if(trip.coordinates) createMarker(trip);
       });
     });
@@ -61,6 +58,7 @@ angular.module('app.new-trip', [])
   $scope.createTrip = function(destination, startDate, coordinates) {
     Trips.newTrip(destination, startDate, coordinates);
   };
+
 
 
   var mapOptions = {
