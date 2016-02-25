@@ -17,7 +17,9 @@ angular.module('app.new-trip', [])
     return string;
   }
 
+
   var createMarker = function (info) {
+    // console.log(info);
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
@@ -35,6 +37,7 @@ angular.module('app.new-trip', [])
     });
     marker.addListener('click', function(){
       console.log('adding');
+
       infowindow.open(marker.get('map'), marker);
     })
   }
@@ -44,12 +47,18 @@ angular.module('app.new-trip', [])
       .then(function(data) {
         $scope.trips = data;
         $scope.trips.forEach(function(trip) {
+          // console.log(trip);
           if(trip.coordinates) createMarker(trip);
       });
     });
   };
   
   $scope.showTrips(Trips.user);
+
+  $scope.createTrip = function(destination, startDate, coordinates) {
+
+    Trips.newTrip(destination, startDate, coordinates);
+  };
 
   var mapOptions = {
 
@@ -76,6 +85,11 @@ angular.module('app.new-trip', [])
       coordinates.lng = data.results[0].geometry.location.lng;
       info.coordinates = data.results[0].geometry.location;
       info.destination = $scope.destination;
+      // var req = {
+      //   // FIXME: server side is not receiving trip information
+      //   token: window.localStorage.getItem('com.tp'),
+      //   destination: $scope.destination,
+      // }
 
       // @Date.now as a placeholder since server requires dates
       Trips.newTrip(info.destination, Date.now(), info.coordinates, function(id) {
@@ -83,6 +97,14 @@ angular.module('app.new-trip', [])
         createMarker(info);
 
       });
+      // place marker
+      // var marker = new google.maps.Marker({
+      //   map: $scope.map,
+      //   // FIXME: address does not update after dropping marker
+      //   // draggable: true,
+      //   position:data.results[0].geometry.location,
+      //   animation: google.maps.Animation.DROP
+      // });
     });
    })
   $scope.geocodeAddress = function () {
