@@ -47,6 +47,7 @@ angular.module('app.new-trip', [])
           if(trip.coordinates) createMarker(trip);
       });
     });
+
   };
   
   $scope.showTrips(Trips.user);
@@ -69,6 +70,7 @@ angular.module('app.new-trip', [])
       POI: [],
     };
 
+
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+e.latLng.lat()+","+e.latLng.lng()+"&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
       
       $scope.destination =  data.results[1].formatted_address;
@@ -81,6 +83,7 @@ angular.module('app.new-trip', [])
       Trips.newTrip(info.destination, Date.now(), info.coordinates, function(id) {
         info._id = id;
         createMarker(info);
+
 
       });
     });
@@ -107,6 +110,7 @@ angular.module('app.new-trip', [])
             tempInfo._id = data;
             createMarker(tempInfo);
           })
+
           $scope.map.setZoom(6);
           $scope.map.panTo(tempInfo.position)
         } else {
@@ -119,3 +123,4 @@ angular.module('app.new-trip', [])
     $scope.geocodeAddress();
   }
 });
+
