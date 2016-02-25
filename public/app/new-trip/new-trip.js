@@ -62,6 +62,7 @@ angular.module('app.new-trip', [])
     Trips.newTrip(destination, startDate, coordinates);
   };
 
+
   var mapOptions = {
 
     // start in USA
