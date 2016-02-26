@@ -21,7 +21,7 @@ module.exports = {
     // newUser.salt = newUser.generateSalt(req.body);
     
     //sends welcome email
-    Email.signupEmail(newUser.username)
+    // Email.signupEmail(newUser.username)
 
     newUser.save(function(err, user) {
       if (err) {
@@ -78,12 +78,6 @@ module.exports = {
     //   })
     //   return result
     // });
-    
-    
-    
-    
-    
-    
     
     Users.findOne({
       'username': userLogin.username

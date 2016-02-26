@@ -22,8 +22,8 @@ var Trip = require('./trips/tripModel.js');
 * http://stackoverflow.com/questions/6478113/unable-to-start-mongodb-local-server
 */
 
-var rule = new schedule.RecurrenceRule();
-// rule.dayOfWeek = [0,1,2,3,4,5,6];
+// var rule = new schedule.RecurrenceRule();
+// // rule.dayOfWeek = [0,1,2,3,4,5,6];
 // rule.hour = 17;
 // rule.minute = 1;
 
@@ -49,12 +49,12 @@ config(app, express);
 
 
 
-var j = schedule.scheduleJob(rule, function(){
-  var trips = notification.getTripsForReminder()
-  console.log(trips)
+// var j = schedule.scheduleJob(rule, function(){
+//   return notification.getTripsForReminder()
   
-  console.log('heeeyyyyy')
-})
+  
+//   console.log('heeeyyyyy')
+// })
 
 // FIXME: add dynamic port before deployment (process.env.NODE_ENV)
 app.listen(3000, function() {  

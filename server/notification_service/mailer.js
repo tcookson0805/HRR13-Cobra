@@ -7,8 +7,8 @@ module.exports = {
   signupEmail: function(username){
     var options = {
       auth: {
-        api_user: 'trip.planner',
-        api_key: 'cobracommander1'
+        api_user: 
+        api_key: 
       }
     };
 
@@ -35,8 +35,8 @@ module.exports = {
   signinEmail: function(username){
     var options = {
       auth: {
-        api_user: 'trip.planner',
-        api_key: 'cobracommander1'
+        api_user: 
+        api_key: 
       }
     };
 
@@ -62,8 +62,8 @@ module.exports = {
   reminderEmail: function(username){
     var options = {
       auth: {
-        api_user: 'trip.planner',
-        api_key: 'cobracommander1'
+        api_user:
+        api_key: 
       }
     };
 
@@ -77,6 +77,7 @@ module.exports = {
       html: '<b>Get your things booked.</b>'
     };
 
+    console.log('look here', email.to)
     mailer.sendMail(email, function(err, res){
       if (err ){
         console.log(error);
