@@ -46,6 +46,9 @@ angular.module('app.new-trip', [])
       console.log('adding');
       infowindow.open(marker.get('map'), marker);
     })
+
+    document.getElementById("destination").value = $scope.destination;
+    $('#destination').scope().$apply();
     console.log(info.destination);
     console.log($scope.destination);
 

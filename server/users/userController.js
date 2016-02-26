@@ -54,7 +54,6 @@ module.exports = {
         // compares current password with hashed password from found user
         if (userLogin.comparePasswords(userLogin.password, user.password)) {
           var token = authController.createToken(user);
-          jwt.verify(token)
           console.log(token);
           Trips.find({
               userId: user._id
@@ -74,18 +73,18 @@ module.exports = {
   },
 
   getOne: function(req, res){
-    var userId = req.body.id;
+    // var userId = req.body.id;
 
-    Users.findOne({'._id': userId}, function(err, user){
-      if (!user){
-        res.send('Not Found');
-      } else {
-        var info = {
-          'email': user.username
-        }
-        res.send(info);
-      }
-    })
+    // Users.findOne({'._id': userId}, function(err, user){
+    //   if (!user){
+    //     res.send('Not Found');
+    //   } else {
+    //     var info = {
+    //       'email': user.username
+    //     }
+    //     res.send(info);
+    //   }
+    // })
   },
 
   logout: function(req, res) {
