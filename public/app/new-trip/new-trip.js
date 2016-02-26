@@ -22,8 +22,6 @@ angular.module('app.new-trip', [])
     return string;
   }
 
-
-
   var createMarker = function (info) {
     console.log($scope.locationForm.destination);;
     $scope.destination = info.destination;
