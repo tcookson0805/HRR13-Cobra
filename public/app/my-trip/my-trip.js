@@ -16,8 +16,17 @@ angular.module('app.my-trip', [])
   $scope.getTrip();
 
   //sends user edits to the Trips factory
-  $scope.editTrip = function(poi_title, poi_detail) {
-    Trips.addDetails($scope.path, poi_title, poi_detail)
+  $scope.addPOI = function(poi_title, poi_detail) {
+    Trips.addPOI($scope.path, poi_title, poi_detail)
+      .then(function(data) {
+        //reloads the page so you see the new sight you added
+        //this should be changed to something more elegant
+        $route.reload();
+      });
+  };
+
+  $scope.triggerCheck = function(string, value) {
+    Trips.addTrigger($scope.path, string, value)
       .then(function(data) {
         //reloads the page so you see the new sight you added
         //this should be changed to something more elegant

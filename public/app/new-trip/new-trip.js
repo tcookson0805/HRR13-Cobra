@@ -22,7 +22,6 @@ angular.module('app.new-trip', [])
     return string;
   }
 
-
   var createMarker = function(info) {
     console.log($scope.destination);
     $scope.destination = info.destination;
@@ -32,14 +31,7 @@ angular.module('app.new-trip', [])
       destination: info.destination,
       animation: google.maps.Animation.DROP,
     });
-    // marker.addListener('dblclick', function() {
-    //   console.log('double clicking...');
-    //   var deleteCheck = confirm('are you sure you want to delete?');
-    //   if (deleteCheck){
-    //     Trips.removeTrip(marker.destination);
-    //     marker.setMap(null);
-    //   }
-    // });
+
     var infowindow = new google.maps.InfoWindow({
       content: '<a href="http://localhost:3000/#/my-trip/' + info._id + '">' + info.destination + '</a><br>' +
         createContent(info),
@@ -60,7 +52,6 @@ angular.module('app.new-trip', [])
         console.log('new trip response', response);
       });
   };
-
 
   var mapOptions = {
     // start in USA
@@ -94,7 +85,6 @@ angular.module('app.new-trip', [])
       // @Date.now as a placeholder since server requires dates
     });
   });
-
 
   $scope.geocodeAddress = function() {
     console.log('what upppp');

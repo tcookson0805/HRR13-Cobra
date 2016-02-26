@@ -16,12 +16,11 @@ module.exports = {
         console.log(err);
       } else {
         // TODO: save trip objectID to user document in session
-        console.log('Trip saved, ID: ' + savedTrip._id);
         res.status(201).send(savedTrip._id);
       }
     });
   },
-  remove: function(req, res, body) {
+  remove: function(req, res) {
 
     console.log(req.decoded.username, 'wants to remove', req.body.destination);
     Trip.remove({
@@ -29,8 +28,10 @@ module.exports = {
       destination: req.body.destination
     }, function(err) {
 
-      if(err) console.error(err);
-      console.log('successfully removed..')
+      if (err) {
+        console.error(err);
+      }
+      console.log('successfully removed..');
     });
 
   },
@@ -50,12 +51,29 @@ module.exports = {
       }
     });
   },
+  modify2: function(req, res) {
+    Trip.findOne({
+      _id: req.body._id
+    }, function(err, trip) {
+      if (err) {
+        res.send('failed');
+      } else {
+        if (req.body.flying) trip.flying = req.body.flying;
+        if (req.body.leavingCountry) trip.leavingCountry = req.body.leavingCountry;
+        if (req.body.travelingAlone) trip.travelingAlone = req.body.travelingAlone;
+        if (req.body.accomodations) trip.accomodations = req.body.accomodations;
+        res.status(201).send('Trip modified');
+        trip.save(function(err, data) {
+          console.log('data',data)
+        });
+      }
+    });
+  },
   getTripView: function(req, res, body) {
     Trip.findOne({
         _id: req.params.tripId
       })
       .then(function(trip) {
-        console.log('trip being returned', trip)
         res.send(trip);
       })
       .catch(function(err) {
