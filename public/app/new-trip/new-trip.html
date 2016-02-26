@@ -14,12 +14,12 @@
   <div>
     <h2>The world is yours to explore...</h2>
     <!-- Desination -->
-    <md-input-container>
+    <form name='locationForm'> 
+     <div class='input-field'></div>
+      <input type='text' class="validate" name="destination" ng-model="inputs.destination">
       <label>Where are you going?</label>
-      <input class="validate" ng-model="destination">
-      {{destination}}
-    </md-input-container>
-    <div>
+      {{inputs.destination}}
+    </form>
     <!-- Departure date -->
       <h4>When does your trip start?</h4>
       <label>(Optional)</label>
