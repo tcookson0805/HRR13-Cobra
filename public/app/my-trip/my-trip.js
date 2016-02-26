@@ -33,6 +33,7 @@ angular.module('app.my-trip', [])
         $route.reload();
       });
   };
+  
 
   $scope.signout = function() {
     Auth.signout();

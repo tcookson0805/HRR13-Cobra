@@ -1,6 +1,6 @@
 angular.module('app.trips', [])
 
-.controller('tripsController', function($scope, Trips, $routeParams, Auth) {
+.controller('tripsController', function($scope, Trips, $routeParams, $route, Auth) {
   $scope.trips = {};
 
   $scope.map;
@@ -85,6 +85,17 @@ var createMarker = function (info) {
   // create map 
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
+  //remove a trip 
+  $scope.removeTrip = function(trip){
+    Trips.removeTrip(trip)
+      .then(function(data) {
+        $route.reload();
+      });
+  }
+  //TEST FUNCTION
+  $scope.test = function() {
+    alert('are you sure you want to remove it');
+  } 
 
   $scope.signout = function() {
     Auth.signout();
