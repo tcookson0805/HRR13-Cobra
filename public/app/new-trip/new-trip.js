@@ -22,12 +22,10 @@ angular.module('app.new-trip', [])
     return string;
   }
 
-
-
-  var createMarker = function (info) {
-    console.log($scope.locationForm.destination);;
+  var createMarker = function(info) {
     $scope.destination = info.destination;
     $scope.locationForm.destination.$$lastCommittedViewValue = info.destination;
+
     $scope.locationForm.destination.$render();
 
     $scope.locationForm.$commitViewValue();
@@ -39,20 +37,18 @@ angular.module('app.new-trip', [])
     });
 
     var infowindow = new google.maps.InfoWindow({
-      content: '<a href="http://localhost:3000/#/my-trip/' + info._id + '">' + info.destination + '</a><br>' +
-        createContent(info),
+      content: info.destination
     });
     marker.addListener('click', function() {
       console.log('adding');
       infowindow.open(marker.get('map'), marker);
     })
-    console.log(info.destination);
-    console.log($scope.destination);
-
+    //uses jQuerey to set the value of the destination in the box
+    document.getElementById("destination").value = $scope.destination;
+    $('#destination').scope().$apply();
   };
 
   $scope.createTrip = function(destination, startDate, coordinates) {
-    console.log('someone called me');
     Trips.newTrip(destination, startDate, coordinates)
       .then(function(response) {
         console.log('new trip response', response);
@@ -93,7 +89,6 @@ angular.module('app.new-trip', [])
   });
 
   $scope.geocodeAddress = function() {
-    console.log('what upppp');
     $scope.geocoder.geocode({
         'address': $scope.destination
       },

@@ -3,31 +3,51 @@
   <div class="nav-wrapper">
     <div class="brand-logo"><img src="app/styles/79500-200.png" height=48px width=48px>Trip Planner</div>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <li><a href="/#/new-trip">Create Trip</a></li>
-      <li><a href="#/trips"> My Trips</a></li>
-      <li ng-click="signout()"><a>Signout</a></li>
+      <li>
+        <a href="/#/new-trip">Create Trip</a>
+      </li>
+      <li>
+        <a href="#/trips">
+          My Trips</a>
+      </li>
+      <li ng-click="signout()">
+        <a>Signout</a>
+      </li>
     </ul>
   </div>
 </nav>
-
 <div class="container">
-  <div>
+  <div class="row">
     <h2>The world is yours to explore...</h2>
-    <!-- Desination -->
-    <form name='locationForm'> 
-     <div class='input-field'></div>
-      <input type='text' class="validate" name="destination" ng-model="inputs.destination">
-      <label>Where are you going?</label>
-      {{inputs.destination}}
-    </form>
-    <!-- Departure date -->
-      <h4>When does your trip start?</h4>
-      <label>(Optional)</label>
-      <input type="date" ng-model="startDate" class="datepicker">
-    <div>
-      <button class="waves-effect waves-light btn amber darken-3" class="md-raised" type="submit" name="action" ng-disabled="!destination" ng-click="createTrip(destination, startDate)">Submit
-      </button>
+    <form class="col s12" name='locationForm'>
+      <div class="col s6">
+        <!-- Desination -->
+        <h4>When does your trip start?</h4>
+        <label>Where are you going?</label><input
+          type='text'
+          class="validate"
+          id="destination"
+          name="destination"
+          ng-model="destination">
+      </div>
+      <div class="col s6">
+        <!-- Departure date -->
+        <h4>When does your trip start?</h4>
+        <label>(Optional)</label>
+        <input type="date" ng-model="startDate" class="datepicker">
+      </div>
+      <div class="col s12">
+        <button
+          class="waves-effect waves-light btn amber darken-3"
+          class="md-raised"
+          type="submit"
+          name="action"
+          ng-disabled="!destination"
+          ng-click="createTrip(destination, startDate)">Submit
+        </button>
+        <p> </p>
+      </div>
     </div>
-  </div>
-   <div id="mapDiv"></div>
+  </form>
+  <div id="mapDiv"></div>
 </div>
