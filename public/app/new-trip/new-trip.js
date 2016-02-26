@@ -25,10 +25,10 @@ angular.module('app.new-trip', [])
 
 
   var createMarker = function (info) {
-    console.log($scope.locationForm);
-    console.log($scope.destination);
-    console.log($scope.inputs.destination);
-   //$scope.destination = info.destination;
+    console.log($scope.locationForm.destination);;
+    $scope.destination = info.destination;
+    $scope.locationForm.destination.$$lastCommittedViewValue = info.destination;
+    $scope.locationForm.destination.$render();
 
     $scope.locationForm.$commitViewValue();
     var marker = new google.maps.Marker({
