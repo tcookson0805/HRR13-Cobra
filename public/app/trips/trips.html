@@ -24,7 +24,7 @@
         <h4>Upcoming Trips</h4>
         <ul class="collection">
           <li class="collection-item" ng-if="upcomingTrips(trip.startDate)" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
-            <a href="/#/my-trip/{{trip._id}}" ng-if="upcomingTrips(trip.startDate)"> {{ trip.destination }} {{trip.startDate}}</a>
+            <a href="/#/my-trip/{{trip._id}}" ng-if="upcomingTrips(trip.startDate)"> {{ trip.destination }} </a>
             <a href="#!" ng-click="removeTrip(trip)" ng-if="upcomingTrips(trip.startDate)" class="secondary-content"><i class="material-icons tiny">delete</i></a>      
           </li>
         </ul>
@@ -34,7 +34,7 @@
         <h4>Previous Trips</h4>
         <ul class="collection">
           <li  class="collection-item" ng-if="previousTrips(trip.startDate)" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
-            <a href="/#/my-trip/{{trip._id}}" ng-if="previousTrips(trip.startDate)"> {{ trip.destination }} {{trip.startDate}}</a> 
+            <a href="/#/my-trip/{{trip._id}}" ng-if="previousTrips(trip.startDate)"> {{ trip.destination }} </a> 
             <a href="#!" ng-click="removeTrip(trip.destination)" ng-if="previousTrips(trip.startDate)"  class="secondary-content"><i class="material-icons tiny">delete</i></a>     
           </li>
         </ul>
