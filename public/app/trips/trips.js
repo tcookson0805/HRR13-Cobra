@@ -105,7 +105,7 @@ var createMarker = function (info) {
     var tyear = today.getFullYear();
     var todaysDate = Date.parse(tmonth + "/" + tday + "/" + tyear);
     
-    if(todaysDate >= tripsDate){
+    if(todaysDate > tripsDate){
       return tripsDate;
     }
   };

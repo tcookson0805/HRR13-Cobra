@@ -94,7 +94,7 @@ angular.module('app.new-trip', [])
             POI: [],
           }
           $scope.destination = results[0].formatted_address;
-          Trips.newTrip(tempInfo.destination, Date.now(), tempInfo.coordinates, function(data) {
+          Trips.newTrip(tempInfo.destination, $scope.startDate, tempInfo.coordinates, function(data) {
             tempInfo._id = data;
             createMarker(tempInfo);
           })
@@ -107,14 +107,14 @@ angular.module('app.new-trip', [])
   };
 
   $scope.createTrip = function() {
-    Trips.newTrip($scope.info.destination, Date.now(), $scope.info.coordinates)
+    Trips.newTrip($scope.info.destination, $scope.startDate, $scope.info.coordinates)
       .then(function(response) {
         $location.path('/my-trip/' + response);
       });
   };
 
   $scope.submitForm = function() {
-    Trips.newTrip($scope.info.destination, Date.now(), $scope.info.coordinates, function(id) {
+    Trips.newTrip($scope.info.destination, $scope.startDate, $scope.info.coordinates, function(id) {
       console.log(id);
       $scope.info._id = id;
     });
