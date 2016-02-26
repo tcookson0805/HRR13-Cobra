@@ -50,7 +50,6 @@ angular.module('app.services', [])
         data: mydata
       })
       .then(function(data) {
-        console.log('Trip ID...', data.data);
         cb(data.data);
         tripID = data.data;
 
@@ -66,11 +65,11 @@ angular.module('app.services', [])
         }
       })
       .then(function(results) {
-        console.log(results);
-      })
+        return results;
+      });
   };
 
-  var addDetails = function(tripID, title, details) {
+  var addPOI = function(tripID, title, details) {
     var tripData = {
       _id: tripID,
       title: title,
@@ -80,18 +79,50 @@ angular.module('app.services', [])
       method: 'PUT',
       url: '/api/trips/modify',
       data: tripData
-    })
-
+    });
   };
-
+  //someone please refactor me!!!!
+  var addTrigger = function(tripID, string, value) {
+    var tripData = {};
+    if (string === 'flying') {
+      tripData = {
+        _id: tripID,
+        flying: value
+      }
+    }
+    if (string === 'leavingCountry') {
+      tripData = {
+        _id: tripID,
+        leavingCountry: value
+      }
+    }
+    if (string === 'travelingAlone') {
+      tripData = {
+        _id: tripID,
+        travelingAlone: value
+      }
+    }
+    if (string === 'accomodations') {
+      tripData = {
+        _id: tripID,
+        accomodations: value
+      }
+    }
+    return $http({
+      method: 'PUT',
+      url: '/api/trips/modify2',
+      data: tripData
+    });
+  };
   return {
     allTrips: allTrips,
     accessTrip: accessTrip,
     newTrip: newTrip,
     trips: trips,
     tripID: tripID,
-    addDetails: addDetails,
-    removeTrip: removeTrip
+    addPOI: addPOI,
+    removeTrip: removeTrip,
+    addTrigger: addTrigger
   };
 
 })
@@ -110,7 +141,6 @@ angular.module('app.services', [])
         data: user
       })
       .then(function(resp) {
-        console.log('resp from signin', resp);
         return resp.data;
       });
   };
@@ -122,7 +152,6 @@ angular.module('app.services', [])
         data: user
       })
       .then(function(resp) {
-        console.log('resp from signup', resp);
         return resp.data;
       });
   };

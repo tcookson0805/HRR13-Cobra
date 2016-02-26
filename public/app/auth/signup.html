@@ -1,45 +1,45 @@
 <!-- Navbar -->
-<nav class="orange lighten-2">
+<nav id="navbar" class="orange lighten-2">
   <div class="nav-wrapper">
     <div class="brand-logo"><img src="app/styles/79500-200.png" height=48px width=48px>Trip Planner</div>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li>
-        <a href="#/signup">Signup</a>
+        <a href="#/signup">Sign Up</a>
       </li>
       <li>
-        <a href="#/login">Signin</a>
+        <a href="#/login">Sign In</a>
       </li>
     </ul>
   </div>
 </nav>
-<div id='signup'>
+<div id="signup">
   <div class="row">
     <div class="col s4 offset-s4">
       <div class="card-panel center-align">
         <h4>Sign Up</h4>
-        <form name="signupForm" ng-submit='signup()'>
+        <form name="signupForm" ng-submit="signup()">
           <div class="error" ng-if="signupForm.email.$invalid && signupForm.email.$dirty">Please enter a valid email address as a username</div>
           <input
-            class='placeholderColor'
+            class="placeholderColor"
             placeholder="Username"
-            name='email'
-            type='email'
-            ng-model='user.username'
+            name="email"
+            type="email"
+            ng-model="user.username"
             required>
           <div
             class="error"
             ng-if="signupForm.password.$invalid && signupForm.password.$dirty">Password must be at least 8 characters long</div>
           <input
-            class='placeholderColor'
+            class="placeholderColor"
             placeholder="password"
-            name='password'
+            name="password"
             type="password"
-            ng-model='user.password'
-            ng-minlength='8'
+            ng-model="user.password"
+            ng-minlength="8"
             required>
           <button
             class="waves-effect waves-light btn amber darken-3"
-            ng-disabled='signupForm.$invalid'>Sign Up</button>
+            ng-disabled="signupForm.$invalid">Sign Up</button>
         </form>
       </div>
     </div>

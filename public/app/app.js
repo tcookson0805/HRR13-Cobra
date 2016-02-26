@@ -59,7 +59,6 @@ angular.module('tp', [
     var attach = {
       request: function(object) {
         var jwt = $window.localStorage.getItem('com.tp');
-        console.log('jwt', jwt);
         if (jwt) {
           object.headers['x-access-token'] = jwt;
         }

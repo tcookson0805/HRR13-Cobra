@@ -5,7 +5,11 @@ var TripSchema = new mongoose.Schema({
   userId: String,
   startDate: Date,
   POI: Array,
-  coordinates: Object
+  coordinates: Object,
+  flying: Boolean,
+  leavingCountry: Boolean,
+  travelingAlone: Boolean,
+  accomodations: Boolean
 });
 
 module.exports = mongoose.model('trips', TripSchema);
