@@ -94,7 +94,6 @@ angular.module('app.new-trip', [])
     });
   });
 
-
   $scope.geocodeAddress = function() {
     console.log('what upppp');
     $scope.geocoder.geocode({
