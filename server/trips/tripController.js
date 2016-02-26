@@ -2,6 +2,7 @@ var Trip = require('./tripModel.js');
 
 module.exports = {
   create: function(req, res) {
+    console.log(req.body)
     var newTrip = new Trip({
       destination: req.body.destination,
       startDate: req.body.startDate,
@@ -9,7 +10,6 @@ module.exports = {
       POI: [],
       coordinates: req.body.coordinates,
     });
-    console.log('newTrip', newTrip);
     newTrip.save(function(err, savedTrip) {
       if (err) {
         res.status(404).send(err);
@@ -24,8 +24,8 @@ module.exports = {
 
     console.log(req.decoded.username, 'wants to remove', req.body.destination);
     Trip.remove({
-      userId: req.decoded.username,
-      destination: req.body.destination
+      // userId: req.decoded.username,
+      _id: req.body.destination._id
     }, function(err) {
 
       if (err) {

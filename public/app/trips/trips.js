@@ -32,7 +32,6 @@ angular.module('app.trips', [])
   };
 
 var createMarker = function (info) {
-    console.log($scope.destination);
     $scope.destination = info.destination;
     var marker = new google.maps.Marker({
       map: $scope.map,
@@ -41,33 +40,28 @@ var createMarker = function (info) {
       animation: google.maps.Animation.DROP,
     });
     marker.addListener('dblclick', function() {
-      console.log('double clicking...');
       var deleteCheck = confirm('are you sure you want to delete?');
       if (deleteCheck){
-        Trips.removeTrip(marker.destination);
+        Trips.removeTrip(info);
         marker.setMap(null);
+        $scope.showTrips();
       }
+
     });
     var infowindow = new google.maps.InfoWindow({
        content: '<a href="http://localhost:3000/#/my-trip/'+info._id+'">'+info.destination+'</a><br>' + 
        createContent(info),
      });
     marker.addListener('click', function(){
-      console.log('adding');
-
       infowindow.open(marker.get('map'), marker);
-    })
-    console.log(info.destination);
-    console.log($scope.destination);
-    
-  }
+    });
+  };
 
   $scope.showTripsOnMap = function(user) {
     Trips.allTrips(user)
       .then(function(data) {
         $scope.trips = data;
-
-        $scope.trips.forEach(function(trip) {
+        data.forEach(function(trip) {
           if(trip.coordinates) createMarker(trip);
       });
     });

@@ -9,6 +9,7 @@ angular.module('app.my-trip', [])
   $scope.getTrip = function() {
     Trips.accessTrip($scope.path)
       .then(function(data) {
+        if (data === "") $location.path('/trips');;
         $scope.thisTrip = data;
       });
 
