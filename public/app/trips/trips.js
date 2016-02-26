@@ -1,6 +1,6 @@
 angular.module('app.trips', [])
 
-.controller('tripsController', function($scope, Trips, $routeParams, Auth) {
+.controller('tripsController', function($scope, Trips, $routeParams, $route, Auth) {
   $scope.trips = {};
 
   $scope.map;
@@ -79,7 +79,60 @@ var createMarker = function (info) {
   // create map 
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
+  //remove a trip 
+  $scope.removeTrip = function(trip){
+    //confirmation alert
+    if (confirm("Are you sure you want to remove this trip")) {
+      //code for deletion
+      Trips.removeTrip(trip)
+        .then(function(data) {
+        });
+      $route.reload();
+    }
+  };
 
+  //filter by previous trips
+  $scope.previousTrips = function(tripDate){
+    var tripsDate = new Date(tripDate);
+    var day = tripsDate.getDate();
+    var month = tripsDate.getMonth();
+    var year = tripsDate.getFullYear();
+    var tripsDate = Date.parse(month + "/" + day + "/" + year);
+
+    var today = new Date();
+    var tday = today.getDate();
+    var tmonth = today.getMonth();
+    var tyear = today.getFullYear();
+    var todaysDate = Date.parse(tmonth + "/" + tday + "/" + tyear);
+    
+    if(todaysDate >= tripsDate){
+      return tripsDate;
+    }
+  };
+
+  //filter by upcoming trips
+  $scope.upcomingTrips = function(tripDate){
+    if(tripDate === undefined){
+      tripDate = new Date();
+    }
+    var tripsDate = new Date(tripDate);
+    var day = tripsDate.getDate();
+    var month = tripsDate.getMonth();
+    var year = tripsDate.getFullYear();
+    var tripsDate = Date.parse(month + "/" + day + "/" + year);
+
+    var today = new Date();
+    var tday = today.getDate();
+    var tmonth = today.getMonth();
+    var tyear = today.getFullYear();
+    var todaysDate = Date.parse(tmonth + "/" + tday + "/" + tyear);
+    
+    if(todaysDate <= tripsDate){
+      return tripsDate;
+    }
+  };
+
+  
   $scope.signout = function() {
     Auth.signout();
   };

@@ -42,9 +42,6 @@ form {
   float:left;
   width:400px;
 }
-#previous {
-  margin-left:500px;
-}
 #previous ul li:hover, #upcoming ul li:hover {
   background-color: #fff3e0;
 }
@@ -60,19 +57,17 @@ a:hover {
 .placeholderColor::-webkit-input-placeholder {
   color: grey darken-3;
 }
-
 .mapContainer{
   width: 80%;
   horizonta center;
 }
-
 .clearBoth{
   clear: both;
 }
-
 #mapDiv {
   vertical-align: top;
   float: right;
   height:600px;
   width: 100%;
 }
+
