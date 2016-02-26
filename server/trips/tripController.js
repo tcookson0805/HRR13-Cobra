@@ -64,12 +64,12 @@ module.exports = {
         if (req.body.accomodations) trip.accomodations = req.body.accomodations;
         res.status(201).send('Trip modified');
         trip.save(function(err, data) {
-          console.log('data',data)
+          console.log('data',data);
         });
       }
     });
   },
-  getTripView: function(req, res, body) {
+  getTripView: function(req, res) {
     Trip.findOne({
         _id: req.params.tripId
       })
