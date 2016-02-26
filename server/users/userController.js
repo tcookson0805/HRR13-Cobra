@@ -3,7 +3,9 @@ var Q = require('q');
 var Trips = require('../trips/tripModel.js');
 var util = require('../config/utils.js');
 var authController = require('./../config/authController.js');
-var Email = require('../notification_service/mailer.js')
+var Email = require('../notification_service/mailer.js');
+var Trips = require('../trips/tripModel.js');
+var moment = require('moment');
 
 module.exports = {
   signup: function(req, res) {
@@ -42,7 +44,46 @@ module.exports = {
     });
     // TODO: will refactor into a promise
     
-    Email.signinEmail(userLogin.username);
+    // Email.signinEmail(userLogin.username);
+    
+    
+    // Trips.find(function(err, trips){
+    //   if(err){
+    //     return console.log(err)
+    //   }
+      
+    //   // var today = new Date();
+    //   // var todayDate = today.getDate()
+    //   // var todayMonth = today.getMonth() + 1
+    //   // var todayYear = today.getFullYear()
+      
+      
+    //   // var todayProper = todayMonth + '/' + todayDate + '/' + todayYear
+    //   // console.log('todayProper', todayProper)
+      
+    //   var result = []
+      
+    //   trips.forEach(function(trip){
+    //     if(trip.startDate){
+    //       console.log('trip.startDate', trip.startDate)
+         
+    //       var reminderDate = moment(trip.startDate).subtract(14, 'days').calendar();
+    //       console.log('reminderDate', reminderDate)
+          
+    //       if(reminderDate === 'Today at 12:00 AM'){
+    //         console.log('YESSSSSS')
+    //         result.push(trip)
+    //       }
+    //     }     
+    //   })
+    //   return result
+    // });
+    
+    
+    
+    
+    
+    
     
     Users.findOne({
       'username': userLogin.username
