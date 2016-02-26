@@ -22,6 +22,8 @@ angular.module('app.new-trip', [])
     return string;
   }
 
+
+
   var createMarker = function (info) {
     console.log($scope.locationForm);
     console.log($scope.destination);
@@ -76,11 +78,7 @@ angular.module('app.new-trip', [])
     };
 
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
-
-
       //$scope.destination =  data.results[1].formatted_address;
-      $scope.destination = data.results[1].formatted_address;
-
       coordinates.lat = data.results[0].geometry.location.lat;
       coordinates.lng = data.results[0].geometry.location.lng;
       info.coordinates = data.results[0].geometry.location;
