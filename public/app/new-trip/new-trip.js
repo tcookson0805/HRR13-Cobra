@@ -22,9 +22,14 @@ angular.module('app.new-trip', [])
     return string;
   }
 
-  var createMarker = function(info) {
+
+  var createMarker = function (info) {
+    console.log($scope.locationForm);
     console.log($scope.destination);
-    $scope.destination = info.destination;
+    console.log($scope.inputs.destination);
+   //$scope.destination = info.destination;
+
+    $scope.locationForm.$commitViewValue();
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
@@ -73,15 +78,20 @@ angular.module('app.new-trip', [])
 
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
 
+<<<<<<< 628aa3c1651f7d6efc69d5f76cd4f06ac82528ad
       $scope.destination = data.results[1].formatted_address;
+=======
+      //$scope.destination =  data.results[1].formatted_address;
+>>>>>>> live updating with materialize on create trip - broken. added ng-materialize.
       coordinates.lat = data.results[0].geometry.location.lat;
       coordinates.lng = data.results[0].geometry.location.lng;
       info.coordinates = data.results[0].geometry.location;
-      info.destination = $scope.destination;
+      info.destination = data.results[1].formatted_address;
+
 
       $scope.info = info;
       createMarker(info);
-      $scope.destinaiton = info.destination;
+      //$scope.destinaiton = info.destination;
       // @Date.now as a placeholder since server requires dates
     });
   });
