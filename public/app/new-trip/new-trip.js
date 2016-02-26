@@ -9,26 +9,13 @@ angular.module('app.new-trip', [])
   $scope.map;
   $scope.geocoder = new google.maps.Geocoder();
   $scope.destination;
+  $scope.marker = null;
   var coordinates = {};
 
-  var createContent = function(info) {
-    var string = '';
-    if (info.POI.length > 0) {
-      info.POI.forEach(function(point) {
-
-        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details ? point.details : '') + '<br>';
-      });
-    }
-    return string;
-  }
-
   var createMarker = function(info) {
+    if ($scope.marker) { $scope.marker.setMap(null); }
     $scope.destination = info.destination;
-    $scope.locationForm.destination.$$lastCommittedViewValue = info.destination;
 
-    $scope.locationForm.destination.$render();
-
-    $scope.locationForm.$commitViewValue();
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
@@ -36,23 +23,23 @@ angular.module('app.new-trip', [])
       animation: google.maps.Animation.DROP,
     });
 
+    $scope.marker = marker;
+
+
     var infowindow = new google.maps.InfoWindow({
       content: info.destination
     });
     marker.addListener('click', function() {
-      console.log('adding');
       infowindow.open(marker.get('map'), marker);
     })
     //uses jQuerey to set the value of the destination in the box
     document.getElementById("destination").value = $scope.destination;
     $('#destination').scope().$apply();
-  };
 
-  $scope.createTrip = function(destination, startDate, coordinates) {
-    Trips.newTrip(destination, startDate, coordinates)
-      .then(function(response) {
-        console.log('new trip response', response);
-      });
+    marker.addListener('dragend', function(){
+      document.getElementById("destination").value = $scope.destination;
+      $('#destination').scope().$apply();
+    })
   };
 
   var mapOptions = {
@@ -74,16 +61,16 @@ angular.module('app.new-trip', [])
     };
 
     $.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + e.latLng.lat() + "," + e.latLng.lng() + "&key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI", function(data) {
-      //$scope.destination =  data.results[1].formatted_address;
-      coordinates.lat = data.results[0].geometry.location.lat;
-      coordinates.lng = data.results[0].geometry.location.lng;
-      info.coordinates = data.results[0].geometry.location;
-      info.destination = data.results[1].formatted_address;
+      if (data.status === 'ZERO_RESULTS'){
+        alert('please click on land!');
+      }else{
+        info.coordinates = data.results[0].geometry.location;
+        info.destination = data.results[1].formatted_address;
+        createMarker(info);
+        $scope.info = info;
+        $scope.destinaiton = info.destination;
+      }
 
-
-      $scope.info = info;
-      createMarker(info);
-      //$scope.destinaiton = info.destination;
       // @Date.now as a placeholder since server requires dates
     });
   });
@@ -98,7 +85,6 @@ angular.module('app.new-trip', [])
         // TODO: remove redundant code with add event listener
         if (status === google.maps.GeocoderStatus.OK) {
           $scope.map.setCenter(results[0].geometry.location);
-          console.log(results[0]);
           tempInfo = {
             destination: results[0].formatted_address,
             coordinates: {
@@ -118,15 +104,22 @@ angular.module('app.new-trip', [])
           console.log('error')
         }
       });
-  }
+  };
+
+  $scope.createTrip = function() {
+    Trips.newTrip($scope.info.destination, Date.now(), $scope.info.coordinates)
+      .then(function(response) {
+        $location.path('/my-trip/' + response);
+      });
+  };
 
   $scope.submitForm = function() {
-    console.log('im in here');
     Trips.newTrip($scope.info.destination, Date.now(), $scope.info.coordinates, function(id) {
+      console.log(id);
       $scope.info._id = id;
-
     });
-    $scope.geocodeAddress();
-  }
+    //$scope.geocodeAddress();
+    $location.path('/trips/' + $scope.info._id);
+  };
 
 });

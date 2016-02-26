@@ -38,19 +38,19 @@ angular.module('app.services', [])
       });
   };
 
-  var newTrip = function(destination, startDate, coordinates, cb) {
-    var mydata = {
-      destination: destination,
-      startDate: startDate,
-      coordinates: coordinates
-    };
+  var newTrip = function(destination, startDate, coordinates) {
     return $http({
         method: 'POST',
         url: '/api/trips/create',
-        data: mydata
+        data: {
+          destination: destination,
+          startDate: startDate,
+          coordinates: coordinates
+        }
       })
       .then(function(data) {
-        cb(data.data);
+        console.log(data.data);
+        return data.data;
         tripID = data.data;
 
       });
