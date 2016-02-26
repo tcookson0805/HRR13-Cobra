@@ -7,8 +7,8 @@ module.exports = {
   signupEmail: function(username){
     var options = {
       auth: {
-        api_user: 'trip.planner',
-        api_key: 'cobracommander1'
+        api_user: 
+        api_key: 
       }
     };
 
@@ -35,8 +35,8 @@ module.exports = {
   signinEmail: function(username){
     var options = {
       auth: {
-        api_user: 'trip.planner',
-        api_key: 'cobracommander1'
+        api_user: 
+        api_key: 
       }
     };
 
@@ -57,10 +57,35 @@ module.exports = {
         console.log('Message sent: ' , res);
       }
     });
+  },
+  
+  reminderEmail: function(username){
+    var options = {
+      auth: {
+        api_user:
+        api_key: 
+      }
+    };
+
+    var mailer = nodemailer.createTransport(sgTransport(options));
+
+    var email = {
+      from: '"Marco Polo" <trip.planner.co@gmail.com>',
+      to: username,
+      subject: 'Reminder: Booking',
+      text: 'Get your things booked.',
+      html: '<b>Get your things booked.</b>'
+    };
+
+    console.log('look here', email.to)
+    mailer.sendMail(email, function(err, res){
+      if (err ){
+        console.log(error);
+      } else {
+        console.log('Message sent: ' , res);
+      }
+    });
   }
-    // reminderEmail: function(username){
-      
-    // }
   
   // pwdReminder: function(username, password){
   //   var sendPwdReminder = transporter.templateSender(new EmailTemplate('../templates/password_reminder'), {
