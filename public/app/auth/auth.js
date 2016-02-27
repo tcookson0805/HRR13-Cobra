@@ -2,6 +2,7 @@ angular.module('app.auth', [])
 
 .controller('AuthController', function($scope, $window, $location, Auth) {
   $scope.user = {};
+  $scope.profile = $window.localStorage.getItem('com.tp.user')
 
   $scope.signin = function() {
     Auth.signin($scope.user)
@@ -25,7 +26,7 @@ angular.module('app.auth', [])
       .then(function(data) {
         $window.localStorage.setItem('com.tp', data.token);
         $window.localStorage.setItem('com.tp.user', data.id);
-        $location.path('/profile');
+        $location.path('/new-trip');
       })
       .catch(function(error) {
         console.error('catch error', error);
@@ -42,4 +43,8 @@ angular.module('app.auth', [])
   $scope.signout = function() {
     Auth.signout();
   };
+
+  $scope.removeUser = function() {
+    Auth.removeUser()
+  }
 });

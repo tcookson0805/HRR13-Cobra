@@ -107,28 +107,17 @@ module.exports = {
     })
   },
 
-  getOne: function(req, res){
-    // var userId = req.body.id;
-
-    // Users.findOne({'._id': userId}, function(err, user){
-    //   if (!user){
-    //     res.send('Not Found');
-    //   } else {
-    //     var info = {
-    //       'email': user.username
-    //     }
-    //     res.send(info);
-    //   }
-    // })
-  },
-
-  logout: function(req, res) {
-
-    // @ref: http://stackoverflow.com/questions/11273988/clearing-sessions-in-mongodb-expressjs-nodejs
-    console.log('BEFORE ' + JSON.stringify(req.session));
-    req.session.destroy();
-    console.log('AFTER ' + req.session);
-    res.redirect('/');
+  removeUser: function(req, res) {
+    console.log('user to be removed',req.decoded.username);
+    Users.remove({
+        'username': req.decoded.username
+      })
+    Trips.remove({
+        'userId': req.decoded.username
+      })
+      .then(function(results) {
+        res.send('Deleted');
+      })
   },
 
   // @req.body expects an user _id for reference to Trips schema
@@ -139,7 +128,6 @@ module.exports = {
         'userId': req.decoded.username
       })
       .then(function(results) {
-        // console.log(results);
         res.send(results);
       })
       .catch(function(err) {

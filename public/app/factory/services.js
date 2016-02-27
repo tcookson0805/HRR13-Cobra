@@ -50,9 +50,8 @@ angular.module('app.services', [])
       })
       .then(function(data) {
         console.log(data.data);
-        return data.data;
         tripID = data.data;
-
+        return data.data;
       });
   };
 
@@ -167,10 +166,24 @@ angular.module('app.services', [])
     $location.path('/logout');
   };
 
+  var removeUser = function() {
+    console.log('services removing user')
+    return $http({
+        method: 'GET',
+        url: '/api/users/remove',
+      })
+      .then(function() {
+        $window.localStorage.removeItem('com.tp');
+        $window.localStorage.removeItem('com.tp.user');
+        $location.path('/signup');
+      });
+  };
+
   return {
     signin: signin,
     signup: signup,
     isAuth: isAuth,
-    signout: signout
+    signout: signout,
+    removeUser: removeUser
   };
 });

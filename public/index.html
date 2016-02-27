@@ -1,4 +1,5 @@
 <html ng-app="tp">
+
   <head>
     <meta charset="utf-8"/>
     <title>Trip Planner</title>
@@ -7,13 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
+
   <body>
-
-    <!-- SAP Views -->
-    <div id="content" ng-view></div>
-
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal bottom-sheet"></div>
+    <div id="content">
+      <!-- SAP Views -->
+      <div ng-view></div>
+    </div>
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -22,11 +22,12 @@
     <script src="https://cdn.rawgit.com/auth0/angular-jwt/master/dist/angular-jwt.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ45M31KyEIklPCbVKWuzwMLBvqtVSVM0"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
     <!-- Messing with React -->
     <script src="https://fb.me/react-0.14.7.js"></script>
     <script src="https://fb.me/react-dom-0.14.7.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
-    <script type="text/babel" src="app/auth/profile.js"></script>
+
     <!-- Site Functionality -->
     <script src="app/app.js"></script>
     <script src="app/factory/services.js"></script>
@@ -34,12 +35,7 @@
     <script src="app/trips/trips.js"></script>
     <script src="app/my-trip/my-trip.js"></script>
     <script src="app/auth/auth.js"></script>
-    <!-- Modal Trigger -->
-    <script>
-      $(document).ready(function() {
-        $('.modal-trigger').leanModal();
-      });
-    </script>
-
+    <script type="text/babel" src="app/profile/profile.js"></script>
   </body>
+
 </html>

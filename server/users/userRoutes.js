@@ -6,6 +6,6 @@ var authController = require('./../config/authController.js');
 module.exports = function(app) {
   app.post('/signup', userController.signup);
   app.post('/signin', userController.signin);
-  app.get('/logout', userController.logout);
+  app.get('/remove', authController.authorize, userController.removeUser);
   app.get('/alltrips', authController.authorize, userController.alltrips);
 };
