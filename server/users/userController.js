@@ -19,7 +19,7 @@ module.exports = {
     // TODO: did not work when hashing user password in instantiation
     newUser.password = newUser.generateHash(req.body.password);
     // newUser.salt = newUser.generateSalt(req.body);
-    
+
     //sends welcome email
     // Email.signupEmail(newUser.username)
 
@@ -30,7 +30,7 @@ module.exports = {
         var token = authController.createToken(user);
         res.send({
           'token': token,
-          'id': user._id //we minght not need this after all
+          'id': user._id
         });
       }
     });
@@ -43,42 +43,42 @@ module.exports = {
       password: req.body.password,
     });
     // TODO: will refactor into a promise
-    
+
     // Email.signinEmail(userLogin.username);
-    
-    
+
+
     // Trips.find(function(err, trips){
     //   if(err){
     //     return console.log(err)
     //   }
-      
+
     //   // var today = new Date();
     //   // var todayDate = today.getDate()
     //   // var todayMonth = today.getMonth() + 1
     //   // var todayYear = today.getFullYear()
-      
-      
+
+
     //   // var todayProper = todayMonth + '/' + todayDate + '/' + todayYear
     //   // console.log('todayProper', todayProper)
-      
+
     //   var result = []
-      
+
     //   trips.forEach(function(trip){
     //     if(trip.startDate){
     //       console.log('trip.startDate', trip.startDate)
-         
+
     //       var reminderDate = moment(trip.startDate).subtract(14, 'days').calendar();
     //       console.log('reminderDate', reminderDate)
-          
+
     //       if(reminderDate === 'Today at 12:00 AM'){
     //         console.log('YESSSSSS')
     //         result.push(trip)
     //       }
-    //     }     
+    //     }
     //   })
     //   return result
     // });
-    
+
     Users.findOne({
       'username': userLogin.username
     }, function(err, user) {
@@ -96,7 +96,7 @@ module.exports = {
             .then(function(found) {
               res.send({
                 'token': token,
-                'id': user._id //we minght not need this after all
+                'id': user._id
               });
             })
         } else {
@@ -107,28 +107,17 @@ module.exports = {
     })
   },
 
-  getOne: function(req, res){
-    // var userId = req.body.id;
-
-    // Users.findOne({'._id': userId}, function(err, user){
-    //   if (!user){
-    //     res.send('Not Found');
-    //   } else {
-    //     var info = {
-    //       'email': user.username
-    //     }
-    //     res.send(info);
-    //   }
-    // })
-  },
-
-  logout: function(req, res) {
-
-    // @ref: http://stackoverflow.com/questions/11273988/clearing-sessions-in-mongodb-expressjs-nodejs
-    console.log('BEFORE ' + JSON.stringify(req.session));
-    req.session.destroy();
-    console.log('AFTER ' + req.session);
-    res.redirect('/');
+  removeUser: function(req, res) {
+    console.log('user to be removed',req.decoded.username);
+    Users.remove({
+        'username': req.decoded.username
+      })
+    Trips.remove({
+        'userId': req.decoded.username
+      })
+      .then(function(results) {
+        res.send('Deleted');
+      })
   },
 
   // @req.body expects an user _id for reference to Trips schema
@@ -139,7 +128,6 @@ module.exports = {
         'userId': req.decoded.username
       })
       .then(function(results) {
-        // console.log(results);
         res.send(results);
       })
       .catch(function(err) {

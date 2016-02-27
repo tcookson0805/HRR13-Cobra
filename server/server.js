@@ -47,17 +47,6 @@ var app = express();
 // configures our server to run with our middleware and routes
 config(app, express);
 
-
-
-// var j = schedule.scheduleJob(rule, function(){
-//   return notification.getTripsForReminder()
-  
-  
-//   console.log('heeeyyyyy')
-// })
-
-// FIXME: add dynamic port before deployment (process.env.NODE_ENV)
-app.listen(3000, function() {  
-  console.log('listening on port 3000...');
+app.listen(8080, function() {
+  console.log('listening on port 8080...');
 });
-

@@ -13,6 +13,9 @@
         <a href="#/map">Map test</a>
       </li>
       <li ng-click="signout()">
+        <a>My Profile</a>
+      </li>
+      <li ng-click="signout()">
         <a>Signout</a>
       </li>
     </ul>
@@ -28,7 +31,7 @@
         <ul class="collection">
           <li class="collection-item" ng-if="upcomingTrips(trip.startDate)" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
             <a href="/#/my-trip/{{trip._id}}" ng-if="upcomingTrips(trip.startDate)"> {{ trip.destination }} </a>
-            <a href="#!" ng-click="removeTrip(trip)" ng-if="upcomingTrips(trip.startDate)" class="secondary-content"><i class="material-icons tiny">delete</i></a>      
+            <a href="#!" ng-click="removeTrip(trip)" ng-if="upcomingTrips(trip.startDate)" class="secondary-content"><i class="material-icons tiny">delete</i></a>
           </li>
         </ul>
       </div>
@@ -37,8 +40,8 @@
         <h4>Previous Trips</h4>
         <ul class="collection">
           <li  class="collection-item" ng-if="previousTrips(trip.startDate)" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
-            <a href="/#/my-trip/{{trip._id}}" ng-if="previousTrips(trip.startDate)"> {{ trip.destination }} </a> 
-            <a href="#!" ng-click="removeTrip(trip.destination)" ng-if="previousTrips(trip.startDate)"  class="secondary-content"><i class="material-icons tiny">delete</i></a>     
+            <a href="/#/my-trip/{{trip._id}}" ng-if="previousTrips(trip.startDate)"> {{ trip.destination }} </a>
+            <a href="#!" ng-click="removeTrip(trip.destination)" ng-if="previousTrips(trip.startDate)"  class="secondary-content"><i class="material-icons tiny">delete</i></a>
           </li>
         </ul>
       </div>

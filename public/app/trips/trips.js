@@ -19,19 +19,18 @@ angular.module('app.trips', [])
       });
   };
 
-
   var createContent = function(info) {
     var string = '';
     if (info.POI.length > 0) {
       info.POI.forEach(function(point) {
 
-        string += '<strong>' + (point.title? point.title: '') + ':</strong> ' + (point.details? point.details: '') + '<br>';
+        string += '<strong>' + (point.title ? point.title : '') + ':</strong> ' + (point.details ? point.details : '') + '<br>';
       });
     }
     return string;
   };
 
-var createMarker = function (info) {
+  var createMarker = function(info) {
     $scope.destination = info.destination;
     var marker = new google.maps.Marker({
       map: $scope.map,
@@ -41,7 +40,7 @@ var createMarker = function (info) {
     });
     marker.addListener('dblclick', function() {
       var deleteCheck = confirm('are you sure you want to delete?');
-      if (deleteCheck){
+      if (deleteCheck) {
         Trips.removeTrip(info);
         marker.setMap(null);
         $scope.showTrips();
@@ -49,10 +48,10 @@ var createMarker = function (info) {
 
     });
     var infowindow = new google.maps.InfoWindow({
-       content: '<a href="http://localhost:3000/#/my-trip/'+info._id+'">'+info.destination+'</a><br>' + 
-       createContent(info),
-     });
-    marker.addListener('click', function(){
+      content: '<a href="#/my-trip/' + info._id + '">' + info.destination + '</a><br>' +
+        createContent(info),
+    });
+    marker.addListener('click', function() {
       infowindow.open(marker.get('map'), marker);
     });
   };
@@ -62,37 +61,36 @@ var createMarker = function (info) {
       .then(function(data) {
         $scope.trips = data;
         data.forEach(function(trip) {
-          if(trip.coordinates) createMarker(trip);
+          if (trip.coordinates) createMarker(trip);
+        });
       });
-    });
   };
 
   $scope.showTripsOnMap(Trips.user);
 
-    var mapOptions = {
+  var mapOptions = {
 
     // start in USA
     center: new google.maps.LatLng(37.09024, -95.712891),
     zoom: 5
   };
 
-  // create map 
+  // create map
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
-  //remove a trip 
-  $scope.removeTrip = function(trip){
+  //remove a trip
+  $scope.removeTrip = function(trip) {
     //confirmation alert
     if (confirm("Are you sure you want to remove this trip")) {
       //code for deletion
       Trips.removeTrip(trip)
-        .then(function(data) {
-        });
+        .then(function(data) {});
       $route.reload();
     }
   };
 
   //filter by previous trips
-  $scope.previousTrips = function(tripDate){
+  $scope.previousTrips = function(tripDate) {
     var tripsDate = new Date(tripDate);
     var day = tripsDate.getDate();
     var month = tripsDate.getMonth();
@@ -104,15 +102,15 @@ var createMarker = function (info) {
     var tmonth = today.getMonth();
     var tyear = today.getFullYear();
     var todaysDate = Date.parse(tmonth + "/" + tday + "/" + tyear);
-    
-    if(todaysDate > tripsDate){
+
+    if (todaysDate > tripsDate) {
       return tripsDate;
     }
   };
 
   //filter by upcoming trips
-  $scope.upcomingTrips = function(tripDate){
-    if(tripDate === undefined){
+  $scope.upcomingTrips = function(tripDate) {
+    if (tripDate === undefined) {
       tripDate = new Date();
     }
     var tripsDate = new Date(tripDate);
@@ -126,17 +124,14 @@ var createMarker = function (info) {
     var tmonth = today.getMonth();
     var tyear = today.getFullYear();
     var todaysDate = Date.parse(tmonth + "/" + tday + "/" + tyear);
-    
-    if(todaysDate <= tripsDate){
+
+    if (todaysDate <= tripsDate) {
       return tripsDate;
     }
   };
 
-  
   $scope.signout = function() {
     Auth.signout();
   };
 
-});
-
-
+})
