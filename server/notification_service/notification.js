@@ -1,7 +1,7 @@
 var Schedule = require('node-schedule');
 var Email = require('./mailer.js');
 var Trips = require('../trips/tripModel.js');
-var moment = require('moment');
+// var moment = require('moment');
 
 
 module.exports = {

@@ -51,12 +51,76 @@ angular.module('app.new-trip', [])
   // create map
   $scope.map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
 
+  
+
+
+  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
+  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
+  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
+  
+
+
+  var input = (document.getElementById('destination'));
+  //$scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.bindTo('bounds', $scope.map);
+
+  var infowindow = new google.maps.InfoWindow();
+        var marker = new google.maps.Marker({
+          map: $scope.map,
+          anchorPoint: new google.maps.Point(0, -29)
+        });
+
+  autocomplete.addListener('place_changed', function() {
+    if ($scope.marker) { $scope.marker.setMap(null); }
+    infowindow.close();
+    marker.setVisible(false);
+
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      window.alert("Autocomplete's returned place contains no geometry");
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      $scope.map.fitBounds(place.geometry.viewport);
+    } else {
+      $scope.map.setCenter(place.geometry.location);
+      $scope.map.setZoom(17);  // Why 17? Because it looks good.
+    }
+
+    var info = {
+      _id: null,
+      coordinates: {},
+      destination: null,
+      googledata: null,
+      googleplace: place,
+      POI: [],
+    };
+
+    info.coordinates.lat = place.geometry.location.lat();
+    info.coordinates.lng = place.geometry.location.lng();
+    info.destination = place.formatted_address;
+    createMarker(info);
+    $scope.info = info;
+    $scope.destinaiton = info.destination;    
+  });
+
+  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
+  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
+  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
+
+
   // listens for a click and renders a marker and returns corresponding address
   $scope.map.addListener('click', function(e) {
     var info = {
       _id: null,
       coordinates: null,
       destination: null,
+      googledata: null,
+      googleplace: null,
       POI: [],
     };
 
@@ -66,11 +130,13 @@ angular.module('app.new-trip', [])
       }else{
         info.coordinates = data.results[0].geometry.location;
         info.destination = data.results[1].formatted_address;
+        info.googledata = data;
         createMarker(info);
         $scope.info = info;
         $scope.destinaiton = info.destination;
       }
 
+      console.log(info);
       // @Date.now as a placeholder since server requires dates
     });
   });

@@ -24,6 +24,10 @@ angular.module('tp', [
         templateUrl: 'app/my-trip/my-trip.html',
         controller: 'my-tripController'
       })
+      .when('/map', {
+        templateUrl: 'app/trips/mapview.html',
+        controller: 'tripsController'
+      })
       .when('/signin', {
         templateUrl: 'app/auth/login.html',
         controller: 'AuthController'
