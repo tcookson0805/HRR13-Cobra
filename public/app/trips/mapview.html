@@ -24,7 +24,7 @@
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       }
 
-      #pac-input {
+      #hello {
         background-color: #fff;
         font-family: Roboto;
         font-size: 15px;
@@ -35,7 +35,7 @@
         width: 300px;
       }
 
-      #pac-input:focus {
+      #hello:focus {
         border-color: #4d90fe;
       }
 
@@ -43,35 +43,11 @@
         font-family: Roboto;
       }
 
-      #type-selector {
-        color: #fff;
-        background-color: #4d90fe;
-        padding: 5px 11px 0px 11px;
-      }
-
-      #type-selector label {
-        font-family: Roboto;
-        font-size: 13px;
-        font-weight: 300;
-      }
     </style>
   </head>
   <body>
-    <input id="pac-input" class="controls" type="text"
+    <input id="hello" class="controls" type="text"
         placeholder="Enter a location">
-    <div id="type-selector" class="controls">
-      <input type="radio" name="type" id="changetype-all" checked="checked">
-      <label for="changetype-all">All</label>
-
-      <input type="radio" name="type" id="changetype-establishment">
-      <label for="changetype-establishment">Establishments</label>
-
-      <input type="radio" name="type" id="changetype-address">
-      <label for="changetype-address">Addresses</label>
-
-      <input type="radio" name="type" id="changetype-geocode">
-      <label for="changetype-geocode">Geocodes</label>
-    </div>
     <div id="map"></div>
 
     <script>
@@ -85,11 +61,9 @@
           zoom: 13
         });
         var input = /** @type {!HTMLInputElement} */(
-            document.getElementById('pac-input'));
+            document.getElementById('hello'));
 
-        var types = document.getElementById('type-selector');
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
 
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.bindTo('bounds', map);
@@ -141,20 +115,20 @@
 
         // Sets a listener on a radio button to change the filter type on Places
         // Autocomplete.
-        function setupClickListener(id, types) {
-          var radioButton = document.getElementById(id);
-          radioButton.addEventListener('click', function() {
-            autocomplete.setTypes(types);
-          });
-        }
+        // function setupClickListener(id, types) {
+        //   var radioButton = document.getElementById(id);
+        //   radioButton.addEventListener('click', function() {
+        //     autocomplete.setTypes(types);
+        //   });
+        // }
 
-        setupClickListener('changetype-all', []);
-        setupClickListener('changetype-address', ['address']);
-        setupClickListener('changetype-establishment', ['establishment']);
-        setupClickListener('changetype-geocode', ['geocode']);
+        // setupClickListener('changetype-all', []);
+        // setupClickListener('changetype-address', ['address']);
+        // setupClickListener('changetype-establishment', ['establishment']);
+        // setupClickListener('changetype-geocode', ['geocode']);
       }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&signed_in=true&libraries=places&callback=initMap"
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCXPMP0KsMOdfwehnmOUwu-W3VOK92CkwI&signed_in=true&libraries=places&callback=initMap"
         async defer></script>
   </body>
 </html>

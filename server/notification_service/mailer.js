@@ -6,10 +6,10 @@ var schedule = require('node-schedule');
 module.exports = {
   signupEmail: function(username){
     var options = {
-      auth: {
-        api_user: 
-        api_key: 
-      }
+      // auth: {
+      //   api_user: 
+      //   api_key: 
+      // }
     };
 
     var mailer = nodemailer.createTransport(sgTransport(options));
@@ -35,8 +35,8 @@ module.exports = {
   signinEmail: function(username){
     var options = {
       auth: {
-        api_user: 
-        api_key: 
+        // api_user: 
+        // api_key: 
       }
     };
 
@@ -62,8 +62,8 @@ module.exports = {
   reminderEmail: function(username){
     var options = {
       auth: {
-        api_user:
-        api_key: 
+        // api_user:
+        // api_key: 
       }
     };
 
