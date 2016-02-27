@@ -1,6 +1,15 @@
+
 angular.module('app.new-trip', [])
 
 .controller('new-tripController', function($scope, $location, $window, Trips, Auth) {
+  $(document).ready(function(){
+    $('#locationForm').keypress(function(event) {
+      if (event.keyCode === 13 ) {
+        console.log('preventing');
+        event.preventDefault();
+      }
+    })
+  });
 
   $scope.signout = function() {
     Auth.signout();
