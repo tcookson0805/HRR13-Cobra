@@ -26,14 +26,56 @@ angular.module('app.new-trip', [])
   $scope.destination;
   $scope.marker = null;
   $scope.currentMarkers = [];
+  $scope.currentMarkerData = [];
+  $scope.buttonTitle = 'hotel';
+  $scope.nextQuestion;
+
+  $scope.next = function() {
+    $scope.nextQuestion = Object.keys(questionBank)[Object.keys(questionBank).indexOf($scope.buttonTitle)+1];
+
+    searchNearby({
+      location: userCoordinates,
+      radius: '5000',
+      types: [$scope.nextQuestion],
+      buttonTitle: $scope.nextQuestion
+    });
+  }
+  $scope.openTab = function(url) {
+    console.log('url', url)
+    $window.open(url, '_blank');
+  }
 
   // declare one infoWindow to avoid multiple windows
   var infowindow = new google.maps.InfoWindow();
   var assignInfoWindow = function(marker, contentStr) {
-    google.maps.event.addListener(marker, 'click', function() {
+    google.maps.event.addListener(marker, 'mouseover', function() {
       infowindow.setContent(contentStr);
       infowindow.open($scope.map, marker);
-    })
+    });
+    google.maps.event.addListener(marker, 'mouseout', function() {
+      infowindow.close();
+    });
+  }
+  $scope.syncInfoWindow = function(marker) {
+    var syncMarker = $scope.currentMarkers[$scope.currentMarkerData.indexOf(marker)];
+    infowindow.setContent(marker.name);
+    infowindow.open($scope.map, syncMarker);
+  }
+
+  $scope.leaveInfoWindow = function(marker) {
+    var syncMarker = $scope.currentMarkers[$scope.currentMarkerData.indexOf(marker)];
+    infowindow.close()
+  }
+
+  $scope.setBounce = function(marker) {
+    console.log(marker);
+    var syncMarker = $scope.currentMarkers[$scope.currentMarkerData.indexOf(marker)];
+    if (!marker.infomap) {
+      syncMarker.setAnimation(null);
+    } else {
+      syncMarker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+
   }
 
   var questionBank = {
@@ -44,10 +86,6 @@ angular.module('app.new-trip', [])
     restaurant: {
       question:'Please select a restaurant below',
       answer: [],
-    },
-    transportation: {
-      question: 'Have you arranged your transportations?',
-      answer: null
     },
     hasBeenCalled: false,
   };
@@ -70,7 +108,7 @@ angular.module('app.new-trip', [])
   // @input trip destination only. Nearby POIs use declare markers separately
   var createMarker = function(info) {
     if ($scope.marker) { $scope.marker.setMap(null); }
-    console.log(info.coordinates, 'coordinates');
+    // console.log(info.coordinates, 'coordinates');
     var marker = new google.maps.Marker({
       map: $scope.map,
       position: info.coordinates,
@@ -95,9 +133,30 @@ angular.module('app.new-trip', [])
     })
   };
 
-  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
-  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
-  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
+  var displayMarkersFromYelp = function (array) {
+      var coordinates;
+      // TODO: pass in pure arrays
+      // array.data.businesses.forEach(function(point) {
+      array.forEach(function(point) {
+      coordinates = {
+        lat: point.location.coordinate.latitude,
+        lng: point.location.coordinate.longitude,
+      };
+      var marker = new google.maps.Marker({
+        map: $scope.map,
+        position: coordinates,
+        animation: google.maps.Animation.DROP,
+      });
+
+      $scope.map.setZoom(8);
+      $scope.map.panTo(coordinates);
+
+      assignInfoWindow(marker, point.name);
+      $scope.currentMarkerData.push(point);
+      $scope.currentMarkers.push(marker);
+      })
+      // console.log('current markers: ', $scope.currentMarkers)
+  }
 
   var input = (document.getElementById('destination'));
   //$scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
@@ -117,6 +176,12 @@ angular.module('app.new-trip', [])
     marker.setVisible(false);
 
     var place = autocomplete.getPlace();
+
+    userCoordinates = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+    }
+
     if (!place.geometry) {
       window.alert("Autocomplete's returned place contains no geometry");
       return;
@@ -147,10 +212,6 @@ angular.module('app.new-trip', [])
     $scope.destinaiton = info.destination;    
   });
 
-  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
-  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
-  ////////////////// STOP STOP STOP STOP STOP ///////////////////////////
-
   var clearMarkers = function () {
     $scope.currentMarkers.forEach(function (marker) {
       marker.setMap(null);
@@ -162,6 +223,7 @@ angular.module('app.new-trip', [])
 
     var service = new google.maps.places.PlacesService($scope.map);
     service.nearbySearch(request, function (results) {
+      // console.log(results);
       results.forEach(function (point) {
         // console.log(point);
         var marker = new google.maps.Marker({
@@ -174,7 +236,21 @@ angular.module('app.new-trip', [])
           animation: google.maps.Animation.DROP,
           place_id: point.place_id,
         });
+        $scope.currentMarkerData.push({
+          // image_url: point.photos[0].getUrl(),
+          name: point.name,
+          infomap: false,
+          image_url: null,
+          url: null,
+          location: {
+            address: null,
+          }
+        });
+        $('#poiList').scope().$apply();
+        
 
+        // console.log($scope.currentMarkerData);
+        
         $scope.currentMarkers.push(marker);
         var contentStr = point.name + 
             '<br><button id='+point.place_id+
@@ -184,19 +260,19 @@ angular.module('app.new-trip', [])
 
         google.maps.event.addListener(infowindow, 'domready', function () {
           $('#' + point.place_id).click(function () {
-            var buttonTitle = request.buttonTitle;
-            var nextQuestion = Object.keys(questionBank)[Object.keys(questionBank).indexOf(buttonTitle)+1];
-            questionBank[buttonTitle].answer = point;
-            displayQuestion(nextQuestion);
+            $scope.buttonTitle = request.buttonTitle;
+            
+            questionBank[$scope.buttonTitle].answer = point;
+            displayQuestion($scope.nextQuestion);
 
-            if (nextQuestion !== 'hasBeenCalled') {
+            if ($scope.nextQuestion !== 'hasBeenCalled') {
               $scope.showQuestion = false;
 
               searchNearby({
                 location: userCoordinates,
                 radius: '5000',
-                types: [nextQuestion],
-                buttonTitle: nextQuestion
+                types: [$scope.nextQuestion],
+                buttonTitle: $scope.nextQuestion
               });
             } else {
               console.log('there are no more questions');
@@ -211,6 +287,19 @@ angular.module('app.new-trip', [])
     });
   }
 
+    // Enables drawing on map
+  var drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: null,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: [
+        google.maps.drawing.OverlayType.RECTANGLE,
+        google.maps.drawing.OverlayType.POLYLINE,
+      ]
+    },
+    markerOptions: {icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'},
+  });
   // listens for a click and renders a marker and returns corresponding address
   $scope.map.addListener('click', function(e) {
     var info = {
@@ -247,40 +336,17 @@ angular.module('app.new-trip', [])
     $scope.destination = document.getElementById("destination").value;
     Trips.requestAttractions($scope.destination)
     .then(function (results) {
-
-      results.data.businesses.forEach(function(point) {
-        console.log(point);
-        var shape = {
-          coords: [1, 1, 1, 20, 18, 20, 18, 1],
-          type: 'poly'
-        };
-        var coordinates = {
-          lat: point.location.coordinate.latitude,
-          lng: point.location.coordinate.longitude,
-        };
-        var marker = new google.maps.Marker({
-          map: $scope.map,
-          position: coordinates,
-          icon: {
-            url: 'https://cdn2.iconfinder.com/data/icons/smiled-map-markers/512/retired_marker_pointer_position_emotion_emoticon_smile-512.png',
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            scaledSize: new google.maps.Size(40, 40)
-            },
-          animation: google.maps.Animation.DROP,
-        });
-
-        assignInfoWindow(marker, point.name);
-        $scope.currentMarkers.push(marker);
-      })
+      displayMarkersFromYelp(results.data.businesses);
     })
     .catch(function(err){
       console.error(err);
     });
   }  
+
   $scope.quickAdd = function () {
     $scope.showQuestion = true;
     if (!questionBank.hasBeenCalled) {
+      // console.log(userCoordinates)
       searchNearby({
         location: userCoordinates,
         radius: '5000',
@@ -290,6 +356,56 @@ angular.module('app.new-trip', [])
       questionBank.hasBeenCalled = true;
     }
   }
+
+
+
+  google.maps.event.addListener(drawingManager, 'polylinecomplete', function(event) {
+    console.log(event);
+    // get 10 requests per line
+    console.log(event.getPath().getArray().toString());
+    var fromPoint = [event.getPath().getArray()[0].lat(), event.getPath().getArray()[0].lng()];
+    var toPoint = [event.getPath().getArray()[1].lat(), event.getPath().getArray()[1].lng()]
+    var latIncrement = (toPoint[0] - fromPoint[0]) / 10;
+    var lngIncrement = (toPoint[1] - fromPoint[1]) / 10;
+    // generate ten points in this line
+    var tenPoints = [];
+    var count = 1;
+    var yelpResults = [];
+    while (count < 10) {
+      tenPoints.push([fromPoint[0] + latIncrement * count, fromPoint[1] + lngIncrement * count])
+      count++;
+    }
+    Trips.searchOverlay(tenPoints)
+    .then(function(results) {
+      console.log(results);
+      results.data.forEach(function(obj) {
+        yelpResults.push(obj.businesses[0]);
+      });
+      displayMarkersFromYelp(yelpResults);
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
+});  
+  google.maps.event.addListener(drawingManager, 'rectanglecomplete', function(event) {
+    var rectCoordinates = event.getBounds()
+      .toString()
+      .replace(/[()]/g, '')
+      .split(',')
+      .map(function(val){
+        return Number(val)
+      });
+    Trips.searchOverlay(rectCoordinates)
+    .then(function(results) {
+      console.log(results);
+      displayMarkersFromYelp(results.data.businesses);
+    })
+    .catch(function(err){
+      console.error(err);
+    });
+});
+  
+  drawingManager.setMap($scope.map);
 
   $scope.geocodeAddress = function() {
     $scope.geocoder.geocode({
@@ -309,6 +425,7 @@ angular.module('app.new-trip', [])
             },
             POI: [],
           }
+          console.log('tempinfo', tempInfo.coordinates);
           $scope.destination = results[0].formatted_address;
           Trips.newTrip(tempInfo.destination, $scope.startDate, tempInfo.coordinates, function(data) {
             tempInfo._id = data;
@@ -323,15 +440,23 @@ angular.module('app.new-trip', [])
     };
 
   $scope.createTrip = function() {
+    var selectedPOI = [];
     Trips.newTrip($scope.info.destination, $scope.startDate, $scope.info.coordinates)
       .then(function(tripID) {
-        Object.keys(questionBank).forEach(function (key) {
-          if (questionBank[key].answer) {
-            Trips.addPOI(tripID, key, questionBank[key].answer.name + ' @ ' + questionBank[key].answer.vicinity);
+        // add all selected 
+        $scope.currentMarkerData.forEach(function(poi, i) {
+          if (poi.infomap) {
+            Trips.addPOI(tripID, poi.name,
+              '<img src=' + poi.image_url + '>' +
+              '<a href='+poi.url+'>link/a><br>' +
+              poi.location.address);
           }
-        })
+        });
         $location.path('/my-trip/' + tripID);
       });
   };
 
+  $scope.selectPOI = function (POI) {
+    console.log('selecting ' + POI);
+  }
 });
