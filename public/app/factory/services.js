@@ -45,7 +45,7 @@ angular.module('app.services', [])
         data: {
           destination: destination,
           startDate: startDate,
-          coordinates: coordinates
+          coordinates: coordinates,
         }
       })
       .then(function(data) {
@@ -67,7 +67,25 @@ angular.module('app.services', [])
         return results;
       });
   };
+  var requestAttractions = function (location) {
+    return $http({
+      method: 'GET',
+      url: 'api/trips/yelp/' + location.replace(' ', '_'),
+    }).then(function (results) {
+      console.log(results);
+      return results;
+    })
+  }
 
+  var searchOverlay = function(location) {
+    console.log(location.toString());
+    return $http({
+      method: 'POST',
+      url: 'api/trips/yelp/overlay',
+      data: {location:location},
+    });
+
+  }
   var addPOI = function(tripID, title, details) {
     var tripData = {
       _id: tripID,
@@ -76,10 +94,23 @@ angular.module('app.services', [])
     };
     return $http({
       method: 'PUT',
-      url: '/api/trips/modify',
+      url: 'api/trips/modify',
       data: tripData
     });
   };
+
+  var deletePOI = function(tripID, title, details) {
+    var tripData = {
+      _id: tripID,
+      title: title,
+      details: details,
+    };
+    return $http({
+      method: 'DELETE',
+      url: '/api/trips/poi',
+      data: tripData
+    });
+  }
   //someone please refactor me!!!!
   var addTrigger = function(tripID, string, value) {
     var tripData = {};
@@ -114,6 +145,8 @@ angular.module('app.services', [])
     });
   };
   return {
+    searchOverlay: searchOverlay,
+    requestAttractions: requestAttractions,
     allTrips: allTrips,
     accessTrip: accessTrip,
     newTrip: newTrip,
