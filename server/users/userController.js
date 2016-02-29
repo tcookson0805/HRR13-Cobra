@@ -6,6 +6,7 @@ var authController = require('./../config/authController.js');
 var Email = require('../notification_service/mailer.js');
 var Trips = require('../trips/tripModel.js');
 var moment = require('moment');
+var config = require('../notification_service/_config.js')
 
 module.exports = {
   signup: function(req, res) {
@@ -21,7 +22,7 @@ module.exports = {
     // newUser.salt = newUser.generateSalt(req.body);
 
     //sends welcome email
-    Email.signupEmail(newUser.username)
+    Email.signupEmail(newUser.username, config.API_KEY, config.DOMAIN)
 
     newUser.save(function(err, user) {
       if (err) {
@@ -44,7 +45,7 @@ module.exports = {
     });
     // TODO: will refactor into a promise
 
-    Email.signinEmail(userLogin.username);
+    Email.signinEmail(userLogin.username, config.API_KEY, config.DOMAIN);
 
 
     // Trips.find(function(err, trips){
