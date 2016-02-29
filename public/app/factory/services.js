@@ -5,14 +5,15 @@ angular.module('app.services', [])
   //persistent storage of all trips for given user
   var trips = {};
   //pulls the current user for the JWT
-  var user = $window.localStorage.getItem('com.tp');
+  var user = $window.localStorage.getItem('com.tp.user');
   //loads the current trip as separate storage object
   var tripID = {};
 
   var allTrips = function(user) {
     return $http({
         method: 'GET',
-        url: '/api/users/allTrips'
+        url: '/api/users/alltrips',
+        data: user
       })
       .then(function(resp) {
         trips = resp.data;
@@ -30,61 +31,97 @@ angular.module('app.services', [])
     tripID = tripID;
     return $http({
         method: 'GET',
-        url: '/api/users/' + tripID
+        url: '/api/trips/' + tripID
       })
       .then(function(resp) {
-        active = resp.data;
+        return resp.data;
       });
   };
 
-  var newTrip = function(destination, startDate) {
-    var mydata = {
-      destination: destination,
-      startDate: startDate
-    };
-    console.log(mydata)
+  var newTrip = function(destination, startDate, coordinates) {
     return $http({
         method: 'POST',
         url: '/api/trips/create',
-        data: mydata
+        data: {
+          destination: destination,
+          startDate: startDate,
+          coordinates: coordinates
+        }
       })
       .then(function(data) {
-        tripID = data.data._id
-
+        console.log(data.data);
+        tripID = data.data;
+        return data.data;
       });
   };
-  
 
-  var addDetails = function(flying, leavingCountry, travelingAlone, accomodations, title, details) {
+  var removeTrip = function(target) {
+    return $http({
+        method: 'POST',
+        url: 'api/trips/remove',
+        data: {
+          'destination': target
+        }
+      })
+      .then(function(results) {
+        return results;
+      });
+  };
+
+  var addPOI = function(tripID, title, details) {
     var tripData = {
-      flying: flying,
-      leavingCountry: leavingCountry,
-      travelingAlone: travelingAlone,
-      accomodations: accomodations,
+      _id: tripID,
       title: title,
       details: details,
     };
     return $http({
-        method: 'POST',
-        url: '/api/trip/' + tripID,
-        data: tripData
-      })
-      .then(function(err, response) {
-        if (err) {
-          console.log('Error:', err);
-        }
-        allTrips(user);
-      });
-
+      method: 'PUT',
+      url: '/api/trips/modify',
+      data: tripData
+    });
   };
-
+  //someone please refactor me!!!!
+  var addTrigger = function(tripID, string, value) {
+    var tripData = {};
+    if (string === 'flying') {
+      tripData = {
+        _id: tripID,
+        flying: value
+      }
+    }
+    if (string === 'leavingCountry') {
+      tripData = {
+        _id: tripID,
+        leavingCountry: value
+      }
+    }
+    if (string === 'travelingAlone') {
+      tripData = {
+        _id: tripID,
+        travelingAlone: value
+      }
+    }
+    if (string === 'accomodations') {
+      tripData = {
+        _id: tripID,
+        accomodations: value
+      }
+    }
+    return $http({
+      method: 'PUT',
+      url: '/api/trips/modify2',
+      data: tripData
+    });
+  };
   return {
     allTrips: allTrips,
     accessTrip: accessTrip,
     newTrip: newTrip,
     trips: trips,
     tripID: tripID,
-    addDetails: addDetails
+    addPOI: addPOI,
+    removeTrip: removeTrip,
+    addTrigger: addTrigger
   };
 
 })
@@ -103,7 +140,7 @@ angular.module('app.services', [])
         data: user
       })
       .then(function(resp) {
-        return resp.data.token;
+        return resp.data;
       });
   };
 
@@ -114,7 +151,7 @@ angular.module('app.services', [])
         data: user
       })
       .then(function(resp) {
-        return resp.data.token;
+        return resp.data;
       });
   };
 
@@ -125,13 +162,28 @@ angular.module('app.services', [])
 
   var signout = function() {
     $window.localStorage.removeItem('com.tp');
-    $location.path('/signin');
+    $window.localStorage.removeItem('com.tp.user');
+    $location.path('/logout');
+  };
+
+  var removeUser = function() {
+    console.log('services removing user')
+    return $http({
+        method: 'GET',
+        url: '/api/users/remove',
+      })
+      .then(function() {
+        $window.localStorage.removeItem('com.tp');
+        $window.localStorage.removeItem('com.tp.user');
+        $location.path('/signup');
+      });
   };
 
   return {
     signin: signin,
     signup: signup,
     isAuth: isAuth,
-    signout: signout
+    signout: signout,
+    removeUser: removeUser
   };
 });

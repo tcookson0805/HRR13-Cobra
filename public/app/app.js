@@ -1,15 +1,12 @@
 angular.module('tp', [
     'app.services',
     'ngRoute',
-    'ui.router',
     'app.my-trip',
     'app.new-trip',
     'app.trips',
     'app.auth'
   ])
-  .config(function($stateProvider, $urlRouterProvider, $httpProvider, $routeProvider) {
-    // For any unmatched url, redirect to /
-    
+  .config(function($httpProvider, $routeProvider) {
     // Now set up the routes
     $routeProvider
       .when('/trips', {
@@ -27,21 +24,41 @@ angular.module('tp', [
         templateUrl: 'app/my-trip/my-trip.html',
         controller: 'my-tripController'
       })
-      .when('/login', {
+      .when('/signin', {
         templateUrl: 'app/auth/login.html',
         controller: 'AuthController'
+      })
+      .when('/login', {
+        redirectTo: '/signin'
       })
       .when('/signup', {
         templateUrl: 'app/auth/signup.html',
         controller: 'AuthController'
       })
-      .otherwise({
-        redirectTo: '/login'
+      .when('/profile', {
+        authenticate: true,
+        templateUrl: 'app/auth/profile.html',
+        controller: 'AuthController'
       })
+      .when('/signout', {
+        templateUrl: 'app/auth/signin.html',
+        controller: 'AuthController'
+      })
+      .when('/logout', {
+        templateUrl: 'app/auth/logout.html',
+        controller: 'AuthController'
+      })
+      .when('/profile', {
+        templateUrl: 'app/profile/profile.html',
+        controller: 'AuthController'
+      })
+      // For any unmatched url, redirect to users general trip list
+      .otherwise({
+        redirectTo: '/trips'
+      });
     // We add our $httpInterceptor into the array
     // of interceptors. Think of it like middleware for your ajax calls
     $httpProvider.interceptors.push('AttachTokens');
-
   })
   .factory('AttachTokens', function($window) {
     // this is an $httpInterceptor
@@ -51,7 +68,6 @@ angular.module('tp', [
     var attach = {
       request: function(object) {
         var jwt = $window.localStorage.getItem('com.tp');
-        // console.log('JWT', jwt);
         if (jwt) {
           object.headers['x-access-token'] = jwt;
         }

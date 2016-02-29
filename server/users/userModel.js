@@ -3,9 +3,7 @@ var bcrypt = require('bcrypt-nodejs');
 var Q = require('q');
 
 var UserSchema = new mongoose.Schema({
-  username : {
-
-    // TODO: username needs to be an email
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -14,12 +12,11 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // an array of objectID reference to tripSchema
-  trips: [],
-  salt: String
+  salt: String,
+  address: {type: String},
+  phone: {type: String},
+  
 });
-
-
 
 UserSchema.methods = {
   generateHash: function(password) {
@@ -46,11 +43,5 @@ UserSchema.methods = {
 
   }
 }
-
-// UserSchema.pre('save', function(next){
-//   // this is where we will take the user input and generate the hashed password
-//   // use bcrypt to hash
-// });
-
 
 module.exports = mongoose.model('users', UserSchema);

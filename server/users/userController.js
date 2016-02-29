@@ -3,9 +3,12 @@ var Q = require('q');
 var Trips = require('../trips/tripModel.js');
 var util = require('../config/utils.js');
 var authController = require('./../config/authController.js');
+var Email = require('../notification_service/mailer.js');
+var Trips = require('../trips/tripModel.js');
+var moment = require('moment');
 
 module.exports = {
-  signup: function(req, res){
+  signup: function(req, res) {
     var newUser = Users({
       username: req.body.username,
 
@@ -17,107 +20,120 @@ module.exports = {
     newUser.password = newUser.generateHash(req.body.password);
     // newUser.salt = newUser.generateSalt(req.body);
 
-    newUser.save(function (err, user) {
-      if(err) console.error(err);
-      else {
-        var token = authController.createToken(user);
-        res.send({'token': token});
+    //sends welcome email
+    // Email.signupEmail(newUser.username)
 
+    newUser.save(function(err, user) {
+      if (err) {
+        console.error(err);
+      } else {
+        var token = authController.createToken(user);
+        res.send({
+          'token': token,
+          'id': user._id
+        });
       }
     });
 
-    // @output {String} 
-    // res.send(newUser._id);
-
   },
-  signin: function(req, res, next) {
+
+  signin: function(req, res) {
     var userLogin = Users({
       username: req.body.username,
       password: req.body.password,
     });
-
     // TODO: will refactor into a promise
-    Users.findOne({'username':userLogin.username}, function(err, user) {
+
+    // Email.signinEmail(userLogin.username);
+
+
+    // Trips.find(function(err, trips){
+    //   if(err){
+    //     return console.log(err)
+    //   }
+
+    //   // var today = new Date();
+    //   // var todayDate = today.getDate()
+    //   // var todayMonth = today.getMonth() + 1
+    //   // var todayYear = today.getFullYear()
+
+
+    //   // var todayProper = todayMonth + '/' + todayDate + '/' + todayYear
+    //   // console.log('todayProper', todayProper)
+
+    //   var result = []
+
+    //   trips.forEach(function(trip){
+    //     if(trip.startDate){
+    //       console.log('trip.startDate', trip.startDate)
+
+    //       var reminderDate = moment(trip.startDate).subtract(14, 'days').calendar();
+    //       console.log('reminderDate', reminderDate)
+
+    //       if(reminderDate === 'Today at 12:00 AM'){
+    //         console.log('YESSSSSS')
+    //         result.push(trip)
+    //       }
+    //     }
+    //   })
+    //   return result
+    // });
+
+    Users.findOne({
+      'username': userLogin.username
+    }, function(err, user) {
       if (!user) {
         // no matching username
-        res.send({
-            "user" : null,
-            "cookie" : {
-              "originalMaxAge": null,
-            }
-          });
+        res.send('Not Found');
       } else {
         // compares current password with hashed password from found user
         if (userLogin.comparePasswords(userLogin.password, user.password)) {
           var token = authController.createToken(user);
-          Trips.find({userId: user._id})
-            .then(function(found){
-
+          console.log(token);
+          Trips.find({
+              userId: user._id
+            })
+            .then(function(found) {
               res.send({
                 'token': token,
-                // cookie,
-                'found': found
+                'id': user._id
               });
             })
         } else {
-
-          // TODO: improve solution besides providing no session
-          // correct username, wrong password
-          res.send({
-            "user" : user,
-            "cookie" : {
-              "originalMaxAge": null,
-            }
-          });
+          //if user is found, but password doesn't match
+          res.send('Incorrect Password');
         }
       }
-    });
-
-    // var findUser = Q.nbind(userLogin.findOne, userLogin);
-    //   findUser(userLogin.username).then(function(user){
-    //     if (user){
-    //       //confirm password
-    //       if (userLogin.comparePasswords(password)) {
-    //         //if password matches
-    //         res.send('valid');
-    //         // next(user);
-    //       } else {
-    //         console.log('Wrong password');
-    //         res.redirect('/signin');
-    //       }
-    //     }else{
-    //       console.log('User does not exist!');
-    //       res.redirect('/signin');
-    //     }
-    //     // if user, then confirm and send to next()
-    //     // if no user, then console.log error and return to signin page
-    //   });
-
+    })
   },
-  logout: function(req, res){
 
-    // @ref: http://stackoverflow.com/questions/11273988/clearing-sessions-in-mongodb-expressjs-nodejs
-    console.log('BEFORE '+ JSON.stringify(req.session));
-    req.session.destroy();
-    console.log('AFTER '+req.session);
-    res.redirect('/');
+  removeUser: function(req, res) {
+    console.log('user to be removed',req.decoded.username);
+    Users.remove({
+        'username': req.decoded.username
+      })
+    Trips.remove({
+        'userId': req.decoded.username
+      })
+      .then(function(results) {
+        res.send('Deleted');
+      })
   },
 
   // @req.body expects an user _id for reference to Trips schema
-  alltrips: function(req, res){
+  alltrips: function(req, res) {
     var tripArr;
-    console.log(req.decoded.username);
-    Users.findOne({'username':req.decoded.username})
-    // TODO: pulling data straight from one schema instead of separating trips
-    // from Users
-      .then(function(user) {
-        tripArr = user.trips;
-        res.send(user.trips);
+    console.log('requested by user', req.decoded.username);
+    Trips.find({
+        'userId': req.decoded.username
+      })
+      .then(function(results) {
+        res.send(results);
       })
       .catch(function(err) {
-        res.status(403).send('No trips found');
+        console.log('Error all trips catch', err);
+        res.status(403)
+          .send('No trips found');
       })
-
-
   }
 };

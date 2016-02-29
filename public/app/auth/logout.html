@@ -12,13 +12,14 @@
     </ul>
   </div>
 </nav>
-<div id="signup">
+<div id="signin">
   <div class="row">
     <div class="col s4 offset-s4">
       <div class="card-panel center-align">
-        <h4>Sign Up</h4>
-        <form name="signupForm" ng-submit="signup()">
-          <div class="error" ng-if="signupForm.email.$invalid && signupForm.email.$dirty">Please enter a valid email address as a username</div>
+        <p>You have been logged out.</p>
+        <p>If this was a mistake, please log back in</p>
+        <form name="signinForm" ng-submit="signin()">
+          <div class="error" ng-if="signinForm.email.$invalid && signinForm.email.$dirty">Please enter a valid email address as a username</div>
           <input
             class="placeholderColor"
             placeholder="Username"
@@ -28,7 +29,7 @@
             required>
           <div
             class="error"
-            ng-if="signupForm.password.$invalid && signupForm.password.$dirty">Password must be at least 8 characters long</div>
+            ng-if="signinForm.password.$invalid && signinForm.password.$dirty">Password must be at least 8 characters long</div>
           <input
             class="placeholderColor"
             placeholder="password"
@@ -39,7 +40,7 @@
             required>
           <button
             class="waves-effect waves-light btn amber darken-3"
-            ng-disabled="signupForm.$invalid">Sign Up</button>
+            ng-disabled="signinForm.$invalid">Sign In</button>
         </form>
       </div>
     </div>

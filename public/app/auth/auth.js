@@ -1,44 +1,50 @@
-// do not tamper with this code in here, study it, but do not touch
-// this Auth controller is responsible for our client side authentication
-// in our signup/signin forms using the injected Auth service
 angular.module('app.auth', [])
 
-.controller('AuthController', function ($scope, $window, $location, Auth) {
+.controller('AuthController', function($scope, $window, $location, Auth) {
   $scope.user = {};
+  $scope.profile = $window.localStorage.getItem('com.tp.user')
 
-  $scope.signin = function () {
+  $scope.signin = function() {
     Auth.signin($scope.user)
-      .then(function (token) {
-        console.log('signup', token);
-        $window.localStorage.setItem('com.tp', token);
-        console.log(token);
-        $location.path('/trips');
+      .then(function(data) {
+        if (data.token) {
+          $window.localStorage.setItem('com.tp', data.token);
+          $window.localStorage.setItem('com.tp.user', data.id);
+          $location.path('/trips');
+        } else {
+          //we'll want to handle this better
+          alert('username or password incorrect.');
+        }
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error);
-        console.log('you aint signed up yet!!!!')
-
       });
   };
 
-  $scope.signup = function () {
+  $scope.signup = function() {
     Auth.signup($scope.user)
-      .then(function (token) {
-        console.log('signup', token);
-        $window.localStorage.setItem('com.tp', token);
-        $location.path('/trips');
+      .then(function(data) {
+        $window.localStorage.setItem('com.tp', data.token);
+        $window.localStorage.setItem('com.tp.user', data.id);
+        $location.path('/new-trip');
       })
-      .catch(function (error) {
-        console.error(error);
+      .catch(function(error) {
+        console.error('catch error', error);
+      });
+  };
+
+  $scope.getUser = function(){
+    Auth.getUser($scope.user)
+      .then(function(data){
+        $scope.userData = data;
       });
   };
 
   $scope.signout = function() {
     Auth.signout();
   };
+
+  $scope.removeUser = function() {
+    Auth.removeUser()
+  }
 });
-
-
-// they put in username and passsword
-///they hit submit
-//we check localStorage object

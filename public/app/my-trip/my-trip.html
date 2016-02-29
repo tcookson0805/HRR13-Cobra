@@ -1,65 +1,92 @@
-<div>
-  <h2>My Trip to {{ thisTrip.destination }}</h2>
-
-  <form>
-    <h4>Date of Departure:</h4>
-    <input type = 'date'>
-    <input type= 'submit'>
-  </form>
-
-  <!-- Pre Trip Checklist -->
-  <h4>Pre-Trip ToDo List</h4>
-  <form name = 'checklist' ng-submit =''>
-    <div>Are you flying?
-      <input type = 'radio' ng-model ='flying' value='y'>Yes
-      <input type = 'radio' ng-model ='flying' value='n'>No
-    </div>
-    <div>Are you leaving the country?
-      <input type = 'radio' ng-model ='leavingCountry' value='y'>Yes
-      <input type = 'radio' ng-model ='leavingCountry' value='n'>No
-    </div>
-    <div>Are you traveling with someone?
-      <input type = 'radio' ng-model ='travelingAlone' value='y'>Yes
-      <input type = 'radio' ng-model ='travelingAlone' value='n'>No
-    </div>
-    <div>Have you Reserved Accomodations?
-      <input type = 'radio' ng-model ='accomodations' value='y'>Yes
-      <input type = 'radio' ng-model ='accomodations' value='n'>No
-    </div>
-    <input type = 'submit' ng-click="editTrip()">
-  </form>
-
-  <!-- Places to Visit -->
-  <h4>See The Sights</h4>
-  <form class="pure-form">
-      <fieldset class="pure-group">
-          <input type="text" class="pure-input-1-2" placeholder="Something To See" ng-model ="sight.title">
-          <textarea class="pure-input-1-2" placeholder="Some details..." ng-model ="sight.details"></textarea>
-      </fieldset>
-      <button type="submit" class="pure-button pure-input-1-2 pure-button-primary" ng-click="editTrip()">Add Event</button>
-  </form>
-
-  <div class="" ng-repeat="sight in thisTrip.sights">
-    <div class=''>{{sight.title}}</div>
-    <div class=''>{{sight.details}}</div>
+<!-- Navbar -->
+<nav class="orange lighten-2">
+  <div class="nav-wrapper">
+    <div class="brand-logo"><img src="app/styles/79500-200.png" height=48px width=48px>Trip Planner</div>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li>
+        <a href="/#/new-trip">Create Trip</a>
+      </li>
+      <li>
+        <a href="#/trips">
+          My Trips</a>
+      </li>
+      <li ng-click="signout()">
+        <a>Signout</a>
+      </li>
+    </ul>
   </div>
-
+</nav>
+<div class="container">
+  <div>
+    <h2>My Trip to
+      {{ thisTrip.destination }}</h2>
+    <!-- Pre Trip Checklist -->
+    <h4>Pre-Trip ToDo List</h4>
+    <form name="checklist">
+      <div>
+        <input
+          type="checkbox"
+          id="isflying"
+          ng-model="flying"
+          ng-change="triggerCheck('flying', flying)"
+          ng-checked="thisTrip.flying == true">
+        <label for="isflying">Are you flying?</label>
+        <input
+          type="checkbox"
+          id="isleavingCountry"
+          ng-model="leavingCountry"
+          ng-change="triggerCheck('leavingCountry', leavingCountry)"
+          ng-checked="thisTrip.leavingCountry == true">
+        <label for="isleavingCountry">Are you leaving the country?</label>
+        <input
+          type="checkbox"
+          id="istravelingAlone"
+          ng-model="travelingAlone"
+          ng-change="triggerCheck('travelingAlone', travelingAlone)"
+          ng-checked="thisTrip.travelingAlone == true">
+        <label for="istravelingAlone">Are you traveling with someone?</label>
+        <input
+          type="checkbox"
+          id="isaccomodations"
+          ng-model="accomodations"
+          ng-change="triggerCheck('accomodations', accomodations)"
+          ng-checked="thisTrip.accomodations == true">
+        <label for="isaccomodations">Have you reserved accomodations?</label>
+      </div>
+    </form>
+    <!--Places to Visit-->
+    <div class="row">
+      <div class="col s8 offset-s2">
+        <h4>See The Sights</h4>
+        <form>
+          <fieldset>
+            <input
+              placeholder="Something To See"
+              type="text"
+              class="input-field"
+              ng-model="POI_title">
+            <textarea
+              class="materialize-textarea"
+              placeholder="Some details..."
+              ng-model="POI_details"></textarea>
+          </fieldset>
+          <button
+            class="waves-effect waves-light btn amber darken-3"
+            type="submit"
+            ng-click="addPOI(POI_title, POI_details)">Add Event</button>
+        </form>
+      </div>
+    </div>
+    <!-- Render all Points of Interest from the Trip Array -->
+    <div class="row">
+      <div class="col s12 m6" ng-repeat="sight in thisTrip.POI">
+        <div class="card orange lighten-5">
+          <div class="card-content black-text">
+            <span class="card-title">{{sight.title}}</span>
+            <p>{{sight.details}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-
-
-
-
-
-<!--   <h4>Pre-Trip ToDo List</h4>
-    destination
-    dates of trip
-    are you flying?
-    are you leaving the country?
-    are you traveling with someone else?
-    have you reserved accomodations?
-
-  <!-- Places to Visit -->
-<!--   <h4>Seehts The Sights</h4>
-    what do ytou want to do?
-    what do you like to do? --> -->

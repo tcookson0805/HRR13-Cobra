@@ -1,31 +1,56 @@
-<!-- Upcoming Trips -->
-<div id="upcoming">
-  <h3>Upcoming Trips</h3>
-  <ul>
-    <li ng-repeat="trip in trips" ng-click="console.log(trip._id)">
-      <a href="/#/my-trip/{{trip.destination}}">{{ trip.destination }}</a>
-      <!-- List upcoming vacations -->
-      <!-- {{ trips | > future || no date  :orderby }} -->
-    </li>
-  </ul>
-</div>
-<!-- Create a New Trip -->
-<div id="create" class="card-panel hoverable">
-  <h3>Create a Trip</h3>
-  <!-- Enticing Vacation Graphics -->
-  <!-- Button -->
-  <a href="/#/new-trip">Create A New Trip</a><br>
-  <a href="/newmap">Create A Map</a>
-</div>
-<!-- Previous Trips -->
-<div id="previous">
-  <h3>Previous Trips</h3>
-  <ul>
-    <li ng-repeat="trip in trips" ng-click="renderTrip(trip)">
-      <!--TODO: Filter older than today -->
-      {{ trip.destination }}
-      <!-- List previous vacations -->
-      <!-- {{ trip | the past}} -->
-    </li>
-  </ul>
+<!-- Navbar -->
+<nav class="orange lighten-2">
+  <div class="nav-wrapper">
+    <div class="brand-logo"><img src="app/styles/79500-200.png" height=48px width=48px>Trip Planner</div>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li>
+        <a href="/#/new-trip">Create Trip</a>
+      </li>
+      <li>
+        <a href="#/trips">My Trips</a>
+      </li>
+      <li>
+        <a href="#/profile">Profile</a>
+      </li>
+      <li ng-click="signout()">
+        <a>Signout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <h2>My Trips!</h2>
+    <form class="col s12" name='locationForm'>
+      <!-- Upcoming Trips -->
+      <div class="col s6">
+        <h4>Upcoming Trips</h4>
+        <ul class="collection">
+          <li class="collection-item" ng-if="upcomingTrips(trip.startDate)" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
+            <a href="/#/my-trip/{{trip._id}}" ng-if="upcomingTrips(trip.startDate)">
+              {{ trip.destination }}
+            </a>
+            <a href="#!" ng-click="removeTrip(trip)" ng-if="upcomingTrips(trip.startDate)" class="secondary-content">
+              <i class="material-icons tiny">delete</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <!-- Previous Trips -->
+      <div class="col s6">
+        <h4>Previous Trips</h4>
+        <ul class="collection">
+          <li class="collection-item" ng-if="previousTrips(trip.startDate)" ng-repeat="trip in trips" ng-click="console.log(trip._id)">
+            <a href="/#/my-trip/{{trip._id}}" ng-if="previousTrips(trip.startDate)">
+              {{ trip.destination }}
+            </a>
+            <a href="#!" ng-click="removeTrip(trip)" ng-if="previousTrips(trip.startDate)" class="secondary-content">
+              <i class="material-icons tiny">delete</i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+  <div id="mapDiv"></div>
 </div>

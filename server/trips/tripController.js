@@ -1,76 +1,82 @@
 var Trip = require('./tripModel.js');
-var authController = require('./../config/authController.js');
-var UserModel = require('./../users/userModel.js');
 
 module.exports = {
-  create: function(req, res, body){
-
-    console.log(req.body);
-    var newTrip = Trip({
+  create: function(req, res) {
+    console.log(req.body)
+    var newTrip = new Trip({
       destination: req.body.destination,
       startDate: req.body.startDate,
+      userId: req.decoded.username,
+      POI: [],
+      coordinates: req.body.coordinates,
     });
-
     newTrip.save(function(err, savedTrip) {
-      if(err) {
+      if (err) {
         res.status(404).send(err);
         console.log(err);
       } else {
         // TODO: save trip objectID to user document in session
-        console.log('Trip saved, ID: ' + savedTrip._id);
-        UserModel.findOneAndUpdate(
-          {_id: savedTrip._id},
-          {$push:{"trips": savedTrip}}, 
-          function(err, saved) {
-            if(err) console.error(err);
-            else {
-              res.status(201).send(saved);
-              console.log(saved);
-            }
-          }
-          )
-      }
-    });
-
-
-  },
-  remove: function(req, res, body){
-    Trip.remove({ _id: req.body._id }, function(err){
-      if(!err) {
-        console.log('Message removed: ' + req.body._id);
-        res.status(200).send('ok');
-      } else {
-        res.status(404).send('Cannot remove message');
-
-        console.log('Cannot remove message');
+        res.status(201).send(savedTrip._id);
       }
     });
   },
-  modify: function(req, res, body){
-    Trip.find({ _id: req.body._id }, function(err, trip) {
+  remove: function(req, res) {
+
+    console.log(req.decoded.username, 'wants to remove', req.body.destination);
+    Trip.remove({
+      // userId: req.decoded.username,
+      _id: req.body.destination._id
+    }, function(err) {
+
+      if (err) {
+        console.error(err);
+      }
+      console.log('successfully removed..');
+    });
+
+  },
+  modify: function(req, res) {
+    Trip.findOne({
+      _id: req.body._id
+    }, function(err, trip) {
       if (err) {
         res.send('failed');
       } else {
-
-        console.log(req.body);
-        trip.destination = req.body.destination;
-        trip.startDate = req.body.startDate;
-        res.status(201).send('modified');
-
-        // trip.save(function(err) {
-        //   if(err) console.log('cannot save trip');
-        //   res.send('trip modified');
-        // });
+        trip.POI.push({
+          title: req.body.title,
+          details: req.body.details
+        });
+        res.status(201).send('Trip modified');
+        trip.save(function(err, data) {});
       }
     });
   },
-  getTripView: function(req, res, body) {
-    console.log(req.params.tripId);
-    Trip.find({_id: req.params.tripId})
-      .then(function(trip){
-        res.send(trip)
+  modify2: function(req, res) {
+    Trip.findOne({
+      _id: req.body._id
+    }, function(err, trip) {
+      if (err) {
+        res.send('failed');
+      } else {
+        if (req.body.flying) trip.flying = req.body.flying;
+        if (req.body.leavingCountry) trip.leavingCountry = req.body.leavingCountry;
+        if (req.body.travelingAlone) trip.travelingAlone = req.body.travelingAlone;
+        if (req.body.accomodations) trip.accomodations = req.body.accomodations;
+        res.status(201).send('Trip modified');
+        trip.save(function(err, data) {
+          console.log('data',data);
+        });
+      }
+    });
+  },
+  getTripView: function(req, res) {
+    Trip.findOne({
+        _id: req.params.tripId
       })
-      .catch(function(err){
+      .then(function(trip) {
+        res.send(trip);
+      })
+      .catch(function(err) {
         console.log('Trip not found');
         res.status(403).send('Trip not found');
       });

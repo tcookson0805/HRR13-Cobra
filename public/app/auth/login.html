@@ -1,13 +1,47 @@
-<div id='signin'>
-  <h1>signin</h1>
-  <form name="signinForm" ng-submit='signin()'>
-    <input type='text' ng-model='user.username' required>
-    <input type="password" ng-model='user.password' required>
-    <button ng-disabled='signinForm.$invalid'>signin</button>
-  </form>
-  <!-- if invalid is true, show a div that says, your login is invalid. -->
-  <!-- <h3 ng-if="$scope.user.invalid">You aint signed up yet fool!</h3> -->
-  <a href="#/signup">Don't have an account?
-    <strong>Signup</strong>
-    ...</a>
+<!-- Navbar -->
+<nav id="navbar" class="orange lighten-2">
+  <div class="nav-wrapper">
+    <div class="brand-logo"><img src="app/styles/79500-200.png" height=48px width=48px>Trip Planner</div>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li>
+        <a href="#/signup">Sign Up</a>
+      </li>
+      <li>
+        <a href="#/login">Sign In</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div id="signin">
+  <div class="row">
+    <div class="col s4 offset-s4">
+      <div class="card-panel center-align">
+        <h4>Sign In</h4>
+        <form name="signinForm" ng-submit="signin()">
+          <div class="error" ng-if="signinForm.email.$invalid && signinForm.email.$dirty">Please enter a valid email address as a username</div>
+          <input
+            class="placeholderColor"
+            placeholder="Username"
+            name="email"
+            type="email"
+            ng-model="user.username"
+            required>
+          <div
+            class="error"
+            ng-if="signinForm.password.$invalid && signinForm.password.$dirty">Password must be at least 8 characters long</div>
+          <input
+            class="placeholderColor"
+            placeholder="password"
+            name="password"
+            type="password"
+            ng-model="user.password"
+            ng-minlength="8"
+            required>
+          <button
+            class="waves-effect waves-light btn amber darken-3"
+            ng-disabled="signinForm.$invalid">Sign In</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

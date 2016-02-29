@@ -1,21 +1,43 @@
 angular.module('app.my-trip', [])
 
-.controller('my-tripController', function($scope, $location, Trips) {
+.controller('my-tripController', function($scope, $location, Trips, $route, Auth) {
 
   //stores information about the current trip
   $scope.thisTrip = {};
-
+  $scope.path = $location.path().substring(9);
   //reqests information about the current trip from the Trips factory
   $scope.getTrip = function() {
-    var path = $location.path().substring(7);
-    $scope.thisTrip = Trips.accessTrip(path);
-  }
+    Trips.accessTrip($scope.path)
+      .then(function(data) {
+        if (data === "") $location.path('/trips');;
+        $scope.thisTrip = data;
+      });
+
+  };
   $scope.getTrip();
 
   //sends user edits to the Trips factory
-  $scope.editTrip = function() {
-    Trips.addDetails($scope.thisTrip)
-      .then($scope.getTrip());
-  }
+  $scope.addPOI = function(poi_title, poi_detail) {
+    Trips.addPOI($scope.path, poi_title, poi_detail)
+      .then(function(data) {
+        //reloads the page so you see the new sight you added
+        //this should be changed to something more elegant
+        $route.reload();
+      });
+  };
+
+  $scope.triggerCheck = function(string, value) {
+    Trips.addTrigger($scope.path, string, value)
+      .then(function(data) {
+        //reloads the page so you see the new sight you added
+        //this should be changed to something more elegant
+        $route.reload();
+      });
+  };
+  
+
+  $scope.signout = function() {
+    Auth.signout();
+  };
 
 })

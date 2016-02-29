@@ -1,0 +1,73 @@
+h1{
+  color: #006064;
+}
+form {
+  width: 340px;
+  margin: 60px auto;
+  padding: 24px;
+  box-shadow: 2px 2px 22px rgba(0,0,0,0.1);
+  background: transparent;
+}
+
+#signin, #signup {
+  color: #006064;
+}
+#signin{
+  background-image: url('background.jpg');
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 64;
+  left: 0;
+
+  min-width: 100%;
+  min-height: 100%;
+}
+#signup{
+  background-image: url('background.jpg');
+  background-repeat: no-repeat;
+  position: fixed;
+  top: 64;
+  left: 0;
+
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.error{
+  font-size: 14px;
+  color: #e65100;
+}
+
+#upcoming, #previous {
+  float:left;
+  width:400px;
+}
+#previous ul li:hover, #upcoming ul li:hover {
+  background-color: #fff3e0;
+}
+a:link {
+  color: black;
+}
+#upcoming ul li a:visited {
+  color: #ff6d00;
+}
+a:hover {
+  color: #ff6d00;
+}
+.placeholderColor::-webkit-input-placeholder {
+  color: grey darken-3;
+}
+.mapContainer{
+  width: 80%;
+  horizonta center;
+}
+.clearBoth{
+  clear: both;
+}
+#mapDiv {
+  vertical-align: top;
+  float: right;
+  height:600px;
+  width: 100%;
+}
+
