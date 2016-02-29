@@ -45,7 +45,7 @@ angular.module('app.auth', [])
   $scope.getUser = function() {
     Auth.getUser()
       .then(function(data) {
-        $scope.user = data;
+        $scope.loggedin = data;
       });
   };
 
@@ -58,9 +58,9 @@ angular.module('app.auth', [])
     Auth.changePassword(oldPass, newPass)
       .then(function(data) {
         if (data == 'Nope') {
-          alert('Incorrect password. Try again.'); // we'll want to handle this better
+          Materialize.toast('Incorrect password. Try again.', 5000, 'rounded');
         } else {
-          alert('Password Changed'); // we'll want to handle this better
+          Materialize.toast('Password changed! Time to get a new sticky note.', 5000, 'rounded');
         }
       })
       .catch(function(error) {
