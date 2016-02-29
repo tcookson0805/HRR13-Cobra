@@ -21,7 +21,7 @@ module.exports = {
     // newUser.salt = newUser.generateSalt(req.body);
 
     //sends welcome email
-    // Email.signupEmail(newUser.username)
+    Email.signupEmail(newUser.username)
 
     newUser.save(function(err, user) {
       if (err) {
@@ -44,7 +44,7 @@ module.exports = {
     });
     // TODO: will refactor into a promise
 
-    // Email.signinEmail(userLogin.username);
+    Email.signinEmail(userLogin.username);
 
 
     // Trips.find(function(err, trips){
