@@ -88,16 +88,17 @@
       <!-- <div class="container" style="display: inline-block"> -->
       <div id="mapDiv" style="width:60%" class="col s5"></div>
       <div class="col s4" id="poiList">
-        <div ng-model="showAdd" ng-mouseenter="showAdd = true" ng-mouseleave="showAdd = false"ng-repeat="marker in currentMarkerData" >
-        
-        <img ng-mouseenter="syncInfoWindow(marker)" ng-mouseleave="leaveInfoWindow(marker)"src={{marker.image_url}}>
-        <span ng-mouseenter="style={color:'green'}"
-              ng-mouseleave="style={color:'black'}"
-              ng-style="style"
-              ng-click="openTab(marker.url)">{{marker.name}}</span><br>
-              <!-- TODO: save checked to trip -->
-        <input type="checkbox" ng-model="marker.selected"id="{{marker.name}}" ng-click="selectMarker(marker)">
-        <label for="{{marker.name}}">Add to trip</label>
+        <div class="scroll">
+          <div ng-model="showAdd" ng-mouseenter="showAdd = true" ng-mouseleave="showAdd = false"ng-repeat="marker in currentMarkerData" >
+          <img ng-mouseenter="syncInfoWindow(marker)" ng-mouseleave="leaveInfoWindow(marker)"src={{marker.image_url}}>
+          <span ng-mouseenter="style={color:'green'}"
+                ng-mouseleave="style={color:'black'}"
+                ng-style="style"
+                ng-click="openTab(marker.url)">{{marker.name}}</span><br>
+                <!-- TODO: save checked to trip -->
+          <input type="checkbox" ng-model="marker.selected"id="{{marker.name}}" ng-click="selectMarker(marker)">
+          <label for="{{marker.name}}">Add to trip</label>
+          </div>
         </div>
       </div>
     </div>
